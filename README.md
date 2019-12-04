@@ -45,7 +45,7 @@ Intended spell effects include:
 - Damage Blood
 - Fortify Blood
 - Weakness to Blood
-- Mirage
+- Mirage: *Hide Vampire Status while active.*
 
 ### **Shadowstep**
 When in shadows, the player will have the ability to teleport to any visible location that is also in shadows. This will be mappd to a new key button. This will cost 25 blood per use. Teleporting to a non-shadow area by accident will still consume 25 blood, but no teleport will occur.
@@ -103,7 +103,7 @@ After a calculated period as a thrall, depending on thrall level and attributes,
 * Sun Damage will cause a burning VFX while taking damage.
 
 ### **Blood Serums**
-The player may drain blood from thralls for later use by storing them in serums. These will function the same as potions and have the Restore Blood magic effect. Draining blood from a thrall using this method will have the same effects as feeding.
+The player may drain blood from non-vampire thralls for later use by storing them in serums. These will function the same as potions and have the Restore Blood magic effect. Draining blood from a thrall using this method will have the same effects as feeding.
 
 ## License
 You cannot copy, distribute, package, or otherwise modify in any way the contents of this repository. This repository represents in-progress, unpublished work by its authors and should only be used as a reference.

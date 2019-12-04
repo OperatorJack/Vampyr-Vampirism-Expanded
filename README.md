@@ -50,6 +50,11 @@ Intended spell effects include:
 ### **Shadowstep**
 When in shadows, the player will have the ability to teleport to any visible location that is also in shadows. This will be mappd to a new key button. This will cost 25 blood per use. Teleporting to a non-shadow area by accident will still consume 25 blood, but no teleport will occur.
 
+### **Bite Attack** 
+Bite will be a new melee attack, separate from the standard melee attack. It will be mapped to a new key button. Using *Bite* will drain the player's stamina by a significant amount. During combat, the player may bite an NPC as an attack. It will always be reported as assault if not in combat. This will restore 10 blood and has a chance to inflict vampirism on the target. 
+
+Succesfully biting an NPC in combat will pause combat and player the biting animation.
+
 ### **Feeding**   
 A new service option will be added to all NPC dialogue windows: "Feeding". Using this service option will perform a success-check. If successful, the player will feed on the NPC and gain a calculated blood amount. If failed, the NPC will report the player for assault and flee. A successful feeding increases disposition by a small amount. The feeding success state and timestamp will be saved to for the NPC for later usage. The following formula will be used for the success-check:
 ```lua
@@ -90,9 +95,15 @@ While mesmerized, the NPC will be significantly more susceptible to feeding and 
 ### **Thralls**
 A new service option will be added to all NPC dialogue windows: "Enthrall". Using this service option will open a new window. This window will have two options: "force enthrall" and "enthrall". If the player has fed on the NPC for a calculated number of times, they can enthrall the NPC with a 100% success rate. If the player has not met that requirement, they may force it upon the NPC. This will perform a success-check that is hard to pass. If either option is successful, the NPC's disposition will be raised to 100, they will allow you to feed on them at 100% success rate, and they will have the option to be a basic companion. If failed, the NPC will report the player for assault, the NPCs disposition will be lowered to 0, and the NPC will flee.
 
-### **Sun Damage**
-In addition to damaging health, sun damage will drain blood at a rate of 1pt per tick.
+After a calculated period as a thrall, depending on thrall level and attributes, they can be converted to a vampire.
 
+### **Sun Damage**
+* In addition to damaging health, sun damage will drain blood at a rate of 1pt per tick.
+* Sun Damage will be scaled based on weather and the degree of shade the player is in.
+* Sun Damage will cause a burning VFX while taking damage.
+
+### **Blood Serums**
+The player may drain blood from thralls for later use by storing them in serums. These will function the same as potions and have the Restore Blood magic effect. Draining blood from a thrall using this method will have the same effects as feeding.
 
 ## License
 You cannot copy, distribute, package, or otherwise modify in any way the contents of this repository. This repository represents in-progress, unpublished work by its authors and should only be used as a reference.

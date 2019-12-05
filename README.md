@@ -55,8 +55,12 @@ Bite will be a new melee attack, separate from the standard melee attack. It wil
 
 Succesfully biting an NPC in combat will pause combat and player the biting animation.
 
+If the bite attack is used on a creature, it will restore some blood but also drain health by half of the amount, in addition to the stamina cost.
+
+Biting an actor can cause you to contract any diseases they have.
+
 ### **Feeding**   
-A new service option will be added to all NPC dialogue windows: "Feeding". Using this service option will perform a success-check. If successful, the player will feed on the NPC and gain a calculated blood amount. If failed, the NPC will report the player for assault and flee. A successful feeding increases disposition by a small amount. The feeding success state and timestamp will be saved to for the NPC for later usage. The following formula will be used for the success-check:
+A new service option will be added to all NPC dialogue windows: "Feed Upon". Using this service option will perform a success-check. If successful, the player will feed on the NPC and gain a calculated blood amount. If failed, the NPC will report the player for assault and flee. A successful feeding increases disposition by a small amount. The feeding success state and timestamp will be saved to for the NPC for later usage. The following formula will be used for the success-check:
 ```lua
 local function Calc(mobile)
    local luck = mobile.luck.current

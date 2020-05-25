@@ -11,9 +11,7 @@ The first and main new mechanic is the addition of a new player statistic to acc
 
 When transformed into a vampire, this new statistic will become available to the player. The base blood value at the time of the transformation will be calculated using the following formula, subject to change:
 ```lua
-local willpower = tes3.mobilePlayer.willpower.base
-local endurance = tes3.mobilePlayer.endurance.base
-local base = (endurance / 10.0) + 5^(willpower / 40.0)
+local base = 20 + ((endurance / 10.0) + (willpower / 10.0) + (luck / 100.0)) * 1.25
 ```
 
 The current blood value at the time of transformation will be **1**. This means that the player will start with **1 out of *base*** blood.
@@ -23,7 +21,7 @@ Unlike the other statistics, resting will not recover blood. Blood can only be r
 local modAmount = -1 * (1.2 ^ daysPassed) - 20
 ```
 
-If the blood level reaches 0, the player will begin losing health at 1pt per second, increasing exponentially, until blood is increased above 0.
+If the blood level reaches 0, the player will begin losing health at 1pt per second until blood is increased above 0.
 
 Blood can be restored via feeding and blood serums (restore blood effect potions).
 

@@ -40,10 +40,9 @@ Blood can be consumed to perform a new type of magic, blood magic. Blood magic f
 Intended spell effects include: 
 - Restore Blood
 - Drain Blood
-- Damage Blood
-- Fortify Blood
-- Weakness to Blood
 - Mirage: *Hide Vampire Status while active.*
+- Shadowstep
+- Mistform
 
 ### **Shadowstep**
 When in shadows, the player will have the ability to teleport to any visible location that is also in shadows. This will be mappd to a new key button. This will cost 25 blood per use. Teleporting to a non-shadow area by accident will still consume 25 blood, but no teleport will occur.
@@ -101,7 +100,6 @@ After a calculated period as a thrall, depending on thrall level and attributes,
 
 ### **Sun Damage**
 * In addition to damaging health, sun damage will drain blood at a rate of 1pt per tick.
-* Sun Damage will be scaled based on weather and the degree of shade the player is in.
 * Sun Damage will cause a burning VFX while taking damage.
 
 ### **Blood Serums**

@@ -9,10 +9,7 @@ Expands Vampirism in TES III: Morrowind by adding new mechanics, new spells, new
 ### **Blood**   
 The first and main new mechanic is the addition of a new player statistic to accompany *Health*, *Magicka*, and *Stamina* for vampires. This new statistic is called *Blood*. Visually, this new statistic will appear below *Stamina* in the HUD and player menu as a 4th, blood-red statistic bar. 
 
-When transformed into a vampire, this new statistic will become available to the player. The base blood value at the time of the transformation will be calculated using the following formula, subject to change:
-```lua
-local base = 20 + ((endurance / 10.0) + (willpower / 10.0) + (luck / 100.0)) * 1.25
-```
+When transformed into a vampire, this new statistic will become available to the player. The base blood value at the time of the transformation will be 30.
 
 The current blood value at the time of transformation will be **1**. This means that the player will start with **1 out of *base*** blood.
 
@@ -21,18 +18,20 @@ Unlike the other statistics, resting will not recover blood. Blood can only be r
 local modAmount = -1 * (1.2 ^ daysPassed) - 20
 ```
 
-If the blood level reaches 0, the player will begin losing health at 1pt per second until blood is increased above 0.
+If the blood level reaches 0, the player will begin losing health at 1pt per second until blood is increased above 0. Additionally, the player will begin losing base blood at 1pt per second until blood is increased above 0. Letting blood fall to 0 while not having fed will undo significant progression.
 
-Blood can be restored via feeding and blood serums (restore blood effect potions).
+Blood can be restored via feeding and blood serums (restore blood effect potions). Blood serums will also reset the feeding timer.
 
-Blood base amount can be permanently increased by levelling up, similarly to how Magicka is increased. The governing attributes are endurance and willpower. The previous formula to calculate the base amount will be reused to calculate the new base amount.
+Blood base amount can be permanently increased by feeding, succesfully using certain vampiric powers, and other ways.
 
 Blood can be consumed to use vampiric powers, spells and other special abilities, outlined below.
 
 All NPCs will show the amount of blood you get per feeding as part of their UI tooltip. The amount of blood you get per feeding is calculated based on their level and attributes, using this formula:
 ```lua
-local bloodAmount = 50 + level - (endurance/10) - (willpower/10)
+local bloodAmount = 10 + level * 4 - (endurance/10) - (willpower/10)
 ```
+
+All Vampires will show the amount of blood they have as part of their UI tooltip.
 
 ### **Blood Magic**   
 Blood can be consumed to perform a new type of magic, blood magic. Blood magic functions similarly to regular magic, but costs blood instead of magicka. Blood magic centers around destruction and illusion type spells. 
@@ -45,7 +44,7 @@ Intended spell effects include:
 - Mistform
 
 ### **Shadowstep**
-When in shadows, the player will have the ability to teleport to any visible location that is also in shadows. This will be mappd to a new key button. This will cost 25 blood per use. Teleporting to a non-shadow area by accident will still consume 25 blood, but no teleport will occur.
+The player will have the ability to travel through shadows to any visible location. This will be mappd to a new key button. Shadowstepping will have varying blood cost, depending on the distance being shadowstepped to. This mechanic is not a teleport - the player will be transitioned to the target location using momentum, and they will not have control of their character during the movement.
 
 ### **Bite Attack** 
 Bite will be a new melee attack, separate from the standard melee attack. It will be mapped to a new key button. Using *Bite* will drain the player's stamina by a significant amount. During combat, the player may bite an NPC as an attack. It will always be reported as assault if not in combat. This will restore 10 blood and has a chance to inflict vampirism on the target. 
@@ -104,6 +103,113 @@ After a calculated period as a thrall, depending on thrall level and attributes,
 
 ### **Blood Serums**
 The player may drain blood from non-vampire thralls for later use by storing them in serums. These will function the same as potions and have the Restore Blood magic effect. Draining blood from a thrall using this method will have the same effects as feeding.
+
+### Vampiric Power Level
+Each vampire has a power level, determined by their blood level. This power level determines what mechanics, spells, and abilities, they have access to. 
+
+```lua
+local level = 1 + math.floor(baseBlood / 50)
+```
+
+Additionally, some mechanics, spells, and abilities may be more powerful or succesful at later levels. 
+
+Levels 1 - 10 will be supported.
+
+#### Level 1 (0 - 49)
+Newborn vampire. 
+
+Available mechanics:
+- Bite
+- Feed Upon / Force Feed
+
+Standard magic Spells and abilities:
+- Weak Vampiric Touch (Paralyze 2 seconds on touch)
+- Weak Vampiric Kiss (Drain blood 5pts on touch)
+
+#### Level 2 (50 - 99)
+Fledgeling vampire.
+
+Available mechanics, including previous levels:
+- Bite power increased.
+- Feed Upon / Force Feed chances increased.
+
+Standard magic Spells and abilities:
+- Lesser Vampiric Touch (Paralyze 5 seconds on touch)
+- Lesser Vampiric Kiss (Drain blood 15pts on touch)
+
+Blood magic Spells and abilities:
+- Mirage (30 seconds on self)
+
+#### Level 3 (100 - 149)
+Weak vampire.
+
+Available mechanics, including previous levels:
+- Bite power increased.
+- Feed Upon / Force Feed chances increased.
+- Mesmerize
+- Enthrall
+
+#### Level 4 (150 - 199)
+Normal vampire.
+
+Available mechanics, including previous levels:
+- Mesmerize chances increased.
+- Shadowstep
+
+Standard magic Spells and abilities:
+- Vampiric Touch (Paralyze 10 seconds on touch)
+- Vampiric Kiss (Drain blood 25pts on touch)
+
+Blood magic Spells and abilities:
+- Mistform (Mistform 10 seconds on self)
+
+#### Level 5 (200 - 249)
+Adept vampire.
+
+Available mechanics, including previous levels:
+- Shadowstep cost decreased.
+- Enthrall chances increased.
+
+Blood magic Spells and abilities:
+- Enslave (Force Enthrall on touch)
+
+#### Level 6 (250 - 299)
+Available mechanics, including previous levels:
+- Shadowstep cost decreased.
+- Enthrall chances increased.
+- Force enthrall 100% success rate.
+
+Blood magic Spells and abilities:
+
+#### Level 7 (300 - 349)
+Available mechanics, including previous levels:
+- Bite attack drains stamina equal to blood.
+- Resistance to Sun Damage 20%
+
+Blood magic Spells and abilities:
+
+#### Level 8 (350 - 399)
+Available mechanics, including previous levels:
+- Resistance to Sun Damage 35%
+
+Blood magic Spells and abilities:
+
+#### Level 9 (400 - 449)
+Available mechanics, including previous levels:
+- Resistance to Sun Damage 50%
+
+Blood magic Spells and abilities:
+
+#### Level 10 (450+)
+Available mechanics, including previous levels:
+- Bite attack paralyzes for 3 seconds. 
+- Immunity to Sun Damage
+
+Standard magic Spells and abilities:
+- Greater Vampiric Touch (Paralyze 30 seconds on touch)
+- Greater Vampiric Kiss (Drain blood 100pts on touch)
+
+Blood magic Spells and abilities:
 
 ## License
 You cannot copy, distribute, package, or otherwise modify in any way the contents of this repository. This repository represents in-progress, unpublished work by its authors and should only be used as a reference.

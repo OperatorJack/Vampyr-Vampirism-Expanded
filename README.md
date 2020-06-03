@@ -104,6 +104,20 @@ After a calculated period as a thrall, depending on thrall level and attributes,
 ### **Blood Serums**
 The player may drain blood from non-vampire thralls for later use by storing them in serums. These will function the same as potions and have the Restore Blood magic effect. Draining blood from a thrall using this method will have the same effects as feeding.
 
+### **Stakes**
+- per references in Blasphemous Revenants, stakes can be used to kill vampires. Stakes are not required, but will do significant damage to vampires only, when at lower health.
+- small chance for NPCs to draw a stake when fighting a vampire at low health, including fighting the player.
+- stakes can be thwarted by medium or heavy cuirasses. A careful vampire will always wear one for protection.
+
+### **Bloodstorm** 
+While active and in an exterior cell, rains blood. Consumes an immense amount of magicka. Blood magic is buffed and any vampire in the affected area regains 1 blood per second. Does not count as feeding. Non vampires are demoralized and highly likely to flee. Higher level vampiric mechanic (level 9).
+
+### **Blood Summons** 
+Use blood to summon a few select creatures to fight beside you. Does not cost magicka. More powerful summons require higher level of blood potency.
+
+### **Bloodbound Items**
+Use blood to summon a few select bound items. Does not cost magicka. More powerful summons require higher level of blood potency.
+
 ### Vampiric Power Level
 Each vampire has a power level, determined by their blood level. This power level determines what mechanics, spells, and abilities, they have access to. 
 
@@ -115,9 +129,7 @@ Additionally, some mechanics, spells, and abilities may be more powerful or succ
 
 Levels 1 - 10 will be supported.
 
-#### Level 1 (0 - 49)
-Newborn vampire. 
-
+#### Level 1 (0 - 49): Newborn
 Available mechanics:
 - Bite
 - Feed Upon / Force Feed
@@ -126,9 +138,10 @@ Standard magic Spells and abilities:
 - Weak Vampiric Touch (Paralyze 2 seconds on touch)
 - Weak Vampiric Kiss (Drain blood 5pts on touch)
 
-#### Level 2 (50 - 99)
-Fledgeling vampire.
+Blood magic Spells and abilities:
+- Blood Summon: Bat (if T_D installed) or Scamp
 
+#### Level 2 (50 - 99): Fledgling
 Available mechanics, including previous levels:
 - Bite power increased.
 - Feed Upon / Force Feed chances increased.
@@ -140,18 +153,17 @@ Standard magic Spells and abilities:
 Blood magic Spells and abilities:
 - Mirage (30 seconds on self)
 
-#### Level 3 (100 - 149)
-Weak vampire.
-
+#### Level 3 (100 - 149): Minion
 Available mechanics, including previous levels:
 - Bite power increased.
 - Feed Upon / Force Feed chances increased.
 - Mesmerize
 - Enthrall
 
-#### Level 4 (150 - 199)
-Normal vampire.
+Blood magic Spells and abilities:
+- Bloodbound Dagger
 
+#### Level 4 (150 - 199): Servant
 Available mechanics, including previous levels:
 - Mesmerize chances increased.
 - Shadowstep
@@ -163,44 +175,46 @@ Standard magic Spells and abilities:
 Blood magic Spells and abilities:
 - Mistform (Mistform 10 seconds on self)
 
-#### Level 5 (200 - 249)
-Adept vampire.
-
+#### Level 5 (200 - 249): Adept
 Available mechanics, including previous levels:
 - Shadowstep cost decreased.
 - Enthrall chances increased.
 
 Blood magic Spells and abilities:
 - Enslave (Force Enthrall on touch)
+- Blood Summon: Daedroth
 
-#### Level 6 (250 - 299)
+#### Level 6 (250 - 299): Subjugator
 Available mechanics, including previous levels:
 - Shadowstep cost decreased.
 - Enthrall chances increased.
 - Force enthrall 100% success rate.
 
 Blood magic Spells and abilities:
+- Bloodbound Shortsword
 
-#### Level 7 (300 - 349)
+#### Level 7 (300 - 349) Lord / Lady
 Available mechanics, including previous levels:
 - Bite attack drains stamina equal to blood.
 - Resistance to Sun Damage 20%
 
 Blood magic Spells and abilities:
 
-#### Level 8 (350 - 399)
+#### Level 8 (350 - 399) Master / Mistress
 Available mechanics, including previous levels:
 - Resistance to Sun Damage 35%
 
 Blood magic Spells and abilities:
+- Blood Summon: Dremora
 
-#### Level 9 (400 - 449)
+#### Level 9 (400 - 449) Elder
 Available mechanics, including previous levels:
 - Resistance to Sun Damage 50%
 
 Blood magic Spells and abilities:
+- Bloodbound Longsword
 
-#### Level 10 (450+)
+#### Level 10 (450+) Daywalker
 Available mechanics, including previous levels:
 - Bite attack paralyzes for 3 seconds. 
 - Immunity to Sun Damage
@@ -210,6 +224,7 @@ Standard magic Spells and abilities:
 - Greater Vampiric Kiss (Drain blood 100pts on touch)
 
 Blood magic Spells and abilities:
+- Bloodstorm
 
 ## License
 You cannot copy, distribute, package, or otherwise modify in any way the contents of this repository. This repository represents in-progress, unpublished work by its authors and should only be used as a reference.

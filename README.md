@@ -161,7 +161,7 @@ Available mechanics, including previous levels:
 - Enthrall
 
 Blood magic Spells and abilities:
-- Bloodbound Dagger
+- ~~Bloodbound Dagger~~ TO BE REPLACED
 
 #### Level 4 (150 - 199): Servant
 Available mechanics, including previous levels:
@@ -191,7 +191,7 @@ Available mechanics, including previous levels:
 - Force enthrall 100% success rate.
 
 Blood magic Spells and abilities:
-- Bloodbound Shortsword
+- ~~Bloodbound Shortsword~~ TO BE REPLACED
 
 #### Level 7 (300 - 349) Lord / Lady
 Available mechanics, including previous levels:
@@ -212,7 +212,7 @@ Available mechanics, including previous levels:
 - Resistance to Sun Damage 50%
 
 Blood magic Spells and abilities:
-- Bloodbound Longsword
+- ~~Bloodbound Longsword~~ TO BE REPLACED
 
 #### Level 10 (450+) Daywalker
 Available mechanics, including previous levels:

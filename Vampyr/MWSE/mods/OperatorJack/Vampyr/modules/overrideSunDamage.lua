@@ -51,7 +51,7 @@ local function hideNode(node)
 end
 
 local function getShaderModifier(reference)
-    if (reference.cell.isInterior == true) then
+    if (reference.cell.isInterior == true and reference.cell.behaveAsExterior == false) then
         return 0
     end
 

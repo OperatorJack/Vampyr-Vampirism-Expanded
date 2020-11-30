@@ -1,32 +1,25 @@
 local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood")
+local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells")
 
 local function onSpellCast(e)
-    local bloodSpellKey = common.getKeyFromValueFunc(common.bloodSpells, function(value) 
-        if (value.id == e.source.id) then
-            return true
-        end
-    end)
-    local bloodSpell = common.bloodSpells[bloodSpellKey]
+    local bloodSpell = bloodSpells.getBloodSpellConfigurationBySpellId(e.source.id)
     if (not bloodSpell) then
         return
     end
 
-    local cost = bloodSpell.cost   
-    local referenceBlood = blood.getReferenceBloodStatistic(e.caster)
+    local canCastSpell = bloodSpells.isReferenceAbleToCastBloodMagic(e.caster, bloodSpell.cost)
 
-    if (cost <= referenceBlood.current) then
-        blood.modReferenceCurrentBloodStatistic(e.caster, cost * -1, true)
-        e.castChance = 100
-    else
+    if (canCastSpell == false) then
+        e.castChance = 0
         if (e.caster == tes3.player) then
-            e.castChance = 0
-            local gmst = tes3.findGMST(tes3.gmst.sMagicSkillFail)
-            local oldValue = gmst.value
-            gmst.value = common.text.bloodSpellFailed
-            timer.delayOneFrame(function() gmst.value = oldValue end, timer.real)
+            bloodSpells.changeSpellFailedMessageBoxForFrame()
         end
+    else
+        e.castChance = 100
+        bloodSpells.applyBloodMagicCostForReference(e.caster, bloodSpell.cost)
     end
+
     e.claim = true
 end
-event.register("spellCast", onSpellCast, {priority = 1e+06})
+event.register("spellCast", onSpellCast, {priority = 1000})

@@ -1,5 +1,3 @@
-local common = require("OperatorJack.Vampyr.common")
-local blood = require("OperatorJack.Vampyr.modules.blood")
 local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells")
 
 local function onSpellCast(e)

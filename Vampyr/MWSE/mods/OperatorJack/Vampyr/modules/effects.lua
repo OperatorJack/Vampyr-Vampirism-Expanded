@@ -114,21 +114,33 @@ local function addRestoreBlood()
 end
 
 local function addBloodstorm()
+
+	local textures = {
+		raindrop = {
+			name = "Tx_Raindrop_01.tga",
+			path = "textures\\Tx_Raindrop_01.tga"
+		},
+		bloodrain = {
+			name = "OJ_V_Bloodrain.dds",
+			path = "textures\\V\\OJ_V_Bloodrain.dds"
+		}
+	}
+
 	local initialized = false
 
-	local function switchRainTexture(currentName, newFilepath)
+	local function switchRainTexture(current, new)
 		for node in traverse{tes3.worldController.weatherController.sceneRainRoot} do
 			local success, texture = pcall(function() return node:getProperty(0x4).maps[1].texture end)
 			if (success and texture) then
-				if (texture.fileName == currentName) then
-					node:getProperty(0x4).maps[1].texture = niSourceTexture.createFromPath(newFilepath)
+				if (texture.fileName == current.name) then
+					node:getProperty(0x4).maps[1].texture = niSourceTexture.createFromPath(new.path)
 				end
 			end
 		end
 	end
 
 	event.register("loaded", function()
-		switchRainTexture("OJ_V_Bloodrain.dds", "textures\\Tx_Raindrop_01.tga")
+		switchRainTexture(textures.bloodrain, textures.raindrop)
 		initialized = false
 	end)
 
@@ -138,14 +150,14 @@ local function addBloodstorm()
 			crimeReported = false
 		}
 
-		switchRainTexture("Tx_Raindrop_01.tga", "textures\\V\\OJ_V_Bloodrain.dds")
+		switchRainTexture(textures.raindrop, textures.bloodrain)
 
 		tes3.worldController.weatherController:switchImmediate(tes3.weather.rain)
 		tes3.worldController.weatherController:updateVisuals()
 	end
 
 	local function stopBloodstorm()
-		switchRainTexture("OJ_V_Bloodrain.dds", "textures\\Tx_Raindrop_01.tga")
+		switchRainTexture(textures.bloodrain, textures.raindrop)
 
 		tes3.worldController.weatherController:switchImmediate(tes3.player.data.OJ_VAMPYR.bloodstorm.previousWeather)
 		tes3.worldController.weatherController:updateVisuals()

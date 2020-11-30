@@ -40,6 +40,7 @@ require("OperatorJack.Vampyr.modules.blood-mechanics")
 require("OperatorJack.Vampyr.modules.blood-potency-ui")
 require("OperatorJack.Vampyr.modules.blood-potency-mechanics")
 
+require("OperatorJack.Vampyr.modules.blood-spells")
 require("OperatorJack.Vampyr.modules.blood-spells-ui")
 require("OperatorJack.Vampyr.modules.blood-spells-mechanics")
 

@@ -79,7 +79,8 @@ common.events = {
     bloodPotencyChanged = "Vampyr:BloodPotencyChangedEvent",
     playerVampireStateChanged = "Vampyr:PlayerVampireStateChanged",
     initializedReference = "Vampyr:InitializedReference",
-    secondPassed = "Vampyr:SecondPassed"
+    secondPassed = "Vampyr:SecondPassed",
+    bloodMagicCostApplied = "Vampyr:BloodMagicCostApplied"
 }
 
 function common.debug(message)

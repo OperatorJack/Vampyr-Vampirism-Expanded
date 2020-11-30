@@ -1,6 +1,7 @@
 local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood")
 local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency")
+local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells")
 
 local UP = tes3vector3.new(0,0,1)
 local ID33 = tes3matrix33.new(1,0,0,0,1,0,0,0,1)
@@ -86,15 +87,14 @@ local function confirmShadowStep()
     event.unregister("simulate", markerSimulate)
     isInShadowStepMode = false
 
-    local bloodPotencyLevel = bloodPotency.getLevel(tes3.player)
-    local modifier = (10 - bloodPotencyLevel) / 11
+    local modifier = bloodSpells.getBloodPotencyCostModifierForPlayer()
     local cost = (markerReference.position:distance(tes3.player.position) / 50 + 5) * modifier
 
     if (blood.getPlayerBloodStatistic().current < cost) then
         tes3.messageBox("You do not have enough blood remaining to shadowstep to that position.")
 
     else
-        blood.modPlayerCurrentBloodStatistic(cost * -1)
+        bloodSpells.applyBloodMagicCostForPlayer(cost)
 
         tes3.playSound({
             sound = "mysticism hit",

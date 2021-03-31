@@ -85,6 +85,13 @@ local function registerSpells()
         max = 100,
         duration = 1
     })
+    local spell = framework.spells.createBasicSpell({
+        id = common.spells.glamour,
+        name = "Glamour",
+        effect = tes3.effect.glamour,
+        range = tes3.effectRange.self,
+    })
+    spell.castType = tes3.spellType.ability
 end
 
 event.register("MagickaExpanded:Register", registerSpells)
@@ -93,11 +100,9 @@ local function registerBloodSpells()
     framework.spells.createBasicSpell({
         id = common.bloodSpells.mirage.id,
         name = "Mirage",
-        effect = tes3.effect.restoreHealth,
+        effect = tes3.effect.glamour,
         range = tes3.effectRange.self,
-        min = 1,
-        max = 1,
-        duration = 1
+        duration = 30
     })
     framework.spells.createBasicSpell({
         id = common.bloodSpells.mistform.id,

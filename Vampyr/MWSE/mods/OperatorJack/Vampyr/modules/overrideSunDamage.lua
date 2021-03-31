@@ -51,7 +51,7 @@ local function hideNode(node)
 end
 
 local function getShaderModifier(reference)
-    if (reference.cell.isInterior == true and reference.cell.behaveAsExterior == false) then
+    if (reference.cell.isInterior == true and reference.cell.behaveAsExterior ~= true) then
         return 0
     end
 
@@ -70,6 +70,11 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     -- Calculate damage for reference, taking into account location, weather, shade, etc.
     local shadeModifier = getShaderModifier(target)
     local damage = shadeModifier * resistanceModifier * attributeVariant
+
+    if (target == tes3.player) then
+        --common.debug(string.format("Sun Damage: shade: %s, resist: %s, attrib: %s = damage: %s", shadeModifier, resistanceModifier, attributeVariant, damage))
+    end
+
 
     local node = getOrAttachVfx(target)
     if math.abs(damage) > 0.001 then    

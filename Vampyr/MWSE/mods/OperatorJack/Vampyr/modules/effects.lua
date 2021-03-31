@@ -6,6 +6,7 @@ tes3.claimSpellEffectId("restoreBlood", 700)
 tes3.claimSpellEffectId("drainBlood", 701)
 tes3.claimSpellEffectId("bloodstorm", 702)
 tes3.claimSpellEffectId("resistSunDamage", 703)
+tes3.claimSpellEffectId("glamour", 704)
 
 local function traverse(roots)
     local function iter(nodes)
@@ -262,10 +263,35 @@ local function addResistSunDamage()
 	})
 end
 
+local function addGlamour()
+	framework.effects.illusion.createBasicEffect({
+		-- Base information.
+		id = tes3.effect.glamour,
+		name = "Glamour",
+		description = "When active, the caster will not be recognized as a vampire.",
+
+		-- Basic dials.
+		baseCost = 0,
+
+		-- Various flags.
+		canCastSelf = true,
+		casterLinked = true,
+		hasNoMagnitude = true,
+		nonRecastable = true,
+
+		-- Graphics/sounds.
+		lighting = { 0.99, 0.95, 0.67 },
+
+		-- Required callbacks.
+		onTick = function(e) e:trigger() end,
+	})
+end
+
 local function addEffects()
 	addRestoreBlood()
 	addDrainBlood()
 	addBloodstorm()
 	addResistSunDamage()
+	addGlamour()
 end
 event.register("magicEffectsResolved", addEffects)

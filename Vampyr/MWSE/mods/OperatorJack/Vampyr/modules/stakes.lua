@@ -16,6 +16,7 @@ local function onDeterminedAction(e)
                 if (config.stakes[stack.object.id]) then
                     common.debug("Mobile has stake!")
                     stake = stack.object
+                    break
                 end
             end
 
@@ -23,12 +24,17 @@ local function onDeterminedAction(e)
                 return
             end
 
+            if (mobile.readiedWeapon and mobile.readiedWeapon.object == stake) then
+                return false
+            end
 
             -- equip stake.
             timer.delayOneFrame(function()
                 mobile:equip(stake)
             end)
+
+            return false
         end
     end
 end
-event.register("determineAction", onDeterminedAction)
+event.register("determinedAction", onDeterminedAction)

@@ -21,7 +21,7 @@ function bloodSpells.changeSpellFailedMessageBoxForFrame()
 end
 
 function bloodSpells.getBloodMagicCostModifierForPlayer()
-    return bloodSpells.getBloodPotencyCostModifierForReference(tes3.player)
+    return bloodSpells.getBloodMagicCostModifierForReference(tes3.player)
 end
 
 function bloodSpells.getBloodMagicCostModifierForReference(reference)
@@ -47,7 +47,7 @@ function bloodSpells.isReferenceAbleToCastBloodMagic(reference, cost)
 end
 
 function bloodSpells.applyBloodMagicCostForPlayer(cost)
-    bloodSpells.applyBloodCostForBloodMagicForReference(tes3.player, cost)
+    bloodSpells.applyBloodMagicCostForReference(tes3.player, cost)
 end
 
 function bloodSpells.applyBloodMagicCostForReference(reference, cost)

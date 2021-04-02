@@ -35,16 +35,14 @@ local markerReference
 local markerLastPositionCheck
 local function markerSimulate(e)
     if (markerReference == nil) then
-        local markerObject = tes3.getObject("VAMPYR_ShadowStepMarker") or tes3static.create({
-            id="VAMPYR_ShadowStepMarker", 
-            mesh="VAMPYR\\widget_circle.nif"}
-        )
+        local markerObject = tes3.getObject("VAMPYR_ShadowStepMarker")
 
         markerReference = tes3.createReference({
             object = markerObject, 
             position = tes3.player.position, 
             cell = tes3.player.cell
         })
+        markerReference.modified = false
         markerLastPositionCheck = nil
     end
 
@@ -87,7 +85,7 @@ local function confirmShadowStep()
     event.unregister("simulate", markerSimulate)
     isInShadowStepMode = false
 
-    local modifier = bloodSpells.getBloodPotencyCostModifierForPlayer()
+    local modifier = bloodSpells.getBloodMagicCostModifierForPlayer()
     local cost = (markerReference.position:distance(tes3.player.position) / 50 + 5) * modifier
 
     if (blood.getPlayerBloodStatistic().current < cost) then
@@ -100,17 +98,40 @@ local function confirmShadowStep()
             sound = "mysticism hit",
             reference = tes3.player
         })
+
+        local teleObject = tes3.getObject("VAMPYR_ShadowTeleMarker") or tes3static.create({
+            id="VAMPYR_ShadowTeleMarker", 
+            mesh="VAMPYR\\widget_teleport.nif"}
+        )
         
+        local teleReference = tes3.createReference({
+            object = teleObject, 
+            position = tes3.player.position, 
+            cell = tes3.player.cell
+        })
+        teleReference.modified = false
+
         tes3.positionCell({
             reference = tes3.player,
             position = markerReference.position,
-            cell = tes3.player.cell
+            cell = markerReference.cell
         })
-    end
 
-    if (markerReference) then
-        markerReference:disable()
-        markerReference = nil
+        timer.start({
+            duration = 2,
+            callback = function ()
+
+                if (teleReference) then
+                    teleReference:disable()
+                    teleReference = nil
+                end
+            end
+        })
+
+        if (markerReference) then
+            markerReference:disable()
+            markerReference = nil
+        end
     end
 end
 
@@ -118,6 +139,7 @@ local function shadowStepKey(e)
     if (common.isPlayerVampire() == false) then return end
     if (bloodPotency.getLevel(tes3.player) < 4) then
         tes3.messageBox("You are not powerful enough to shadowstep yet.")
+        return
     end
 
     if (isInShadowStepMode == false) then

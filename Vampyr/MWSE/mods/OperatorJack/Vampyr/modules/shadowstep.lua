@@ -33,33 +33,44 @@ end
 local isInShadowStepMode = false
 local markerReference
 local markerLastPositionCheck
+
+local function removeMarker()
+    if (markerReference) then
+        markerReference:disable()
+        timer.delayOneFrame(function()
+            mwscript.setDelete{ reference = markerReference}
+            markerReference = nil
+        end)
+    end
+end
+
 local function markerSimulate(e)
     if (markerReference == nil) then
         local markerObject = tes3.getObject("VAMPYR_ShadowStepMarker")
 
         markerReference = tes3.createReference({
-            object = markerObject, 
-            position = tes3.player.position, 
+            object = markerObject,
+            position = tes3.player.position,
             cell = tes3.player.cell
         })
         markerReference.modified = false
         markerLastPositionCheck = nil
     end
 
+    markerReference:setDynamicLighting()
+
     local eyevec = tes3.getPlayerEyeVector()
     local eyepos = tes3.getPlayerEyePosition()
     local rayhit = tes3.rayTest({
-        position = eyepos, 
-        direction = eyevec, 
+        position = eyepos,
+        direction = eyevec,
         ignore = {
-            tes3.player, 
+            tes3.player,
             markerReference
         }
     })
     if rayhit then
         markerReference.position = rayhit.intersection
-        markerReference.orientation = rotation_difference(UP, rayhit.normal)
-
         if (markerLastPositionCheck == nil or markerReference.position:distance(markerLastPositionCheck) >= 10) then
             markerLastPositionCheck = markerReference.position:copy()
         end
@@ -75,10 +86,7 @@ local function exitShadowStepMode()
     event.unregister("simulate", markerSimulate)
     isInShadowStepMode = false
 
-    if (markerReference) then
-        markerReference:disable()
-        markerReference = nil
-    end
+    removeMarker()
 end
 
 local function confirmShadowStep()
@@ -100,14 +108,14 @@ local function confirmShadowStep()
         })
 
         local teleObject = tes3.getObject("VAMPYR_ShadowTeleMarker") or tes3static.create({
-            id="VAMPYR_ShadowTeleMarker", 
+            id="VAMPYR_ShadowTeleMarker",
             mesh="VAMPYR\\widget_teleport.nif"}
         )
-        
+
         local teleReference = tes3.createReference({
-            object = teleObject, 
-            position = tes3.player.position, 
-            cell = tes3.player.cell
+            object = teleObject,
+            position = markerReference.position,
+            cell = markerReference.cell
         })
         teleReference.modified = false
 
@@ -123,16 +131,16 @@ local function confirmShadowStep()
 
                 if (teleReference) then
                     teleReference:disable()
-                    teleReference = nil
+                    timer.delayOneFrame(function()
+                        mwscript.setDelete{ reference = teleReference}
+                        teleReference = nil
+                    end)
                 end
             end
         })
-
-        if (markerReference) then
-            markerReference:disable()
-            markerReference = nil
-        end
     end
+
+    removeMarker()
 end
 
 local function shadowStepKey(e)

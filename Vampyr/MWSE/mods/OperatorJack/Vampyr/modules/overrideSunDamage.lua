@@ -99,7 +99,8 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         hideNode(node)
     end
 
-    return damage
+    -- Bypass vanilla sun damage function by returning 0 damage.
+    return 0
 end
 
 -- The section of code we want to overwrite is [0x464c09, 0x464c29)

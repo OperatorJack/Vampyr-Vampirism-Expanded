@@ -54,7 +54,7 @@ function blood.modReferenceCurrentBloodStatistic(reference, amount, isCapped)
     if (amount < 0) then
         currentBlood = math.max(currentBlood + amount, 0)
     end
-    
+
     if (isCapped == true and amount > 0) then
         currentBlood = math.min(currentBlood + amount, reference.data.OJ_VAMPYR.blood.base)
     elseif (isCapped == false and amount > 0) then
@@ -103,7 +103,6 @@ function blood.setReferenceCurrentBloodStatistic(reference, amount)
     })
 end
 
- --[[ GET Blood ]] --
 function blood.setPlayerBaseBloodStatistic(amount)
     blood.setReferenceBaseBloodStatistic(tes3.player, amount)
 end
@@ -111,6 +110,7 @@ function blood.setPlayerCurrentBloodStatistic(amount)
     blood.setReferenceCurrentBloodStatistic(tes3.player, amount)
 end
 
+ --[[ GET Blood ]] --
 function blood.getReferenceBloodStatistic(reference)
     common.initializeReferenceData(reference)
     return reference.data.OJ_VAMPYR.blood

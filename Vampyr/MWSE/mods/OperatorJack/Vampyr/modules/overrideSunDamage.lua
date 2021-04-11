@@ -11,7 +11,7 @@ local function getOrAttachVfx(reference)
     if (not node) then
         vfxNode = vfxNode or tes3.loadMesh(common.paths.sunDamageVfx)
         node = vfxNode:clone()
-        
+
         if (reference.object.race) then
             if (reference.object.race.weight and reference.object.race.height) then
             local weight = reference.object.race.weight.male
@@ -65,7 +65,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         effect = tes3.effect.resistSunDamage
     }) or 0
 
-    local resistanceModifier = 1 - (resistanceMagnitude / 100) 
+    local resistanceModifier = 1 - (resistanceMagnitude / 100)
 
     -- Calculate damage for reference, taking into account location, weather, shade, etc.
     local shadeModifier = getShaderModifier(target)
@@ -77,12 +77,23 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
 
 
     local node = getOrAttachVfx(target)
-    if math.abs(damage) > 0.001 then    
+    if math.abs(damage) > 0.001 then
         showNode(node)
 
         if (blood.isInitialized(target) == true) then
             local bloodAmount = 1.0 * attributeVariant
+            local currentBloodAmount = blood.getReferenceBloodStatistic(target).current
+
+            -- Blood amount will be negative.
+            local bloodRemainder = currentBloodAmount + bloodAmount
+
             blood.modReferenceCurrentBloodStatistic(target, bloodAmount, true)
+
+            if bloodRemainder <= 0 then
+                -- Convert to positive and decrease by 50%.
+                local healthAmount = bloodRemainder * 0.5 * -1
+                target.mobile:applyHealthDamage(healthAmount)
+            end
         end
     else
         hideNode(node)
@@ -120,4 +131,4 @@ mwse.memory.writeBytes({ address = 0x464c1e, bytes = { 0x89, 0x44, 0x24, 0x08 } 
 -- Load the value of attributeVariant onto the fpu stack, so that the game can use it for subsequent comparisons.
 mwse.memory.writeBytes({ address = 0x464c22, bytes = { 0xd9, 0x44, 0x24, 0x08 } }) -- fld [esp+0xc+attributeVariant]
 -- Overwrite the rest of this section with no op.
-mwse.memory.writeNoOperation({ address = 0x464c26, length = 0x3 }) 
+mwse.memory.writeNoOperation({ address = 0x464c26, length = 0x3 })

@@ -7,9 +7,9 @@ Expands Vampirism in TES III: Morrowind by adding new mechanics, new spells, new
 ## Mechanics
 
 ### **Blood**   
-The first and main new mechanic is the addition of a new player statistic to accompany *Health*, *Magicka*, and *Stamina* for vampires. This new statistic is called *Blood*. Visually, this new statistic will appear below *Stamina* in the HUD and player menu as a 4th, blood-red statistic bar. 
+The first and main new mechanic is the addition of a new player statistic to accompany *Health*, *Magicka*, and *Stamina* for vampires. This new statistic is called *Blood*. Visually, this new statistic will appear in the HUD and player menu as a 4th, blood-red statistic bar. 
 
-When transformed into a vampire, this new statistic will become available to the player. The base blood value at the time of the transformation will be 30.
+When transformed into a vampire, this new statistic will become available to the player. The base blood value at the time of the transformation will be determined by the player's attributes.
 
 The current blood value at the time of transformation will be **1**. This means that the player will start with **1 out of *base*** blood.
 
@@ -37,23 +37,20 @@ All Vampires will show the amount of blood they have as part of their UI tooltip
 Blood can be consumed to perform a new type of magic, blood magic. Blood magic functions similarly to regular magic, but costs blood instead of magicka. Blood magic centers around destruction and illusion type spells. 
 
 Intended spell effects include: 
-- Restore Blood
-- Drain Blood
+- Restore Blood: *Used by blood serumes.*
+- Drain Blood: *Drain blood from target and restore to caster.*
 - Mirage: *Hide Vampire Status while active.*
-- Shadowstep
-- Mistform
+- Shadowstep: *Teleprot through shadows to targeted location.*
+- Mistform: *Turn to mist and move through actors.*
+- Glamour: *The vampire will not be recognized as a vampire by anyone that is not also a vampire.*
 
 ### **Shadowstep**
-The player will have the ability to travel through shadows to any visible location. This will be mappd to a new key button. Shadowstepping will have varying blood cost, depending on the distance being shadowstepped to. This mechanic is not a teleport - the player will be transitioned to the target location using momentum, and they will not have control of their character during the movement.
+The player will have the ability to travel through shadows to any visible location. This will be mappd to a new key button. Shadowstepping will have varying blood cost, depending on the distance being shadowstepped to.
 
-### **Bite Attack** 
-Bite will be a new melee attack, separate from the standard melee attack. It will be mapped to a new key button. Using *Bite* will drain the player's stamina by a significant amount. During combat, the player may bite an NPC as an attack. It will always be reported as assault if not in combat. This will restore 10 blood and has a chance to inflict vampirism on the target. 
+### **Hand-to-hand for Vampires: Claw Attacks**
+If a vampire uses hand-to-hand, the normal animation will be replaced with one which has the vampire's hands in the form of a claw. While "punching" with claws, there is a small chance that the attacker will draw blood, granting them some blood restoration. This also has a chance to inflict vampirism on the target.
 
-Succesfully biting an NPC in combat will pause combat and player the biting animation.
-
-If the bite attack is used on a creature, it will restore some blood but also drain health by half of the amount, in addition to the stamina cost.
-
-Biting an actor can cause you to contract any diseases they have.
+Clawing an actor can cause you to contract any diseases they have.
 
 ### **Feeding**   
 A new service option will be added to all NPC dialogue windows: "Feed Upon". Using this service option will perform a success-check. If successful, the player will feed on the NPC and gain a calculated blood amount. If failed, the NPC will report the player for assault and flee. A successful feeding increases disposition by a small amount. The feeding success state and timestamp will be saved to for the NPC for later usage. The following formula will be used for the success-check:
@@ -76,7 +73,7 @@ return playerCalc >= npcCalc
 If feeding occurs, the NPC's health will be drained by twice the amount of blood received.
 
 ### **Mesmerize**   
-A new service option will be added to all NPC dialogue windows: "Mesmerize". Using this service option will perform a success-check. If successful, the NPC will be pacified and follow the player for a calculated amount of time. The calculated amount of time is based on the player's willpower and the NPC's willpower. At the end of the calculated amount of time, a success-check will be performed. If succesful, the NPC will have their disposition slightly increased. If failed, the NPC will report the player for assault and flee. This check is based on the player's willpower, the NPC's willpower, and the calculated amount of time. The following formula will be used for the success-check:
+As part of becoming more powerful, vampires will received a new blood magic power called Mesmerize. Using this power will perform a success-check. If successful, the NPC will be pacified and follow the player for a calculated amount of time. The calculated amount of time is based on the player's willpower and the NPC's willpower. At the end of the calculated amount of time, a success-check will be performed. If succesful, the NPC will have their disposition slightly increased. If failed, the NPC will report the player for assault and flee. This check is based on the player's willpower, the NPC's willpower, and the calculated amount of time. The following formula will be used for the success-check:
 ```lua
 local function Calc(mobile)
    local luck = mobile.luck.current
@@ -90,7 +87,7 @@ local npcCalc = Calc(npc.mobile)
 return playerCalc >= npcCalc
 ```
 
-While mesmerized, the NPC will be significantly more susceptible to feeding and will not recognize the player as a vampire.
+While mesmerized, the NPC will be significantly more susceptible to feeding. Additionally, the *Glamour* effect will be applied to the caster, applying some VFX and the target will not recognize the player as a vampire.
 
 ### **Thralls**
 A new service option will be added to all NPC dialogue windows: "Enthrall". Using this service option will open a new window. This window will have two options: "force enthrall" and "enthrall". If the player has fed on the NPC for a calculated number of times, they can enthrall the NPC with a 100% success rate. If the player has not met that requirement, they may force it upon the NPC. This will perform a success-check that is hard to pass. If either option is successful, the NPC's disposition will be raised to 100, they will allow you to feed on them at 100% success rate, and they will have the option to be a basic companion. If failed, the NPC will report the player for assault, the NPCs disposition will be lowered to 0, and the NPC will flee.
@@ -105,9 +102,9 @@ After a calculated period as a thrall, depending on thrall level and attributes,
 The player may drain blood from non-vampire thralls for later use by storing them in serums. These will function the same as potions and have the Restore Blood magic effect. Draining blood from a thrall using this method will have the same effects as feeding.
 
 ### **Stakes**
-- per references in Blasphemous Revenants, stakes can be used to kill vampires. Stakes are not required, but will do significant damage to vampires only, when at lower health.
+- per references in Blasphemous Revenants, stakes can be used to kill vampires. Stakes are not required, but will do increased damage to vampires only, when at lower health.
 - small chance for NPCs to draw a stake when fighting a vampire at low health, including fighting the player.
-- stakes can be thwarted by medium or heavy cuirasses. A careful vampire will always wear one for protection.
+- only thematically fitting NPCs will cary stakes (vampire hunters, ordinators).
 
 ### **Bloodstorm** 
 While active and in an exterior cell, rains blood. Consumes an immense amount of magicka. Blood magic is buffed and any vampire in the affected area regains 1 blood per second. Does not count as feeding. Non vampires are demoralized and highly likely to flee. Higher level vampiric mechanic (level 9).
@@ -131,7 +128,7 @@ Levels 1 - 10 will be supported.
 
 #### Level 1 (0 - 49): Newborn
 Available mechanics:
-- Bite
+- Claw
 - Feed Upon / Force Feed
 
 Standard magic Spells and abilities:
@@ -143,7 +140,6 @@ Blood magic Spells and abilities:
 
 #### Level 2 (50 - 99): Fledgling
 Available mechanics, including previous levels:
-- Bite power increased.
 - Feed Upon / Force Feed chances increased.
 
 Standard magic Spells and abilities:
@@ -155,7 +151,6 @@ Blood magic Spells and abilities:
 
 #### Level 3 (100 - 149): Minion
 Available mechanics, including previous levels:
-- Bite power increased.
 - Feed Upon / Force Feed chances increased.
 - Mesmerize
 - Enthrall
@@ -195,7 +190,7 @@ Blood magic Spells and abilities:
 
 #### Level 7 (300 - 349) Lord / Lady
 Available mechanics, including previous levels:
-- Bite attack drains stamina equal to blood.
+- Claw attack drains health equal to 0.25 * blood.
 - Resistance to Sun Damage 20%
 
 Blood magic Spells and abilities:
@@ -216,7 +211,7 @@ Blood magic Spells and abilities:
 
 #### Level 10 (450+) Daywalker
 Available mechanics, including previous levels:
-- Bite attack paralyzes for 3 seconds. 
+- Claw attack paralyzes for 1 seconds. 
 - Immunity to Sun Damage
 
 Standard magic Spells and abilities:

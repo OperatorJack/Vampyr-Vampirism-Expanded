@@ -41,8 +41,12 @@ local function addDrainBlood()
 
 		local diff = newBlood - currentBlood
 		blood.modReferenceCurrentBloodStatistic(e.sourceInstance.caster, diff, true)
-		blood.modReferenceCurrentBloodStatistic(e.effectInstance.target, diff * -1, true)
 
+		if common.isReferenceVampire(e.effectInstance.target) then
+			blood.modReferenceCurrentBloodStatistic(e.effectInstance.target, diff * -1, true)
+		else
+			e.effectInstance.target.mobile:applyHealthDamage(diff * 0.1)
+		end
 	end
 
 	framework.effects.destruction.createBasicEffect({

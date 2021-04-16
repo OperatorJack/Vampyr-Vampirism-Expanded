@@ -1,4 +1,4 @@
---[[ 
+--[[
     This module handles the blood user-interface mechanics, including the player HUD UI and skill window UI.
 
     - Adds Blood bar in standard HUD.
@@ -44,8 +44,8 @@ end
 local function createBloodHUDFillbar(element)
 
     local bloodFillbarBlock = element:createRect({
-        id = ids.BloodFillbarBlock, 
-        color = {0.0, 0.0, 0.0} 
+        id = ids.BloodFillbarBlock,
+        color = {0.0, 0.0, 0.0}
     })
     bloodFillbarBlock.width = 65
     bloodFillbarBlock.height = 12
@@ -59,7 +59,7 @@ local function createBloodHUDFillbar(element)
         bloodFillbar.widget.showText = false
         updateFillbar(bloodFillbar)
 
-    if (config.uiBloodFillbarOnTop == true) then 
+    if (config.uiBloodFillbarOnTop == true) then
         element:reorderChildren(0, -1, 1)
     end
     element:updateLayout()
@@ -151,7 +151,7 @@ end
 event.register(common.events.bloodChanged, updateMenuStatBloodFillbarFromBloodChanged)
 
 local function createMenuStatBloodFillbar(e)
-    if not e.newlyCreated then return end   
+    if not e.newlyCreated then return end
 
     -- Find the UI element that holds the fillbars.
     menuStatFillbarsBlock = e.element:findChild(tes3ui.registerID("MenuStat_mini_frame"))
@@ -195,7 +195,7 @@ local function npcBloodTooltip(e)
     if (common.isPlayerVampire() == false) then return end
     if (common.isReferenceVampire(e.reference) == true) then return end
 
-    local bloodAmount = blood.calculateFeedBlood(e.reference.mobile)
+    local current, base = blood.calculateFeedBlood(e.reference.mobile)
     local bloodBlock = e.tooltip:createBlock()
     bloodBlock.flowDirection = "left_to_right"
     bloodBlock.childAlignX = 0
@@ -204,8 +204,8 @@ local function npcBloodTooltip(e)
     bloodBlock.paddingAllSides = 3
 
     local bar = bloodBlock:createFillBar({
-        current = bloodAmount,
-        max = bloodAmount
+        current = current,
+        max = base
     })
     bar.widget.fillColor = tes3ui.getPalette("health_color")
 end

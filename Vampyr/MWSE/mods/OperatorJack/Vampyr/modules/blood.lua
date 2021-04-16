@@ -10,16 +10,15 @@ local common = require("OperatorJack.Vampyr.common")
 local blood = {}
 -- [[ Blood - Common Functions ]] --
 function blood.calculateFeedBlood(mobile)
-    local endurance = mobile.endurance.current
-    local willpower = mobile.willpower.current
-    local health = mobile.health.current
-    return health - (endurance / 10) - (willpower / 10)
+    local current = mobile.health.current - (mobile.endurance.current / 10) - (mobile.willpower.current / 10)
+    local base = mobile.health.base - (mobile.endurance.base / 10) - (mobile.willpower.base / 10)
+    return current, base
 end
 
 function blood.getNpcStartingBaseBlood(mobile)
-    local endurance = mobile.endurance.current
-    local willpower = mobile.willpower.current
-    local health = mobile.health.current
+    local endurance = mobile.endurance.base
+    local willpower = mobile.willpower.base
+    local health = mobile.health.base
     return health + (endurance / 10) + (willpower / 10)
 end
 

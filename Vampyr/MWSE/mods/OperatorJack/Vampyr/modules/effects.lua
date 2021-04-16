@@ -45,7 +45,11 @@ local function addDrainBlood()
 		if common.isReferenceVampire(e.effectInstance.target) then
 			blood.modReferenceCurrentBloodStatistic(e.effectInstance.target, diff * -1, true)
 		else
-			e.effectInstance.target.mobile:applyHealthDamage(diff * 0.1)
+			tes3.modStatistic({
+				reference = e.effectInstance.target,
+				name = "health",
+				current = diff * -0.5
+			})
 		end
 	end
 
@@ -63,6 +67,7 @@ local function addDrainBlood()
 		allowSpellmaking = true,
 		canCastTarget = true,
         canCastTouch = true,
+		isHarmful = true,
 
 		-- Graphics/sounds.
 		lighting = { 0.99, 0.95, 0.67 },

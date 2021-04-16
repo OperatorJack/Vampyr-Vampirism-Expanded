@@ -26,9 +26,9 @@ local function addDrainBlood()
 	local function drainBloodTick(e)
 		-- Reset feed date for vampire.
 		if (e.effectInstance.state == tes3.spellState.beginning) then
-			e.effectInstance.caster.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
+			e.sourceInstance.caster.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
 		end
-	
+
 		-- Trigger into the spell system.
 		local currentBlood = blood.getReferenceBloodStatistic(e.effectInstance.target).current
 		local result, newBlood = e:trigger({
@@ -74,7 +74,7 @@ local function addRestoreBlood()
 		if (e.effectInstance.state == tes3.spellState.beginning) then
 			e.effectInstance.target.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
 		end
-	
+
 		-- Trigger into the spell system.
 		local currentBlood = blood.getReferenceBloodStatistic(e.effectInstance.target).current
 		local result, newBlood = e:trigger({
@@ -162,11 +162,11 @@ local function addBloodstorm()
 
 		tes3.worldController.weatherController:switchImmediate(tes3.player.data.OJ_VAMPYR.bloodstorm.previousWeather)
 		tes3.worldController.weatherController:updateVisuals()
-		
+
 		tes3.player.data.OJ_VAMPYR.bloodstorm = nil
 	end
 
-	local function bloodstormTick(e)		
+	local function bloodstormTick(e)
 		local caster = e.sourceInstance.caster
 
 		-- Reset feed date for vampire.
@@ -200,7 +200,7 @@ local function addBloodstorm()
 			stopBloodstorm()
 			initialized = false
 		end
-	
+
 		-- Trigger into the spell system.
 		if (not e:trigger()) then
 			return

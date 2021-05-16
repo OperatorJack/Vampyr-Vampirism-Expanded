@@ -40,8 +40,8 @@ return mwse.loadConfig("Vampyr", {
         ["myn farr"] = true,
     },
     stakes = {
-        ["OJ_V_WoodenStake"] = true
+        ["OJ_V_WoodenStake"] = true,
+        ["OJ_V_SteelStake"] = true,
+        ["OJ_V_SilverStake"] = true,
     }
 })
-
-

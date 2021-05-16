@@ -109,7 +109,7 @@ local function confirmShadowStep()
 
         local teleObject = tes3.getObject("VAMPYR_ShadowTeleMarker") or tes3static.create({
             id="VAMPYR_ShadowTeleMarker",
-            mesh="VAMPYR\\widget_teleport.nif"}
+            mesh="OJ\\V\\widget_teleport.nif"}
         )
 
         local teleReference = tes3.createReference({

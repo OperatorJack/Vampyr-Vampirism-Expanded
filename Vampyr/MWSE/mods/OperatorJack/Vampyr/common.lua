@@ -2,10 +2,33 @@ local config = require("OperatorJack.Vampyr.config")
 local common = {}
 
 common.text = {
-    bloodSpellFailed = "You do not have enough blood to cast this spell."
+    bloodSpellFailed = "You do not have enough blood to cast this spell.",
+
+    shadowstepFailed_TooWeak = "You are not powerful enough to shadowstep yet.",
+    shadowstepFailed_TooFar = "You do not have enough blood remaining to shadowstep to that position.",
+}
+common.ids = {
+    shadowstep = {
+        circle = "OJ_V_ShadowstepCircle",
+        marker = "OJ_V_ShadowstepMarker",
+    },
+
+    potions = {
+        smallRestoreBlood = "OJ_V_SmallVialRestoreBlood",
+        mediumRestoreBlood = "OJ_V_MediumVialRestoreBlood",
+        largeRestoreBlood = "OJ_V_LargeVialRestoreBlood",
+    }
 }
 common.paths = {
-    sunDamageVfx = "OJ\\V\\OJ_V_SunDamageVfx.nif"
+    -- Requires special node name. Ref overrideSunDamage.lua
+    sunDamageVfx = "OJ\\V\\e\\OJ_V_SunDamageVfx.nif",
+
+    bloodrainEffect_raindrop = "textures\\Tx_Raindrop_01.tga",
+    bloodrainEffect_bloodraindrop = "textures\\V\\OJ_V_Bloodrain.dds"
+}
+common.filenames = {
+    bloodrainEffect_raindrop = "Tx_Raindrop_01.tga",
+    bloodrainEffect_bloodraindrop = "OJ_V_Bloodrain.dds",
 }
 common.spells = {
     vampirism = "vampire sun damage",
@@ -68,11 +91,6 @@ common.bloodSpells = {
         id = "OJ_V_BloodSummonDremora",
         cost = 10
     },
-}
-common.potions = {
-    smallRestoreBlood = "OJ_V_SmallVialRestoreBlood",
-    mediumRestoreBlood = "OJ_V_MediumVialRestoreBlood",
-    largeRestoreBlood = "OJ_V_LargeVialRestoreBlood",
 }
 
 common.events = {

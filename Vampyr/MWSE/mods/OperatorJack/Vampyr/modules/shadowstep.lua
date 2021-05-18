@@ -46,7 +46,7 @@ end
 
 local function markerSimulate(e)
     if (markerReference == nil) then
-        local markerObject = tes3.getObject("VAMPYR_ShadowStepMarker")
+        local markerObject = tes3.getObject(common.ids.shadowstep.marker)
 
         markerReference = tes3.createReference({
             object = markerObject,
@@ -97,7 +97,7 @@ local function confirmShadowStep()
     local cost = (markerReference.position:distance(tes3.player.position) / 50 + 5) * modifier
 
     if (blood.getPlayerBloodStatistic().current < cost) then
-        tes3.messageBox("You do not have enough blood remaining to shadowstep to that position.")
+        tes3.messageBox(common.text.shadowstepFailed_TooFar)
 
     else
         bloodSpells.applyBloodMagicCostForPlayer(cost)
@@ -107,10 +107,7 @@ local function confirmShadowStep()
             reference = tes3.player
         })
 
-        local teleObject = tes3.getObject("VAMPYR_ShadowTeleMarker") or tes3static.create({
-            id="VAMPYR_ShadowTeleMarker",
-            mesh="OJ\\V\\widget_teleport.nif"}
-        )
+        local teleObject = tes3.getObject(common.ids.shadowstep.circle)
 
         local teleReference = tes3.createReference({
             object = teleObject,
@@ -146,7 +143,7 @@ end
 local function shadowStepKey(e)
     if (common.isPlayerVampire() == false) then return end
     if (bloodPotency.getLevel(tes3.player) < 4) then
-        tes3.messageBox("You are not powerful enough to shadowstep yet.")
+        tes3.messageBox(common.text.shadowstepFailed_TooWeak)
         return
     end
 

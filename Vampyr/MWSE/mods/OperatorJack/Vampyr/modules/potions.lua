@@ -3,7 +3,7 @@ local common = require("OperatorJack.Vampyr.common")
 
 local function registerPotions()
     framework.alchemy.createBasicPotion({
-        id = common.potions.smallRestoreBlood,
+        id = common.ids.potions.smallRestoreBlood,
         name = "Small Vial of Blood",
         effect = tes3.effect.restoreBlood,
         range = tes3.effectRange.self,
@@ -12,7 +12,7 @@ local function registerPotions()
         duration = 1
     })
     framework.alchemy.createBasicPotion({
-        id = common.potions.mediumRestoreBlood,
+        id = common.ids.potions.mediumRestoreBlood,
         name = "Medium Vial of Blood",
         effect = tes3.effect.restoreBlood,
         range = tes3.effectRange.self,
@@ -21,7 +21,7 @@ local function registerPotions()
         duration = 1
     })
     framework.alchemy.createBasicPotion({
-        id = common.potions.largeRestoreBlood,
+        id = common.ids.potions.largeRestoreBlood,
         name = "Large Vial of Blood",
         effect = tes3.effect.restoreBlood,
         range = tes3.effectRange.self,

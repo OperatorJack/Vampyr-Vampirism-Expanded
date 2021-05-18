@@ -127,12 +127,12 @@ local function addBloodstorm()
 
 	local textures = {
 		raindrop = {
-			name = "Tx_Raindrop_01.tga",
-			path = "textures\\Tx_Raindrop_01.tga"
+			name = common.filenames.bloodrainEffect_raindrop,
+			path = common.paths.bloodrainEffect_raindrop
 		},
 		bloodrain = {
-			name = "OJ_V_Bloodrain.dds",
-			path = "textures\\V\\OJ_V_Bloodrain.dds"
+			name = common.filenames.bloodrainEffect_bloodraindrop,
+			path = common.paths.bloodrainEffect_bloodraindrop
 		}
 	}
 

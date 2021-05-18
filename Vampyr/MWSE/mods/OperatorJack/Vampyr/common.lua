@@ -21,7 +21,10 @@ common.ids = {
 }
 common.paths = {
     -- Requires special node name. Ref overrideSunDamage.lua
-    sunDamageVfx = "OJ\\V\\e\\OJ_V_SunDamageVfx.nif",
+    sunDamageVfx = "OJ\\V\\e\\SunDamageVfx.nif",
+
+    -- Requires special node name. Ref effects.lua
+    mistformVfx = "OJ\\V\\e\\MistformVfx.nif",
 
     bloodrainEffect_raindrop = "textures\\Tx_Raindrop_01.tga",
     bloodrainEffect_bloodraindrop = "textures\\V\\OJ_V_Bloodrain.dds"

@@ -107,11 +107,9 @@ local function registerBloodSpells()
     framework.spells.createBasicSpell({
         id = common.bloodSpells.mistform.id,
         name = "Mistform",
-        effect = tes3.effect.restoreHealth,
+        effect = tes3.effect.mistform,
         range = tes3.effectRange.self,
-        min = 1,
-        max = 1,
-        duration = 1
+        duration = 15
     })
     framework.spells.createBasicSpell({
         id = common.bloodSpells.enslave.id,

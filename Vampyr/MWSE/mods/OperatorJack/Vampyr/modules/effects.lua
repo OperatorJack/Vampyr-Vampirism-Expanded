@@ -7,6 +7,7 @@ tes3.claimSpellEffectId("drainBlood", 701)
 tes3.claimSpellEffectId("bloodstorm", 702)
 tes3.claimSpellEffectId("resistSunDamage", 703)
 tes3.claimSpellEffectId("glamour", 704)
+tes3.claimSpellEffectId("mistform", 705)
 
 local function traverse(roots)
     local function iter(nodes)
@@ -124,7 +125,6 @@ local function addRestoreBlood()
 end
 
 local function addBloodstorm()
-
 	local textures = {
 		raindrop = {
 			name = common.filenames.bloodrainEffect_raindrop,
@@ -296,11 +296,108 @@ local function addGlamour()
 	})
 end
 
+local function addMistform()
+	local vfxNode
+
+	local function getOrAttachVfx(reference)
+		local node, sceneNode
+		sceneNode = reference.sceneNode
+		node = sceneNode:getObjectByName("OJ_V_MistformVfx")
+
+		if (not node) then
+			vfxNode = vfxNode or tes3.loadMesh(common.paths.mistformVfx)
+			node = vfxNode:clone()
+
+			if (reference.object.race) then
+				if (reference.object.race.weight and reference.object.race.height) then
+				local weight = reference.object.race.weight.male
+				local height = reference.object.race.height.male
+				if (reference.object.female == true) then
+					weight = reference.object.race.weight.female
+					height = reference.object.race.height.female
+				end
+
+				local weightMod = 1 / weight
+				local heightMod = 1/ height
+
+				local r = node.rotation
+				local s = tes3vector3.new(weightMod, weightMod, heightMod)
+				node.rotation = tes3matrix33.new(r.x * s, r.y * s, r.z * s)
+				end
+			end
+
+			sceneNode:attachChild(node, true)
+			sceneNode:update()
+			sceneNode:updateNodeEffects()
+		end
+
+		return node
+	end
+
+	local function showNode(node)
+		if (node.appCulled == true) then
+			node.appCulled = false
+		end
+	end
+
+	local function hideNode(node)
+		if (node.appCulled == false) then
+			node.appCulled = true
+		end
+	end
+
+	local initialized = false
+	local function mistformTick(e)
+		if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then
+			-- Start the effect
+			tes3.mobilePlayer.mobToMobCollision = false
+			initialized = true
+			local node = getOrAttachVfx(e.sourceInstance.caster)
+			showNode(node)
+		end
+		if (e.effectInstance.state == tes3.spellState.ending) then
+			-- Kill the effect
+			tes3.mobilePlayer.mobToMobCollision = true
+			initialized = false
+			local node = getOrAttachVfx(e.sourceInstance.caster)
+        	hideNode(node)
+		end
+
+		-- Trigger into the spell system.
+		if (not e:trigger()) then
+			return
+		end
+	end
+
+	framework.effects.illusion.createBasicEffect({
+		-- Base information.
+		id = tes3.effect.mistform,
+		name = "Mistform",
+		description = "When active, the caster will turn to mist and be able to move through nearby doors and actors.",
+
+		-- Basic dials.
+		baseCost = 0,
+
+		-- Various flags.
+		canCastSelf = true,
+		casterLinked = true,
+		hasNoMagnitude = true,
+		nonRecastable = true,
+
+		-- Graphics/sounds.
+		lighting = { 0.99, 0.95, 0.67 },
+
+		-- Required callbacks.
+		onTick = mistformTick,
+	})
+end
+
 local function addEffects()
 	addRestoreBlood()
 	addDrainBlood()
 	addBloodstorm()
 	addResistSunDamage()
 	addGlamour()
+	addMistform()
 end
 event.register("magicEffectsResolved", addEffects)

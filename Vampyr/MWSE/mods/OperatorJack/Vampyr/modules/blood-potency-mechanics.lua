@@ -32,87 +32,87 @@ end
 local function onBloodPotencyChanged(e)
     local ref = e.reference
     local increased = true
-    if (e.previousPotency) then 
+    if (e.previousPotency) then
         if (e.previousPotency > e.currentPotency) then
             increased = false
-        end 
+        end
     end
 
     if (increased == true) then
         if (e.currentPotency == 1) then
             addSpell(ref, common.spells.weakVampiricKiss)
             addSpell(ref, common.spells.weakVampiricTouch)
-            addSpell(ref, common.bloodSpells.bloodSummonBat)
+            addSpell(ref, common.bloodSpells.bloodSummonBat.id)
         elseif (e.currentPotency == 2) then
             addSpell(ref, common.spells.lesserVampiricKiss)
             addSpell(ref, common.spells.lesserVampiricTouch)
-            addSpell(ref, common.bloodSpells.mirage)
+            addSpell(ref, common.bloodSpells.mirage.id)
         elseif (e.currentPotency == 3) then
-            addSpell(ref, common.bloodSpells.bloodboundDagger)
+            addSpell(ref, common.bloodSpells.bloodboundDagger.id)
         elseif (e.currentPotency == 4) then
             addSpell(ref, common.spells.vampiricKiss)
             addSpell(ref, common.spells.vampiricTouch)
-            addSpell(ref, common.bloodSpells.mistform)
+            addSpell(ref, common.bloodSpells.mistform.id)
         elseif (e.currentPotency == 5) then
-            addSpell(ref, common.bloodSpells.enslave)
-            addSpell(ref, common.bloodSpells.bloodSummonDaedroth)
+            addSpell(ref, common.bloodSpells.enslave.id)
+            addSpell(ref, common.bloodSpells.bloodSummonDaedroth.id)
         elseif (e.currentPotency == 6) then
-            addSpell(ref, common.bloodSpells.bloodboundShortsword)
+            addSpell(ref, common.bloodSpells.bloodboundShortsword.id)
         elseif (e.currentPotency == 7) then
-            addSpell(ref, common.bloodSpells.resistSunDamage20)
+            addSpell(ref, common.bloodSpells.resistSunDamage20.id)
         elseif (e.currentPotency == 8) then
-            removeSpell(ref, common.bloodSpells.resistSunDamage20)
-            addSpell(ref, common.bloodSpells.resistSunDamage35)
-            addSpell(ref, common.bloodSpells.bloodSummonDremora)
+            removeSpell(ref, common.bloodSpells.resistSunDamage20.id)
+            addSpell(ref, common.bloodSpells.resistSunDamage35.id)
+            addSpell(ref, common.bloodSpells.bloodSummonDremora.id)
         elseif (e.currentPotency == 9) then
-            removeSpell(ref, common.bloodSpells.resistSunDamage35)
-            addSpell(ref, common.bloodSpells.resistSunDamage50)
-            addSpell(ref, common.bloodSpells.bloodboundLongsword)
+            removeSpell(ref, common.bloodSpells.resistSunDamage35.id)
+            addSpell(ref, common.bloodSpells.resistSunDamage50.id)
+            addSpell(ref, common.bloodSpells.bloodboundLongsword.id)
             addSpell(ref, common.spells.glamour)
         elseif (e.currentPotency == 10) then
-            removeSpell(ref, common.bloodSpells.resistSunDamage50)
+            removeSpell(ref, common.bloodSpells.resistSunDamage50.id)
             addSpell(ref, common.spells.greaterVampiricTouch)
             addSpell(ref, common.spells.greaterVampiricKiss)
-            addSpell(ref, common.bloodSpells.immunitySunDamage)
-            addSpell(ref, common.bloodSpells.bloodstorm)
+            addSpell(ref, common.bloodSpells.immunitySunDamage.id)
+            addSpell(ref, common.bloodSpells.bloodstorm.id)
         end
     else
         if (e.previousPotency == 1) then
             removeSpell(ref, common.spells.weakVampiricKiss)
             removeSpell(ref, common.spells.weakVampiricTouch)
-            removeSpell(ref, common.bloodSpells.bloodSummonBat)
+            removeSpell(ref, common.bloodSpells.bloodSummonBat.id)
         elseif (e.previousPotency == 2) then
             removeSpell(ref, common.spells.lesserVampiricKiss)
             removeSpell(ref, common.spells.lesserVampiricTouch)
-            removeSpell(ref, common.bloodSpells.mirage)
+            removeSpell(ref, common.bloodSpells.mirage.id)
         elseif (e.previousPotency == 3) then
-            removeSpell(ref, common.bloodSpells.bloodboundDagger)
+            removeSpell(ref, common.bloodSpells.bloodboundDagger.id)
         elseif (e.previousPotency == 4) then
             removeSpell(ref, common.spells.vampiricKiss)
             removeSpell(ref, common.spells.vampiricTouch)
-            removeSpell(ref, common.bloodSpells.mistform)
+            removeSpell(ref, common.bloodSpells.mistform.id)
         elseif (e.previousPotency == 5) then
-            removeSpell(ref, common.bloodSpells.enslave)
-            removeSpell(ref, common.bloodSpells.bloodSummonDaedroth)
+            removeSpell(ref, common.bloodSpells.enslave.id)
+            removeSpell(ref, common.bloodSpells.bloodSummonDaedroth.id)
         elseif (e.previousPotency == 6) then
-            removeSpell(ref, common.bloodSpells.bloodboundShortsword)
+            removeSpell(ref, common.bloodSpells.bloodboundShortsword.id)
         elseif (e.previousPotency == 7) then
-            removeSpell(ref, common.bloodSpells.resistSunDamage20)
+            removeSpell(ref, common.bloodSpells.resistSunDamage20.id)
         elseif (e.previousPotency == 8) then
-            addSpell(ref, common.bloodSpells.resistSunDamage20)
-            removeSpell(ref, common.bloodSpells.resistSunDamage35)
-            removeSpell(ref, common.bloodSpells.bloodSummonDremora)
+            addSpell(ref, common.bloodSpells.resistSunDamage20.id)
+            removeSpell(ref, common.bloodSpells.resistSunDamage35.id)
+            removeSpell(ref, common.bloodSpells.bloodSummonDremora.id)
         elseif (e.previousPotency == 9) then
-            addSpell(ref, common.bloodSpells.resistSunDamage35)
-            removeSpell(ref, common.bloodSpells.resistSunDamage50)
-            removeSpell(ref, common.bloodSpells.bloodboundLongsword)
+            addSpell(ref, common.bloodSpells.resistSunDamage35.id)
+            removeSpell(ref, common.bloodSpells.resistSunDamage50.id)
+            removeSpell(ref, common.bloodSpells.bloodboundLongsword.id)
             removeSpell(ref, common.spells.glamour)
         elseif (e.previousPotency == 10) then
-            addSpell(ref, common.bloodSpells.resistSunDamage50)
+            addSpell(ref, common.bloodSpells.resistSunDamage50.id)
             removeSpell(ref, common.spells.greaterVampiricTouch)
             removeSpell(ref, common.spells.greaterVampiricKiss)
-            removeSpell(ref, common.bloodSpells.immunitySunDamage)
-            removeSpell(ref, common.bloodSpells.bloodstorm)
+            removeSpell(ref, common.bloodSpells.immunitySunDamage.id)
+            removeSpell(ref, common.bloodSpells.bloodstorm.id)
         end
     end
 end

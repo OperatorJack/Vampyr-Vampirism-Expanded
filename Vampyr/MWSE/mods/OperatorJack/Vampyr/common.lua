@@ -8,6 +8,9 @@ common.text = {
     shadowstepFailed_TooFar = "You do not have enough blood remaining to shadowstep to that position.",
 }
 common.ids = {
+    glamour = {
+        fadeout = "OJ_V_GlamourFadeout"
+    },
     mistform = {
         fadeout = "OJ_V_MistformFadeout"
     },
@@ -27,9 +30,11 @@ common.paths = {
     -- Requires special node name. Ref overrideSunDamage.lua
     sunDamageVfx = "OJ\\V\\e\\SunDamageVfx.nif",
 
-    -- Requires special node name. Ref effects.lua
+    -- Requires special node name. Ref glamour.lua
+    glamourVfx = "OJ\\V\\e\\GlamourVfx.nif",
+
+    -- Requires special node name. Ref mistform.lua
     mistformVfx = "OJ\\V\\e\\MistformVfx.nif",
-    mistformEndVfx = "OJ\\V\\e\\MistformEndVfx.nif",
 
     bloodrainEffect_raindrop = "textures\\Tx_Raindrop_01.tga",
     bloodrainEffect_bloodraindrop = "textures\\V\\OJ_V_Bloodrain.dds"

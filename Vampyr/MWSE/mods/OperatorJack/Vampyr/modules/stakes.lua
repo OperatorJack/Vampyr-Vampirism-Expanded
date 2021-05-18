@@ -8,13 +8,11 @@ local function onDeterminedAction(e)
 
     if (target) then
         if (common.isReferenceVampire(target.reference) == true) then
-            common.debug("Target is vampire!")
 
             -- get stake
             local stake
             for _, stack in pairs(mobile.reference.object.inventory) do
                 if (config.stakes[stack.object.id]) then
-                    common.debug("Mobile has stake!")
                     stake = stack.object
                     break
                 end

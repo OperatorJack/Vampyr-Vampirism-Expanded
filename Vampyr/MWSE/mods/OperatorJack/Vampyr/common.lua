@@ -8,6 +8,10 @@ common.text = {
     shadowstepFailed_TooFar = "You do not have enough blood remaining to shadowstep to that position.",
 }
 common.ids = {
+    mistform = {
+        fadeout = "OJ_V_MistformFadeout"
+    },
+
     shadowstep = {
         circle = "OJ_V_ShadowstepCircle",
         marker = "OJ_V_ShadowstepMarker",
@@ -25,6 +29,7 @@ common.paths = {
 
     -- Requires special node name. Ref effects.lua
     mistformVfx = "OJ\\V\\e\\MistformVfx.nif",
+    mistformEndVfx = "OJ\\V\\e\\MistformEndVfx.nif",
 
     bloodrainEffect_raindrop = "textures\\Tx_Raindrop_01.tga",
     bloodrainEffect_bloodraindrop = "textures\\V\\OJ_V_Bloodrain.dds"

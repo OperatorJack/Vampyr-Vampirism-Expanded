@@ -1,54 +1,6 @@
 local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood")
-
-local vfxNode
-
-local function getOrAttachVfx(reference)
-    local node, sceneNode
-    sceneNode = reference.sceneNode
-    node = sceneNode:getObjectByName("OJ_V_SunDamageVfx")
-
-    if (not node) then
-        vfxNode = vfxNode or tes3.loadMesh(common.paths.sunDamageVfx)
-        node = vfxNode:clone()
-
-        if (reference.object.race) then
-            if (reference.object.race.weight and reference.object.race.height) then
-            local weight = reference.object.race.weight.male
-            local height = reference.object.race.height.male
-            if (reference.object.female == true) then
-                weight = reference.object.race.weight.female
-                height = reference.object.race.height.female
-            end
-
-            local weightMod = 1 / weight
-            local heightMod = 1/ height
-
-            local r = node.rotation
-            local s = tes3vector3.new(weightMod, weightMod, heightMod)
-            node.rotation = tes3matrix33.new(r.x * s, r.y * s, r.z * s)
-            end
-        end
-
-        sceneNode:attachChild(node, true)
-        sceneNode:update()
-        sceneNode:updateNodeEffects()
-    end
-
-    return node
-end
-
-local function showNode(node)
-    if (node.appCulled == true) then
-        node.appCulled = false
-    end
-end
-
-local function hideNode(node)
-    if (node.appCulled == false) then
-        node.appCulled = true
-    end
-end
+local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
 local function getShaderModifier(reference)
     if (reference.cell.isInterior == true and reference.cell.behaveAsExterior ~= true) then
@@ -76,9 +28,9 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     end
 
 
-    local node = getOrAttachVfx(target)
+    local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamageVfx)
     if math.abs(damage) > 0.001 then
-        showNode(node)
+        nodeManager.showNode(node)
 
         if (blood.isInitialized(target) == true) then
             local bloodAmount = 1.0 * attributeVariant
@@ -96,7 +48,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
             end
         end
     else
-        hideNode(node)
+        nodeManager.hideNode(node)
     end
 
     -- Bypass vanilla sun damage function by returning 0 damage.

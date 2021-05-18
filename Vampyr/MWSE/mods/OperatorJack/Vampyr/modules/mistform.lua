@@ -2,19 +2,46 @@ local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
 local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
+local function onCollision(e)
+    if e.target.object.objectType == tes3.objectType.door then
+        if not e.target.destination then
+            return false
+        end
+    end
+end
+
 local initialized = false
 local function mistformTick(e)
     if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then
         -- Start the effect
         tes3.mobilePlayer.mobToMobCollision = false
+        event.unregister("collision", onCollision)
+        event.register("collision", onCollision, {filter = tes3.player})
+
         initialized = true
+
+        for _, node in ipairs(tes3.player.sceneNode.children) do
+            if node then
+                node.appCulled = true
+            end
+        end
+
         local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformVfx)
         nodeManager.showNode(node)
     end
     if (e.effectInstance.state == tes3.spellState.ending) then
         -- Kill the effect
         tes3.mobilePlayer.mobToMobCollision = true
+        event.unregister("collision", onCollision)
+
         initialized = false
+
+        for _, node in ipairs(tes3.player.sceneNode.children) do
+            if node then
+                node.appCulled = false
+            end
+        end
+
         local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformVfx)
         nodeManager.hideNode(node)
 

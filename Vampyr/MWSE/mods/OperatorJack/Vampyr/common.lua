@@ -115,11 +115,26 @@ common.events = {
     bloodMagicCostApplied = "Vampyr:BloodMagicCostApplied"
 }
 
-function common.debug(message)
-    if (config.debug == true) then
-        tes3.messageBox(message)
-        mwse.log("[Vampyr: Debug] %s", message)
+function common.debug(str, ...)
+    if common.config.debugMode then
+        local info = debug.getinfo(2, "Sl")
+        local module = info.short_src:match("^.+\\(.+).lua$")
+        local prepend = ("[vampyr.%s:%s]:"):format(module, info.currentline)
+        local aligned = ("%-36s"):format(prepend)
+        mwse.log(aligned .. str, ...)
     end
+end
+
+function common.iterReferencesNearTargetPosition(position, distance)
+    return coroutine.wrap(function()
+        for _, cell in pairs(tes3.getActiveCells()) do
+            for ref in cell:iterateReferences() do
+                if ref.position:distance(position) <= distance then
+                    coroutine.yield(ref)
+                end
+            end
+        end
+    end)
 end
 
 function common.getKeyFromValueFunc(tbl, func)

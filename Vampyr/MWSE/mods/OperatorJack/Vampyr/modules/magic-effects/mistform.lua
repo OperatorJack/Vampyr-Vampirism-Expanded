@@ -2,22 +2,51 @@ local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
 local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
-local function onCollision(e)
-    if e.target.object.objectType == tes3.objectType.door then
-        if not e.target.destination then
-            return false
+local doors = {}
+
+event.register("objectInvalidated", function(e)
+    doors[e.object] = nil
+end)
+
+local function resetDoors()
+    for door in pairs(doors) do
+        if door.position:distance(tes3.player.position) >= 128 then
+            door.hasNoCollision = false
+            doors[door] = nil
         end
     end
 end
+
+local function onTick(e)
+    resetDoors()
+
+    for door in common.iterReferencesNearTargetPosition(tes3.player.position, 128) do
+        if door.object.objectType == tes3.objectType.door and not door.destination and not doors[door] then
+            doors[door] = true
+            door.hasNoCollision = true
+        end
+    end
+end
+
+local localTimer = nil
+local function stop()
+    resetDoors()
+    if localTimer then localTimer:cancel() end
+end
+
+local function start()
+    stop()
+    localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
+end
+
+
 
 local initialized = false
 local function mistformTick(e)
     if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then
         -- Start the effect
         tes3.mobilePlayer.mobToMobCollision = false
-        event.unregister("collision", onCollision)
-        event.register("collision", onCollision, {filter = tes3.player})
-
+        start()
         initialized = true
 
         for _, node in ipairs(tes3.player.sceneNode.children) do
@@ -32,7 +61,7 @@ local function mistformTick(e)
     if (e.effectInstance.state == tes3.spellState.ending) then
         -- Kill the effect
         tes3.mobilePlayer.mobToMobCollision = true
-        event.unregister("collision", onCollision)
+        stop()
 
         initialized = false
 

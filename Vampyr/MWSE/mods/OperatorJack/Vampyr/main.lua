@@ -53,8 +53,8 @@ require("OperatorJack.Vampyr.modules.potions")
 require("OperatorJack.Vampyr.modules.shadowstep")
 require("OperatorJack.Vampyr.modules.stakes")
 
-require("OperatorJack.Vampyr.modules.overrideSunDamage")
-require("OperatorJack.Vampyr.modules.overrideTurnUndead")
+require("OperatorJack.Vampyr.modules.memory-overrides.sun-damage")
+require("OperatorJack.Vampyr.modules.memory-overrides.turn-undead")
 
 require("OperatorJack.Vampyr.modules.scriptOverrides")
 

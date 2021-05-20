@@ -41,6 +41,14 @@ local function start()
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
 end
 
+
+
+event.register("loaded", function(e)
+    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.mistform}) == true then
+        start()
+    end
+end)
+
 local initialized = false
 local function mistformTick(e)
     if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then

@@ -92,6 +92,14 @@ local function registerSpells()
         range = tes3.effectRange.self,
     })
     spell.castType = tes3.spellType.ability
+
+    local spell = framework.spells.createBasicSpell({
+        id = common.spells.vampiricIntuition,
+        name = "Vampiric Intuition",
+        effect = tes3.effect.auspex,
+        range = tes3.effectRange.self,
+    })
+    spell.castType = tes3.spellType.ability
 end
 
 event.register("MagickaExpanded:Register", registerSpells)

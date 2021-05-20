@@ -56,6 +56,7 @@ common.spells = {
     greaterVampiricTouch = "OJ_V_GreaterVampiricTouch",
     greaterVampiricKiss = "OJ_V_GreaterVampiricKiss",
     glamour = "OJ_V_Glamour",
+    vampiricIntuition = "OJ_V_VampiricIntuition"
 }
 common.bloodSpells = {
     mirage = {

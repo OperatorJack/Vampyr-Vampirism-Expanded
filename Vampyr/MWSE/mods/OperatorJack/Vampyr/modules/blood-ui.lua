@@ -166,10 +166,11 @@ end
 event.register(common.events.playerVampireStateChanged, playerVampireStateChanged, { priority = -1})
 
 local function vampireBloodTooltip(e)
-    if (e.reference == nil) then return end
-    if (e.object.objectType ~= tes3.objectType.npc) then return end
-    if (common.isPlayerVampire() == false) then return end
-    if (common.isReferenceVampire(e.reference) == false) then return end
+    if e.reference == nil then return end
+    if e.object.objectType ~= tes3.objectType.npc then return end
+    if common.isPlayerVampire() == false then return end
+    if common.isReferenceVampire(e.reference) == false then return end
+    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.auspex}) == false then return end
 
     common.initializeReferenceData(e.reference)
     local currentBlood = blood.getReferenceBloodStatistic(e.reference)
@@ -190,10 +191,11 @@ end
 event.register("uiObjectTooltip", vampireBloodTooltip, {priority = -1})
 
 local function npcBloodTooltip(e)
-    if (e.reference == nil) then return end
-    if (e.object.objectType ~= tes3.objectType.npc) then return end
-    if (common.isPlayerVampire() == false) then return end
-    if (common.isReferenceVampire(e.reference) == true) then return end
+    if e.reference == nil then return end
+    if e.object.objectType ~= tes3.objectType.npc then return end
+    if common.isPlayerVampire() == false then return end
+    if common.isReferenceVampire(e.reference) == true then return end
+    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.auspex}) == false then return end
 
     local current, base = blood.calculateFeedBlood(e.reference.mobile)
     local bloodBlock = e.tooltip:createBlock()

@@ -1,4 +1,4 @@
---[[ 
+--[[
     This module handles the blood potency user-interface mechanics.
 
     - Adds Blood Potency to NPC tooltips.
@@ -103,10 +103,11 @@ end
 event.register(common.events.playerVampireStateChanged, playerVampireStateChanged)
 
 local function vampireBloodPotencyTooltip(e)
-    if (e.reference == nil) then return end
-    if (e.object.objectType ~= tes3.objectType.npc) then return end
-    if (common.isPlayerVampire() == false) then return end
-    if (common.isReferenceVampire(e.reference) == false) then return end
+    if e.reference == nil then return end
+    if e.object.objectType ~= tes3.objectType.npc then return end
+    if common.isPlayerVampire() == false then return end
+    if common.isReferenceVampire(e.reference) == false then return end
+    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.auspex}) == false then return end
 
     common.initializeReferenceData(e.reference)
 

@@ -40,7 +40,14 @@ The table below outlines functionality added or changed in each alpha version.
 #### **0.0.2 - DATE**
 
 - Blood Magic EFfects
-  - Mistform (100%)
+  - [**Finished**] Mistform
+    - Mistform now allows you to move through doors.
+  - [**New!**] Auspex
+    - This effect is gained through the new _Vampiric Insight_ ability.
+    - The functionality below is now part of the Auspex magic effect.
+      - See NPC health in tooltip if player is vampire
+      - See NPC blood in tooltip if both player and NPC are vampires
+      - View NPC potency in tooltip if player and NPC are vampires
 
 #### **0.0.1 - May 19, 2021 - Initial Alpha Release**
 

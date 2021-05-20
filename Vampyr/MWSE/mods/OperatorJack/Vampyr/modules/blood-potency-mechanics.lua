@@ -48,7 +48,7 @@ local function onBloodPotencyChanged(e)
             addSpell(ref, common.spells.lesserVampiricTouch)
             addSpell(ref, common.bloodSpells.mirage.id)
         elseif (e.currentPotency == 3) then
-            addSpell(ref, common.bloodSpells.bloodboundDagger.id)
+            addSpell(ref, common.spells.vampiricIntuition)
         elseif (e.currentPotency == 4) then
             addSpell(ref, common.spells.vampiricKiss)
             addSpell(ref, common.spells.vampiricTouch)
@@ -86,7 +86,7 @@ local function onBloodPotencyChanged(e)
             removeSpell(ref, common.spells.lesserVampiricTouch)
             removeSpell(ref, common.bloodSpells.mirage.id)
         elseif (e.previousPotency == 3) then
-            removeSpell(ref, common.bloodSpells.bloodboundDagger.id)
+            removeSpell(ref, common.spells.vampiricIntuition)
         elseif (e.previousPotency == 4) then
             removeSpell(ref, common.spells.vampiricKiss)
             removeSpell(ref, common.spells.vampiricTouch)

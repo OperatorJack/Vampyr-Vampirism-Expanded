@@ -1,6 +1,8 @@
 local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
 
+tes3.claimSpellEffectId("bloodstorm", 702)
+
 local function traverse(roots)
     local function iter(nodes)
         for i, node in ipairs(nodes or roots) do

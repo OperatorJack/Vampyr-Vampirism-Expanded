@@ -2,6 +2,8 @@ local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
 local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
+tes3.claimSpellEffectId("mistform", 705)
+
 local doors = {}
 
 event.register("objectInvalidated", function(e)
@@ -38,8 +40,6 @@ local function start()
     stop()
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
 end
-
-
 
 local initialized = false
 local function mistformTick(e)

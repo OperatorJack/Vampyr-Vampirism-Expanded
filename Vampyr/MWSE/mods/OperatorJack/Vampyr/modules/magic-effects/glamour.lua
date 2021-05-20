@@ -2,6 +2,8 @@ local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
 local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
+tes3.claimSpellEffectId("glamour", 704)
+
 local initialized = false
 local function onGlamourTick(e)
     if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then

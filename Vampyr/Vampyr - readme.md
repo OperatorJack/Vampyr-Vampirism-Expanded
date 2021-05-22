@@ -39,6 +39,8 @@ The table below outlines functionality added or changed in each alpha version.
 
 #### **0.0.2 - DATE**
 
+- Bugfixes
+  - Fixed bug in Shadowstep where incorrect VFX was being used.
 - Blood Magic EFfects
   - [**Finished**] Mistform
     - Mistform now allows you to move through doors.

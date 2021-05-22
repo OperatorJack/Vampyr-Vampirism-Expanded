@@ -104,7 +104,7 @@ common.events = {
 }
 
 function common.debug(str, ...)
-    if common.config.debugMode then
+    if config.debug then
         local info = debug.getinfo(2, "Sl")
         local module = info.short_src:match("^.+\\(.+).lua$")
         local prepend = ("[vampyr.%s:%s]:"):format(module, info.currentline)

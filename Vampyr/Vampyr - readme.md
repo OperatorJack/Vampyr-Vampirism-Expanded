@@ -32,7 +32,6 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 - Blood Magic Effects
   - Bloodstorm (100%)
-  - Mistform (100%)
   - Glamour (100%)
 
 The table below outlines functionality added or changed in each alpha version.
@@ -44,12 +43,19 @@ The table below outlines functionality added or changed in each alpha version.
 - Blood Magic EFfects
   - [**Finished**] Mistform
     - Mistform now allows you to move through doors.
+    - Mistform prevents you from being hit physically. Magic will still do damage to you.
   - [**New!**] Auspex
     - This effect is gained through the new _Vampiric Insight_ ability.
     - The functionality below is now part of the Auspex magic effect.
       - See NPC health in tooltip if player is vampire
       - See NPC blood in tooltip if both player and NPC are vampires
       - View NPC potency in tooltip if player and NPC are vampires
+  - [**New!**] Claws
+    - Vampires will attack with claws when using hand to hand, instead of fists.
+    - Use normal hand to hand controls.
+    - Remaps beast fighting animation onto normal humanoids to use claw attacks.
+    - Claw attacks can draw blood, restoring blood to the attacker.
+    - The Hand-to-hand skill impacts how much blood can be drawn, and the frequency at which it is drawn.
 
 #### **0.0.1 - May 19, 2021 - Initial Alpha Release**
 

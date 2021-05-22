@@ -28,10 +28,13 @@ event.register("loaded", function(e)
     end
 end)
 
-event.register("referenceActivated", function(e)
-    if not e.reference then return end
-    if common.isReferenceVampire(e.reference) == true then
-        setAnimation(e.reference)
+event.register("combatStart", function(e)
+    if common.isReferenceVampire(e.actor.reference) == true then
+        setAnimation(e.actor.reference)
+    end
+
+    if common.isReferenceVampire(e.target.reference) == true then
+        setAnimation(e.target.reference)
     end
 end)
 

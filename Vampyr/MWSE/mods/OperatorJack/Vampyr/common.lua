@@ -92,19 +92,6 @@ common.bloodSpells = {
         id = "OJ_V_ImmunitySunDamage",
         cost = 10
     },
-
-    bloodSummonBat = {
-        id = "OJ_V_BloodSummonBat",
-        cost = 10
-    },
-    bloodSummonDaedroth = {
-        id = "OJ_V_BloodSummonDaedroth",
-        cost = 10
-    },
-    bloodSummonDremora = {
-        id = "OJ_V_BloodSummonDremora",
-        cost = 10
-    },
 }
 
 common.events = {

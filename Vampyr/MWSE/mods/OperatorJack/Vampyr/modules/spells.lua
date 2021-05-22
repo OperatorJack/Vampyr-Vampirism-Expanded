@@ -175,32 +175,5 @@ local function registerBloodSpells()
     })
     spell.castType = tes3.spellType.ability
 
-    framework.spells.createBasicSpell({
-        id = common.bloodSpells.bloodSummonBat.id,
-        name = "Bloodsummon Bat",
-        effect = tes3.effect.restoreHealth,
-        range = tes3.effectRange.self,
-        min = 1,
-        max = 1,
-        duration = 1
-    })
-    framework.spells.createBasicSpell({
-        id = common.bloodSpells.bloodSummonDaedroth.id,
-        name = "Bloodsummon Daedroth",
-        effect = tes3.effect.restoreHealth,
-        range = tes3.effectRange.self,
-        min = 1,
-        max = 1,
-        duration = 1
-    })
-    framework.spells.createBasicSpell({
-        id = common.bloodSpells.bloodSummonDremora.id,
-        name = "Bloodsummon Dremora",
-        effect = tes3.effect.restoreHealth,
-        range = tes3.effectRange.self,
-        min = 1,
-        max = 1,
-        duration = 1
-    })
 end
 event.register("MagickaExpanded:Register", registerBloodSpells)

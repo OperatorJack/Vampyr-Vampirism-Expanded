@@ -52,6 +52,7 @@ require("OperatorJack.Vampyr.modules.fixNpcVampirism")
 require("OperatorJack.Vampyr.modules.potions")
 require("OperatorJack.Vampyr.modules.shadowstep")
 require("OperatorJack.Vampyr.modules.stakes")
+require("OperatorJack.Vampyr.modules.claws")
 
 require("OperatorJack.Vampyr.modules.memory-overrides.sun-damage")
 require("OperatorJack.Vampyr.modules.memory-overrides.turn-undead")

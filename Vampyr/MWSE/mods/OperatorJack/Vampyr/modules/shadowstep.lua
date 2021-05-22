@@ -39,6 +39,7 @@ local function removeMarker()
         markerReference:disable()
         timer.delayOneFrame(function()
             mwscript.setDelete{ reference = markerReference}
+            markerReference.modified = false
             markerReference = nil
         end)
     end
@@ -130,6 +131,7 @@ local function confirmShadowStep()
                     teleReference:disable()
                     timer.delayOneFrame(function()
                         mwscript.setDelete{ reference = teleReference}
+                        teleReference.modified = false
                         teleReference = nil
                     end)
                 end

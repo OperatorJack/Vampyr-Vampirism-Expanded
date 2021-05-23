@@ -136,6 +136,7 @@ local function addMistform()
 
 		-- Graphics/sounds.
 		lighting = { 0.99, 0.95, 0.67 },
+        castVFX = common.ids.mistform.cast,
 
 		-- Required callbacks.
 		onTick = mistformTick,

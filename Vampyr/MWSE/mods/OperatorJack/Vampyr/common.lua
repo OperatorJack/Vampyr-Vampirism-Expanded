@@ -12,6 +12,7 @@ common.ids = {
         fadeout = "OJ_V_GlamourFadeout"
     },
     mistform = {
+        cast = "OJ_V_MistformCast",
         fadeout = "OJ_V_MistformFadeout"
     },
 

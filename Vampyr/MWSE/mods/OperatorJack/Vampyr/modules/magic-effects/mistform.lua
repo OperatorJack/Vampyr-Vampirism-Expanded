@@ -69,7 +69,7 @@ local function mistformTick(e)
             end
         end
 
-        local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformVfx)
+        local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
         nodeManager.showNode(node)
     end
     if (e.effectInstance.state == tes3.spellState.ending) then
@@ -85,7 +85,7 @@ local function mistformTick(e)
             end
         end
 
-        local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformVfx)
+        local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
         nodeManager.hideNode(node)
 
         -- Place fade-out VFX
@@ -105,6 +105,7 @@ local function mistformTick(e)
                     fadeout:disable()
                     timer.delayOneFrame(function()
                         mwscript.setDelete{ reference = fadeout}
+                        fadeout.modified = false
                         fadeout = nil
                     end)
                 end
@@ -137,6 +138,7 @@ local function addMistform()
 		-- Graphics/sounds.
 		lighting = { 0.99, 0.95, 0.67 },
         castVFX = common.ids.mistform.cast,
+        hitVFX = common.ids.mistform.hit,
 
 		-- Required callbacks.
 		onTick = mistformTick,

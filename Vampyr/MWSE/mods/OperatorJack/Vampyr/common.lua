@@ -13,7 +13,8 @@ common.ids = {
     },
     mistform = {
         cast = "OJ_V_MistformCast",
-        fadeout = "OJ_V_MistformFadeout"
+        fadeout = "OJ_V_MistformFadeout",
+        hit = "OJ_V_MistformHit",
     },
 
     shadowstep = {
@@ -35,7 +36,7 @@ common.paths = {
     glamourVfx = "OJ\\V\\e\\GlamourVfx.nif",
 
     -- Requires special node name. Ref mistform.lua
-    mistformVfx = "OJ\\V\\e\\MistformVfx.nif",
+    mistformStartVfx = "OJ\\V\\e\\MistformVfxStart.nif",
 
     bloodrainEffect_raindrop = "textures\\Tx_Raindrop_01.tga",
     bloodrainEffect_bloodraindrop = "textures\\V\\OJ_V_Bloodrain.dds"

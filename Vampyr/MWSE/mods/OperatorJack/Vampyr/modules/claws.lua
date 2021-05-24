@@ -1,4 +1,5 @@
 local common = require("OperatorJack.Vampyr.common")
+local blood = require("OperatorJack.Vampyr.modules.blood")
 
 local cache = {}
 
@@ -27,9 +28,20 @@ local function setAnimation(ref)
     cache[ref] = true
 end
 
-local function calcBloodDraw(source, target)
-    local sourceH2h = source.mobile.handToHand.current
-    local targetArmorRating = target.mobile.armorRating
+local function calcBloodDraw(vampire, target)
+    local h2h = vampire.mobile.handToHand.current
+    local crit = 1
+    local baseDamage = 5 -- TODO: REPLACE WITH REAL FORMULA / RECONSIDER
+    local targetArmorRating = 10 -- TODO: REPLACE WITH REAL FORMULA
+    local targetArmorReduction = math.min(1 + targetArmorRating / baseDamage, 4)
+    local damage = h2h * 0.075 * crit / targetArmorReduction
+
+    local bloodMod = 0
+    if math.random(100) > 50 then
+        bloodMod = math.random(0, damage)
+    end
+
+    return damage, bloodMod
 end
 
 -- Set Animations
@@ -64,10 +76,13 @@ event.register("damage", function(e)
     if e.magicSourceInstance then return end
     if e.project then return end
 
-    common.debug("Attacking with claws! %s", e.attackerReference.readiedWeapon)
+    common.debug("Attacking with claws! %s", e.attackerReference)
 
+    local damage, bloodMod = calcBloodDraw(e.attackerReference, e.reference)
+    common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", e.attackerReference, e.reference, bloodMod, damage)
 
-
+    e.damage = damage
+    if bloodMod > 0 then blood.modReferenceCurrentBloodStatistic(e.attackerReference, bloodMod, true) end
 end)
 
 
@@ -75,14 +90,14 @@ event.register("damageHandToHand", function(e)
     if not e.attackerReference then return end
     if common.isReferenceVampire(e.attackerReference) == false then return end
     if e.attackerReference.readiedWeapon then return end
-    if e.magicSourceInstance then return end
-    if e.project then return end
 
     -- Override fatigue damage so we can implement claw mechanics.
     e.fatigueDamage = 0
 
-    common.debug("Attacking with claws! %s", e.attackerReference.readiedWeapon)
+    -- Calculate damage and blood gain.
+    local damage, bloodMod = calcBloodDraw(e.attackerReference, e.reference)
+    common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", e.attackerReference, e.reference, bloodMod, damage)
 
-
-
+    e.mobile:applyHealthDamage(damage)
+    if bloodMod > 0 then blood.modReferenceCurrentBloodStatistic(e.attackerReference, bloodMod, true) end
 end)

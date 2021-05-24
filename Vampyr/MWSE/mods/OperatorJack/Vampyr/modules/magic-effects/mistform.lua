@@ -22,8 +22,8 @@ end
 local function onTick(e)
     resetDoors()
 
-    for door in common.iterReferencesNearTargetPosition(tes3.player.position, 128) do
-        if door.object.objectType == tes3.objectType.door and not door.destination and not doors[door] then
+    for door in common.iterReferencesNearTargetPosition(tes3.player.position, 128, {tes3.objectType.door}) do
+        if not door.destination and not doors[door] then
             doors[door] = true
             door.hasNoCollision = true
         end
@@ -72,7 +72,7 @@ end
 
 local initialized = false
 local function mistformTick(e)
-    if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then
+    if e.effectInstance.state == tes3.spellState.beginning or initialized == false then
         -- Disable combat controls
         tes3.mobilePlayer.attackDisabled = true
         tes3.mobilePlayer.magicDisabled = true
@@ -87,8 +87,11 @@ local function mistformTick(e)
 
         local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
         nodeManager.showNode(node)
-    end
-    if (e.effectInstance.state == tes3.spellState.ending) then
+
+    elseif e.effectInstance.state == tes3.spellState.working and tes3.mobilePlayer.mobToMobCollision == true then
+        tes3.mobilePlayer.mobToMobCollision = false
+
+    elseif e.effectInstance.state == tes3.spellState.ending then
         -- Disable combat controls
         tes3.mobilePlayer.attackDisabled = false
         tes3.mobilePlayer.magicDisabled = false

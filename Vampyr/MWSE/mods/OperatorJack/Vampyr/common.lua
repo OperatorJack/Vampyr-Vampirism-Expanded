@@ -120,10 +120,11 @@ function common.debug(str, ...)
     end
 end
 
-function common.iterReferencesNearTargetPosition(position, distance)
+function common.iterReferencesNearTargetPosition(position, distance, filter)
+    filter = filter or {}
     return coroutine.wrap(function()
         for _, cell in pairs(tes3.getActiveCells()) do
-            for ref in cell:iterateReferences() do
+            for ref in cell:iterateReferences(filter) do
                 if ref.position:distance(position) <= distance then
                     coroutine.yield(ref)
                 end

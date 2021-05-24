@@ -69,3 +69,20 @@ event.register("damage", function(e)
 
 
 end)
+
+
+event.register("damageHandToHand", function(e)
+    if not e.attackerReference then return end
+    if common.isReferenceVampire(e.attackerReference) == false then return end
+    if e.attackerReference.readiedWeapon then return end
+    if e.magicSourceInstance then return end
+    if e.project then return end
+
+    -- Override fatigue damage so we can implement claw mechanics.
+    e.fatigueDamage = 0
+
+    common.debug("Attacking with claws! %s", e.attackerReference.readiedWeapon)
+
+
+
+end)

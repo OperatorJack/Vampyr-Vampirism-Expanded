@@ -58,6 +58,10 @@ end)
 local initialized = false
 local function mistformTick(e)
     if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then
+        -- Disable combat controls
+        tes3.mobilePlayer.attackDisabled = true
+        tes3.mobilePlayer.magicDisabled = true
+
         -- Start the effect
         tes3.mobilePlayer.mobToMobCollision = false
         start()
@@ -73,6 +77,10 @@ local function mistformTick(e)
         nodeManager.showNode(node)
     end
     if (e.effectInstance.state == tes3.spellState.ending) then
+        -- Disable combat controls
+        tes3.mobilePlayer.attackDisabled = false
+        tes3.mobilePlayer.magicDisabled = false
+
         -- Kill the effect
         tes3.mobilePlayer.mobToMobCollision = true
         stop()

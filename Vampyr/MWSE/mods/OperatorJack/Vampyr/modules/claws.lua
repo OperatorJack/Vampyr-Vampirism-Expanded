@@ -3,17 +3,17 @@ local common = require("OperatorJack.Vampyr.common")
 local function setAnimation(ref)
     common.debug("Enabling claw animations for %s.", ref)
 
+    tes3.loadAnimation({
+        reference = ref,
+        file = common.animations.claws,
+    })
+
     if ref == tes3.player then
         tes3.loadAnimation({
             reference = tes3.player1stPerson,
             file = common.animations.clawsFirstPerson,
         })
     end
-
-    tes3.loadAnimation({
-        reference = ref,
-        file = common.animations.claws,
-    })
 end
 
 local function calcBloodDraw(source, target)

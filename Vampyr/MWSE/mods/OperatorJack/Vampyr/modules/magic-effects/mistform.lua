@@ -51,6 +51,8 @@ end)
 event.register("loaded", function(e)
     if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.mistform}) == true then
         start()
+
+        -- Add logic to handle beginning state, for when effect loads before game is ready.
     end
 end)
 
@@ -59,6 +61,14 @@ event.register("calcHitChance", function(e)
         e.hitChance = 0
     end
 end)
+
+local function appCullNodes(nodes, appCulledState)
+    for _, node in ipairs(nodes) do
+        if node then
+            node.appCulled = appCulledState
+        end
+    end
+end
 
 local initialized = false
 local function mistformTick(e)
@@ -72,11 +82,8 @@ local function mistformTick(e)
         start()
         initialized = true
 
-        for _, node in ipairs(tes3.player.sceneNode.children) do
-            if node then
-                node.appCulled = true
-            end
-        end
+        appCullNodes(tes3.player.sceneNode.children, true)
+        appCullNodes(tes3.player1stPerson.sceneNode.children, true)
 
         local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
         nodeManager.showNode(node)
@@ -92,11 +99,8 @@ local function mistformTick(e)
 
         initialized = false
 
-        for _, node in ipairs(tes3.player.sceneNode.children) do
-            if node then
-                node.appCulled = false
-            end
-        end
+        appCullNodes(tes3.player.sceneNode.children, false)
+        appCullNodes(tes3.player1stPerson.sceneNode.children, false)
 
         local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
         nodeManager.hideNode(node)

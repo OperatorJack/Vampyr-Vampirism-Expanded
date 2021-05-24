@@ -30,6 +30,14 @@ local function onTick(e)
     end
 end
 
+local function appCullNodes(nodes, appCulledState)
+    for _, node in ipairs(nodes) do
+        if node then
+            node.appCulled = appCulledState
+        end
+    end
+end
+
 local localTimer = nil
 local function stop()
     resetDoors()
@@ -38,6 +46,20 @@ end
 
 local function start()
     stop()
+
+    -- Disable combat controls
+    tes3.mobilePlayer.attackDisabled = true
+    tes3.mobilePlayer.magicDisabled = true
+
+    -- Start the effect
+    tes3.mobilePlayer.mobToMobCollision = false
+
+    appCullNodes(tes3.player.sceneNode.children, true)
+    appCullNodes(tes3.player1stPerson.sceneNode.children, true)
+
+    local node = nodeManager.getOrAttachVfx(tes3.player, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
+    nodeManager.showNode(node)
+
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
 end
 
@@ -62,31 +84,11 @@ event.register("calcHitChance", function(e)
     end
 end)
 
-local function appCullNodes(nodes, appCulledState)
-    for _, node in ipairs(nodes) do
-        if node then
-            node.appCulled = appCulledState
-        end
-    end
-end
-
 local initialized = false
 local function mistformTick(e)
     if e.effectInstance.state == tes3.spellState.beginning or initialized == false then
-        -- Disable combat controls
-        tes3.mobilePlayer.attackDisabled = true
-        tes3.mobilePlayer.magicDisabled = true
-
-        -- Start the effect
-        tes3.mobilePlayer.mobToMobCollision = false
         start()
         initialized = true
-
-        appCullNodes(tes3.player.sceneNode.children, true)
-        appCullNodes(tes3.player1stPerson.sceneNode.children, true)
-
-        local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
-        nodeManager.showNode(node)
 
     elseif e.effectInstance.state == tes3.spellState.working and tes3.mobilePlayer.mobToMobCollision == true then
         tes3.mobilePlayer.mobToMobCollision = false

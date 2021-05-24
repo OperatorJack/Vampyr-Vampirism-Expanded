@@ -46,6 +46,12 @@ event.register("loaded", function()
     initialized = false
 end)
 
+event.register(common.events.calcSunDamage, function(e)
+    if tes3.isAffectedBy({reference = e.reference, effect = tes3.effect.bloodstorm}) == true then
+        e.damage = 0
+    end
+end)
+
 local function startBloodstorm()
     tes3.player.data.OJ_VAMPYR.bloodstorm = {
         previousWeather = tes3.worldController.weatherController.currentWeather.index,

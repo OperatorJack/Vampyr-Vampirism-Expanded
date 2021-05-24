@@ -41,6 +41,11 @@ local function start()
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
 end
 
+event.register(common.events.calcSunDamage, function(e)
+    if tes3.isAffectedBy({reference = e.reference, effect = tes3.effect.mistform}) == true then
+        e.damage = 0
+    end
+end)
 
 
 event.register("loaded", function(e)

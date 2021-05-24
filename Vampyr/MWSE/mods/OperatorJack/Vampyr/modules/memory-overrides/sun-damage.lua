@@ -27,6 +27,9 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         --common.debug(string.format("Sun Damage: shade: %s, resist: %s, attrib: %s = damage: %s", shadeModifier, resistanceModifier, attributeVariant, damage))
     end
 
+    local params = { reference = target, damage = damage}
+    event.trigger(common.events.calcSunDamage, params)
+    damage = params.damage
 
     local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamageVfx)
     if math.abs(damage) > 0.001 then

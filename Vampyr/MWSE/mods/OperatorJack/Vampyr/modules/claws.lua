@@ -1,6 +1,15 @@
 local common = require("OperatorJack.Vampyr.common")
 
+local cache = {}
+
+event.register("objectInvalidated", function(e)
+    cache[e.object] = nil
+end)
+
 local function setAnimation(ref)
+    -- Avoid reloading animations to prevent FPS drops.
+    if cache[ref] then return end
+
     common.debug("Enabling claw animations for %s.", ref)
 
     tes3.loadAnimation({
@@ -14,6 +23,8 @@ local function setAnimation(ref)
             file = common.animations.clawsFirstPerson,
         })
     end
+
+    cache[ref] = true
 end
 
 local function calcBloodDraw(source, target)

@@ -119,7 +119,7 @@ local function mistformTick(e)
         fadeout.modified = false
 
         timer.start({
-            duration = 2,
+            duration = 5,
             callback = function ()
                 if (fadeout) then
                     fadeout:disable()

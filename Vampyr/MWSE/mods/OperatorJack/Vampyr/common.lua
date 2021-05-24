@@ -28,6 +28,10 @@ common.ids = {
         largeRestoreBlood = "OJ_V_LargeVialRestoreBlood",
     }
 }
+common.animations = {
+    claws = "OJ\\V\\claws.nif",
+    clawsFirstPerson = "OJ\\V\\claws.1st.nif",
+}
 common.paths = {
     -- Requires special node name. Ref overrideSunDamage.lua
     sunDamageVfx = "OJ\\V\\e\\SunDamageVfx.nif",

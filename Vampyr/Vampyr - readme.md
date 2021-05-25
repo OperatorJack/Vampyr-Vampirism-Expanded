@@ -12,6 +12,18 @@
 
 Expands Vampirism in TES III: Morrowind by adding new mechanics, new spells, new items, and more for Vampires. At a cursory glance, these new mechanics are inspired by, but not limited to, the vampire mechanics found in the game Vampyr. Similar mechanics include blood statistics, serums, and some spells.
 
+## Credits
+
+Credits are listed in alphabetical order.
+
+_Alice L_ - Writing lore surrounding the mechanics and how they interact with the game world. Helping with the design of the mod mechanics.
+_Greatness7_ - Animation toolkits allowing the creation of the claws mechanics. Tons of scripting help. My goto guy when in a pickle.
+_Hrnchamd_ - Dehardcoding animation system in MWSE, allowing for new & advanced animation mechanics. Adding many new MWSE features to make my ideas a reality.
+_Kurp (Kurpulio)_ - All VFX seen in Vampyr. Without Kurp's help, this mod would be decidedly less cool.
+_Melchior Darhk_ - Steel & Silver Stakes
+_NullCascade_ - MWSE Lua and the tons of updates he has completed that made this mod possible. Continued help with MWSE.
+_RedFurryDemon_ - Wooden Stake
+
 ## Alpha Version
 
 This is an alpha version of Vampyr. It does not include all of the features outlined in the _Mechanics_ section. By playing this version, you are agreeing to test the mod. There is no promise that anything will work as expected. Please share feedback on the #vampyr channel of the Morrowind Modding Community discord. Thanks! - OJ

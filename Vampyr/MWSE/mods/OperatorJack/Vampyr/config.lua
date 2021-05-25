@@ -3,6 +3,9 @@ return mwse.loadConfig("Vampyr", {
     -- Initialize Settings
     debug = true,
     uiBloodFillbarOnTop = true,
+
+    clawsBaseChance = 10,
+
     shadowStepKey = {
         keyCode = tes3.scanCode.z,
         isShiftDown = false,

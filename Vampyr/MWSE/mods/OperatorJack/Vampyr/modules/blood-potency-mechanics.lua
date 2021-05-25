@@ -82,7 +82,7 @@ local ladder = {
     }
 }
 
-local function onBloodPotencyChanged(e)
+event.register(common.events.bloodPotencyChanged, function(e)
     local ref = e.reference
     local increased = true
     if (e.previousPotency) then
@@ -108,5 +108,9 @@ local function onBloodPotencyChanged(e)
             end
         end
     end
-end
-event.register(common.events.bloodPotencyChanged, onBloodPotencyChanged)
+end)
+
+event.register(common.events.calcClawModifiers, function(e)
+    e.damage = e.damage + bloodPotency.getLevel(e.attackerReference)
+    e.blood = e.blood + bloodPotency.getLevel(e.attackerReference) / 5
+end)

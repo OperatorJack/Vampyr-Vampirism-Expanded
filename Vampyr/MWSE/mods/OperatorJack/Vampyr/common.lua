@@ -1,6 +1,8 @@
 local config = require("OperatorJack.Vampyr.config")
 local common = {}
 
+common.config = config
+
 common.text = {
     bloodSpellFailed = "You do not have enough blood to cast this spell.",
 
@@ -104,6 +106,7 @@ common.events = {
     bloodChanged = "Vampyr:BloodChangedEvent",
     bloodPotencyChanged = "Vampyr:BloodPotencyChangedEvent",
     bloodMagicCostApplied = "Vampyr:BloodMagicCostApplied",
+    calcClawModifiers = "Vampyr:CalcClawModifiers",
     calcSunDamage = "Vampyr:CalcSunDamageScalar",
     playerVampireStateChanged = "Vampyr:PlayerVampireStateChanged",
     initializedReference = "Vampyr:InitializedReference",
@@ -114,10 +117,14 @@ function common.debug(str, ...)
     if config.debug then
         local info = debug.getinfo(2, "Sl")
         local module = info.short_src:match("^.+\\(.+).lua$")
-        local prepend = ("[vampyr.%s:%s]:"):format(module, info.currentline)
+        local prepend = ("[Vampyr.%s:%s]:"):format(module, info.currentline)
         local aligned = ("%-36s"):format(prepend)
         mwse.log(aligned .. str, ...)
     end
+end
+
+function common.roll(chanceSuccess)
+    return math.random(0, 100) <= chanceSuccess
 end
 
 function common.iterReferencesNearTargetPosition(position, distance, filter)

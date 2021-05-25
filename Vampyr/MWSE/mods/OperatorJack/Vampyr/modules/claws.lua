@@ -37,9 +37,14 @@ local function calcBloodDraw(vampire, target)
     local damage = h2h * 0.075 * crit / targetArmorReduction
 
     local bloodMod = 0
-    if math.random(100) > 50 then
+    if common.roll(common.config.clawsBaseChance) then
         bloodMod = math.random(0, damage)
     end
+
+    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod}
+    event.trigger(common.events.calcClawModifiers, params)
+    damage = params.damage
+    bloodMod = params.blood
 
     return damage, bloodMod
 end
@@ -75,8 +80,6 @@ event.register("damage", function(e)
     if e.attackerReference.readiedWeapon then return end
     if e.magicSourceInstance then return end
     if e.project then return end
-
-    common.debug("Attacking with claws! %s", e.attackerReference)
 
     local damage, bloodMod = calcBloodDraw(e.attackerReference, e.reference)
     common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", e.attackerReference, e.reference, bloodMod, damage)

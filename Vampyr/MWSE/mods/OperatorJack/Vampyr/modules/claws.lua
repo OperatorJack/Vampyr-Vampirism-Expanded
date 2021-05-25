@@ -33,24 +33,28 @@ local function calcBloodDraw(vampire, target)
     local luck = vampire.mobile.luck.current
     local crit = 1
     local baseDamage = 5 -- TODO: REPLACE WITH REAL FORMULA / RECONSIDER
-    local targetArmorRating = 10 -- TODO: REPLACE WITH REAL FORMULA
-    local targetArmorReduction = math.min(1 + targetArmorRating / baseDamage, 4)
-    local damage = h2h * 0.075 * crit / targetArmorReduction
+    local damage = baseDamage +  h2h * 0.075
 
     local bloodMod = math.random(0, damage)
-    local chance = common.config.clawsBaseChance + h2h / 10 + luck / 20
+    local bloodChance = common.config.clawsBaseChance + h2h / 10 + luck / 20
 
-    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod, chance = chance}
+    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod, chance = bloodChance}
     event.trigger(common.events.calcClawModifiers, params)
     damage = params.damage
     bloodMod = params.blood
-    chance = params.chance
+    bloodChance = params.chance
 
-    if common.roll(chance) then
-        return damage, bloodMod
+    if common.roll(bloodChance) == false then
+        bloodMod = 0
     end
 
-    return damage, 0
+    local hitChance = common.calcHitChance(vampire.mobile, vampire.mobile.handToHand.current)
+    local evasionChance = common.calcEvasionChance(target.mobile)
+    if common.roll(hitChance - evasionChance) == false then
+        damage = 0
+    end
+
+    return damage, bloodMod
 end
 
 -- Set Animations
@@ -78,12 +82,15 @@ event.register("combatStart", function(e)
 end)
 
 -- Handle Claws mechanics
+
+-- Hook into damage event for knockdown hand to hand attacks.
 event.register("damage", function(e)
     if not e.attackerReference then return end
     if common.isReferenceVampire(e.attackerReference) == false then return end
     if e.attackerReference.readiedWeapon then return end
     if e.magicSourceInstance then return end
-    if e.project then return end
+    if e.projectile then return end
+    if e.source == "script" then return end
 
     local damage, bloodMod = calcBloodDraw(e.attackerReference, e.reference)
     common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", e.attackerReference, e.reference, bloodMod, damage)
@@ -93,6 +100,7 @@ event.register("damage", function(e)
 end)
 
 
+-- Hook into damageHandToHand event for normal hand to hand attacks.
 event.register("damageHandToHand", function(e)
     if not e.attackerReference then return end
     if common.isReferenceVampire(e.attackerReference) == false then return end
@@ -105,6 +113,16 @@ event.register("damageHandToHand", function(e)
     local damage, bloodMod = calcBloodDraw(e.attackerReference, e.reference)
     common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", e.attackerReference, e.reference, bloodMod, damage)
 
-    e.mobile:applyHealthDamage(damage)
+    if damage > 0 then
+        local damageMod = e.mobile:applyDamage({
+            damage = damage,
+            applyArmor = true,
+            playerAttack = e.attackerReference == tes3.player,
+        })
+
+        common.debug("Damaged with claws. Attacker: %s, Target: %s, Damage Mod: %s", e.attackerReference, e.reference, damageMod)
+    end
+
+
     if bloodMod > 0 then blood.modReferenceCurrentBloodStatistic(e.attackerReference, bloodMod, true) end
 end)

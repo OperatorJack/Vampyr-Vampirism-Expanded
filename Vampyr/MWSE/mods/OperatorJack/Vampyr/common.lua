@@ -147,6 +147,18 @@ function common.getKeyFromValueFunc(tbl, func)
     return nil
 end
 
+function common.calcHitChance(mobile, currentWeaponSkill)
+     -- From UESP: (Weapon Skill + (Agility / 5) + (Luck / 10)) * (0.75 + 0.5 * Current Fatigue / Maximum Fatigue) + Fortify Attack Magnitude + Blind Magnitude
+
+    return (currentWeaponSkill + (mobile.agility.current / 5) + (mobile.luck.current / 10)) * (0.75 + 0.5 * mobile.fatigue.current / mobile.fatigue.base) + mobile.attackBonus + mobile.blind
+end
+
+function common.calcEvasionChance(mobile)
+    -- From UESP: ((Agility / 5) + (Luck / 10)) * (0.75 + 0.5 * Current Fatigue / Maximum Fatigue) + Sanctuary Magnitude
+
+    return (mobile.agility.current / 5) + (mobile.luck.current / 10) + (0.75 + 0.5 * mobile.fatigue.current / mobile.fatigue.base) + mobile.sanctuary
+end
+
 function common.isPositionInShadow(position)
     if (tes3.player.cell.isInterior and not tes3.player.cell.behaveAsExterior) then
         return true

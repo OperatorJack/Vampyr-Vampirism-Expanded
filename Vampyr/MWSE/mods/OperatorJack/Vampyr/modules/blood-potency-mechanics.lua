@@ -37,48 +37,54 @@ local ladder = {
     [1] = {
         [common.spells.weakVampiricKiss] = actions.add,
         [common.spells.weakVampiricTouch] = actions.add,
-        --[common.bloodSpells.bloodSummonBat.id] = actions.add,
     },
     [2] = {
-        [common.spells.lesserVampiricKiss] = actions.add,
-        [common.spells.lesserVampiricTouch] = actions.add,
         [common.bloodSpells.mirage.id] = actions.add,
     },
     [3] = {
+        [common.spells.weakVampiricKiss] = actions.remove,
+        [common.spells.weakVampiricTouch] = actions.remove,
+
+        [common.spells.lesserVampiricKiss] = actions.add,
+        [common.spells.lesserVampiricTouch] = actions.add,
         [common.spells.vampiricIntuition] = actions.add,
     },
     [4] = {
-        [common.spells.vampiricKiss] = actions.add,
-        [common.spells.vampiricTouch] = actions.add,
         [common.bloodSpells.mistform.id] = actions.add,
     },
     [5] = {
-        [common.bloodSpells.enslave.id] = actions.add,
-        --[common.bloodSpells.bloodSummonDaedroth.id] = actions.add,
+        [common.spells.lesserVampiricKiss] = actions.remove,
+        [common.spells.lesserVampiricTouch] = actions.remove,
+
+        [common.spells.vampiricTouch] = actions.add,
+        [common.spells.vampiricKiss] = actions.add,
     },
     [6] = {
-        --[common.bloodSpells.bloodboundShortsword.id] = actions.add,
+        [common.bloodSpells.enslave.id] = actions.add,
     },
     [7] = {
         [common.bloodSpells.resistSunDamage20.id] = actions.add,
     },
     [8] = {
         [common.bloodSpells.resistSunDamage20.id] = actions.remove,
+        [common.spells.vampiricTouch] = actions.remove,
+        [common.spells.vampiricKiss] = actions.remove,
+
         [common.bloodSpells.resistSunDamage35.id] = actions.add,
-        --[common.bloodSpells.bloodSummonDremora.id] = actions.add,
+        [common.spells.greaterVampiricTouch] = actions.add,
+        [common.spells.greaterVampiricKiss] = actions.add,
     },
     [9] = {
         [common.bloodSpells.resistSunDamage35.id] = actions.remove,
+
         [common.bloodSpells.resistSunDamage50.id] = actions.add,
-        --[common.bloodSpells.bloodboundLongsword.id] = actions.add,
         [common.spells.glamour] = actions.add,
     },
     [10] = {
         [common.bloodSpells.resistSunDamage50.id] = actions.remove,
+
         [common.bloodSpells.immunitySunDamage.id] = actions.add,
         [common.bloodSpells.bloodstorm.id] = actions.add,
-        [common.spells.greaterVampiricTouch] = actions.add,
-        [common.spells.greaterVampiricKiss] = actions.add,
     }
 }
 
@@ -108,9 +114,4 @@ event.register(common.events.bloodPotencyChanged, function(e)
             end
         end
     end
-end)
-
-event.register(common.events.calcClawModifiers, function(e)
-    e.damage = e.damage + bloodPotency.getLevel(e.attackerReference)
-    e.blood = e.blood + bloodPotency.getLevel(e.attackerReference) / 5
 end)

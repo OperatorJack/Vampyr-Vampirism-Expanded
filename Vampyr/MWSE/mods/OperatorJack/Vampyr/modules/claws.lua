@@ -30,23 +30,27 @@ end
 
 local function calcBloodDraw(vampire, target)
     local h2h = vampire.mobile.handToHand.current
+    local luck = vampire.mobile.luck.current
     local crit = 1
     local baseDamage = 5 -- TODO: REPLACE WITH REAL FORMULA / RECONSIDER
     local targetArmorRating = 10 -- TODO: REPLACE WITH REAL FORMULA
     local targetArmorReduction = math.min(1 + targetArmorRating / baseDamage, 4)
     local damage = h2h * 0.075 * crit / targetArmorReduction
 
-    local bloodMod = 0
-    if common.roll(common.config.clawsBaseChance) then
-        bloodMod = math.random(0, damage)
-    end
+    local bloodMod = math.random(0, damage)
+    local chance = common.config.clawsBaseChance + h2h / 10 + luck / 20
 
-    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod}
+    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod, chance = chance}
     event.trigger(common.events.calcClawModifiers, params)
     damage = params.damage
     bloodMod = params.blood
+    chance = params.chance
 
-    return damage, bloodMod
+    if common.roll(chance) then
+        return damage, bloodMod
+    end
+
+    return damage, 0
 end
 
 -- Set Animations

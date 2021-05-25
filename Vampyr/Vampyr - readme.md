@@ -40,6 +40,16 @@ The table below outlines functionality added or changed in each alpha version.
 
 - Bugfixes
   - Fixed bug in Shadowstep where incorrect VFX was being used.
+- [**New!**] Claws
+  - Vampires will attack with claws when using hand to hand, instead of fists.
+  - Uses normal hand to hand controls.
+  - Remaps beast fighting animation onto normal humanoids to use claw attacks.
+  - Claw attacks can draw blood, restoring blood to the attacker.
+  - The Hand-to-hand skill impacts how much blood can be drawn, and the frequency at which it is drawn.
+- Blood Spells
+  - Redesigned Vampiric Touch Spells to use new effect (see below)
+- Blood Potency
+  - Redesigned progression ladder to be better distributed based on new effects and spells.
 - Blood Magic EFfects
   - [**Finished**] Mistform
     - Mistform now allows you to move through doors.
@@ -50,12 +60,9 @@ The table below outlines functionality added or changed in each alpha version.
       - See NPC health in tooltip if player is vampire
       - See NPC blood in tooltip if both player and NPC are vampires
       - View NPC potency in tooltip if player and NPC are vampires
-  - [**New!**] Claws
-    - Vampires will attack with claws when using hand to hand, instead of fists.
-    - Use normal hand to hand controls.
-    - Remaps beast fighting animation onto normal humanoids to use claw attacks.
-    - Claw attacks can draw blood, restoring blood to the attacker.
-    - The Hand-to-hand skill impacts how much blood can be drawn, and the frequency at which it is drawn.
+  - [**New!**] Fortify Claws
+    - This effect is gained through new version of the Vampiric Touch spells.
+    - Magnitude of this effect improves claw damage and blood draw by relative amount.
 
 #### **0.0.1 - May 19, 2021 - Initial Alpha Release**
 

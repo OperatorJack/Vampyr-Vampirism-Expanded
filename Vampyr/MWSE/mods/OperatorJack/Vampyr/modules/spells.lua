@@ -21,13 +21,16 @@ local function registerSpells()
         duration = 10
     })
 
-    framework.spells.createBasicSpell({
+    local spell = framework.spells.createBasicSpell({
         id = common.spells.weakVampiricTouch,
         name = "Weak Vampiric Touch",
-        effect = tes3.effect.paralyze,
-        range = tes3.effectRange.touch,
-        duration = 2
+        effect = tes3.effect.fortifyClaws,
+        range = tes3.effectRange.self,
+        min = 20,
+        max = 20
     })
+    spell.castType = tes3.spellType.ability
+
     framework.spells.createBasicSpell({
         id = common.spells.weakVampiricKiss,
         name = "Weak Vampiric Kiss",
@@ -37,13 +40,17 @@ local function registerSpells()
         max = 5,
         duration = 1
     })
-    framework.spells.createBasicSpell({
+
+    local spell = framework.spells.createBasicSpell({
         id = common.spells.lesserVampiricTouch,
         name = "Lesser Vampiric Touch",
-        effect = tes3.effect.paralyze,
-        range = tes3.effectRange.touch,
-        duration = 5
+        effect = tes3.effect.fortifyClaws,
+        range = tes3.effectRange.self,
+        min = 35,
+        max = 35
     })
+    spell.castType = tes3.spellType.ability
+
     framework.spells.createBasicSpell({
         id = common.spells.lesserVampiricKiss,
         name = "Lesser Vampiric Kiss",
@@ -53,13 +60,17 @@ local function registerSpells()
         max = 15,
         duration = 1
     })
-    framework.spells.createBasicSpell({
+
+    local spell = framework.spells.createBasicSpell({
         id = common.spells.vampiricTouch,
         name = "Vampiric Touch",
-        effect = tes3.effect.paralyze,
-        range = tes3.effectRange.touch,
-        duration = 10
+        effect = tes3.effect.fortifyClaws,
+        range = tes3.effectRange.self,
+        min = 50,
+        max = 50
     })
+    spell.castType = tes3.spellType.ability
+
     framework.spells.createBasicSpell({
         id = common.spells.vampiricKiss,
         name = "Vampiric Kiss",
@@ -69,13 +80,17 @@ local function registerSpells()
         max = 25,
         duration = 1
     })
-    framework.spells.createBasicSpell({
+
+    local spell = framework.spells.createBasicSpell({
         id = common.spells.greaterVampiricTouch,
         name = "Greater Vampiric Touch",
-        effect = tes3.effect.paralyze,
-        range = tes3.effectRange.touch,
-        duration = 30
+        effect = tes3.effect.fortifyClaws,
+        range = tes3.effectRange.self,
+        min = 80,
+        max = 80
     })
+    spell.castType = tes3.spellType.ability
+
     framework.spells.createBasicSpell({
         id = common.spells.greaterVampiricKiss,
         name = "Greater Vampiric Kiss",

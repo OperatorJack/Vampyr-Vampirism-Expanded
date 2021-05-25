@@ -12,7 +12,8 @@ event.register(common.events.calcClawModifiers, function(e)
 
     e.damage = e.damage + magnitude / 10
     e.blood = e.blood + magnitude / 50
-    e.chance = e.chance + magnitude / 10
+    e.bloodChance = e.bloodChance + magnitude / 25
+    e.hitChance = e.hitChance + magnitude / 10
 end)
 
 local function addFortifyClaws()

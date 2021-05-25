@@ -38,19 +38,22 @@ local function calcBloodDraw(vampire, target)
     local bloodMod = math.random(0, damage)
     local bloodChance = common.config.clawsBaseChance + h2h / 10 + luck / 20
 
-    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod, chance = bloodChance}
+
+    local vampHitChance = common.calcHitChance(vampire.mobile, vampire.mobile.handToHand.current)
+    local evasionChance = common.calcEvasionChance(target.mobile)
+    local hitChance = vampHitChance - evasionChance
+
+    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod, bloodChance = bloodChance, hitChance = hitChance}
     event.trigger(common.events.calcClawModifiers, params)
     damage = params.damage
     bloodMod = params.blood
-    bloodChance = params.chance
+    bloodChance = params.bloodChance
+    hitChance = params.hitChance
 
     if common.roll(bloodChance) == false then
         bloodMod = 0
     end
-
-    local hitChance = common.calcHitChance(vampire.mobile, vampire.mobile.handToHand.current)
-    local evasionChance = common.calcEvasionChance(target.mobile)
-    if common.roll(hitChance - evasionChance) == false then
+    if common.roll(hitChance) == false then
         damage = 0
     end
 

@@ -106,6 +106,10 @@ event.register("damage", function(e)
 
         -- Only needed for normal attacks, as damage is already taken into account in `damageHandToHand`.
         e.damage = calcClawDamage(attackerReference, e.reference)
+        e.damage = e.reference.mobile:calcEffectiveDamage({
+            damage = e.damage,
+            applyArmor = true,
+        })
     end
 
     -- reset forwardedEvent for next damageHandToHand event
@@ -131,8 +135,8 @@ event.register("damageHandToHand", function(e)
     if common.isReferenceVampire(e.attackerReference) == false then return end
     if e.attackerReference.readiedWeapon then return end
 
-    -- Override fatigue damage so we can implement claw damage mechanics.
-    e.fatigueDamage = 0
+    -- Override fatigue damage so we can implement claw damage mechanics. Set to 1 to still trigger HUD element.
+    e.fatigueDamage = 1
 
     -- Let damage handler know the next trigger comes from this code.
     forwardedEvent = true

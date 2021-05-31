@@ -48,16 +48,16 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.0.2 - DATE**
+#### **0.0.2 - DATE - The Claws Update**
 
 - Bugfixes
   - Fixed bug in Shadowstep where incorrect VFX was being used.
 - [**New!**] Claws
   - Vampires will attack with claws when using hand to hand, instead of fists.
   - Uses normal hand to hand controls.
-  - Remaps beast fighting animation onto normal humanoids to use claw attacks.
-  - Claw attacks can draw blood, restoring blood to the attacker.
-  - The Hand-to-hand skill impacts how much blood can be drawn, and the frequency at which it is drawn.
+  - Remaps beast fighting animation onto normal humanoids to use claw attacks. (Animation to be further improved)
+  - Claw attacks can draw blood, restoring blood to the attacker. Drawn blood has a chance of increasing maximum blood for the attacking Vampire.
+  - The Hand-to-hand skill and governing attributes, strength and speed, impacts how much blood can be drawn, and the frequency at which it is drawn.
 - Blood Spells
   - Redesigned Vampiric Touch Spells to use new effect (see below)
 - Blood Potency
@@ -66,6 +66,7 @@ The table below outlines functionality added or changed in each alpha version.
   - [**Finished**] Mistform
     - Mistform now allows you to move through doors.
     - Mistform prevents you from being hit physically. Magic will still do damage to you.
+    - Awesome new VFX made by Kurp!
   - [**New!**] Auspex
     - This effect is gained through the new _Vampiric Insight_ ability.
     - The functionality below is now part of the Auspex magic effect.

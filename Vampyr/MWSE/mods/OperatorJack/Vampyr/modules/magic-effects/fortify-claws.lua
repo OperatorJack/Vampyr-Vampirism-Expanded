@@ -4,16 +4,23 @@ local blood = require("OperatorJack.Vampyr.modules.blood")
 
 tes3.claimSpellEffectId("fortifyClaws", 707)
 
-event.register(common.events.calcClawModifiers, function(e)
+event.register(common.events.calcClawDamage, function(e)
     local magnitude = tes3.getEffectMagnitude({
         reference = e.attackerReference,
         effect = tes3.effect.fortifyClaws
       })
 
     e.damage = e.damage + magnitude / 10
+end)
+
+event.register(common.events.calcClawBloodDraw, function(e)
+    local magnitude = tes3.getEffectMagnitude({
+        reference = e.attackerReference,
+        effect = tes3.effect.fortifyClaws
+      })
+
     e.blood = e.blood + magnitude / 50
     e.bloodChance = e.bloodChance + magnitude / 25
-    e.hitChance = e.hitChance + magnitude / 10
 end)
 
 local function addFortifyClaws()

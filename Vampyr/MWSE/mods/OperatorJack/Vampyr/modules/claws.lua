@@ -28,36 +28,38 @@ local function setAnimation(ref)
     cache[ref] = true
 end
 
-local function calcBloodDraw(vampire, target)
+local function calcClawDamage(vampire, target)
     local h2h = vampire.mobile.handToHand.current
     local luck = vampire.mobile.luck.current
     local crit = 1
     local baseDamage = 5 -- TODO: REPLACE WITH REAL FORMULA / RECONSIDER
     local damage = baseDamage +  h2h * 0.075
 
-    local bloodMod = math.random(0, damage)
+    local params = {attackerReference = vampire, targetReference = target, damage = damage}
+    event.trigger(common.events.calcClawDamage, params)
+    damage = params.damage
+
+    return damage
+end
+
+local function calcBloodDraw(vampire, target, damage)
+    local h2h = vampire.mobile.handToHand.current
+    local luck = vampire.mobile.luck.current
+
+    local bloodDraw = math.random(0, damage)
     local bloodChance = common.config.clawsBaseChance + h2h / 10 + luck / 20
 
 
-    local vampHitChance = common.calcHitChance(vampire.mobile, vampire.mobile.handToHand.current)
-    local evasionChance = common.calcEvasionChance(target.mobile)
-    local hitChance = vampHitChance - evasionChance
-
-    local params = {attackerReference = vampire, targetReference = target, damage = damage, blood = bloodMod, bloodChance = bloodChance, hitChance = hitChance}
-    event.trigger(common.events.calcClawModifiers, params)
-    damage = params.damage
-    bloodMod = params.blood
+    local params = {attackerReference = vampire, targetReference = target, blood = bloodDraw, bloodChance = bloodChance}
+    event.trigger(common.events.calcClawBloodDraw, params)
+    bloodDraw = params.blood
     bloodChance = params.bloodChance
-    hitChance = params.hitChance
 
     if common.roll(bloodChance) == false then
-        bloodMod = 0
-    end
-    if common.roll(hitChance) == false then
-        damage = 0
+        bloodDraw = 0
     end
 
-    return damage, bloodMod
+    return bloodDraw
 end
 
 -- Set Animations
@@ -86,21 +88,41 @@ end)
 
 -- Handle Claws mechanics
 
--- Hook into damage event for knockdown hand to hand attacks.
+-- Hook into damage event for knockdown hand to hand attacks. Receive forwarded event from `damageHandToHand`.
+local forwardedEvent = false
+local forwardedAttackerReference = nil
+
 event.register("damage", function(e)
-    if not e.attackerReference then return end
-    if common.isReferenceVampire(e.attackerReference) == false then return end
-    if e.attackerReference.readiedWeapon then return end
-    if e.magicSourceInstance then return end
-    if e.projectile then return end
-    if e.source == "script" then return end
+    local attackerReference = e.attackerReference
+    if forwardedEvent == true then
+        attackerReference = forwardedAttackerReference
+    else
+        if not e.attackerReference then return end
+        if common.isReferenceVampire(e.attackerReference) == false then return end
+        if e.attackerReference.readiedWeapon then return end
+        if e.magicSourceInstance then return end
+        if e.projectile then return end
+        if e.source == "script" then return end
 
-    local damage, bloodMod = calcBloodDraw(e.attackerReference, e.reference)
-    common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", e.attackerReference, e.reference, bloodMod, damage)
+        -- Only needed for normal attacks, as damage is already taken into account in `damageHandToHand`.
+        e.damage = calcClawDamage(attackerReference, e.reference)
+    end
 
-    e.damage = damage
-    if bloodMod > 0 then blood.modReferenceCurrentBloodStatistic(e.attackerReference, bloodMod, true) end
-end)
+    -- reset forwardedEvent for next damageHandToHand event
+    forwardedEvent = false
+    forwardedAttackerReference = nil
+
+    local bloodDraw = calcBloodDraw(attackerReference, e.reference, e.damage)
+    common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", attackerReference, e.reference, bloodDraw, e.damage)
+
+    if bloodDraw > 0 then
+        blood.modReferenceCurrentBloodStatistic(attackerReference, bloodDraw, true)
+        blood.applyFeedingAction(attackerReference, bloodDraw * .25)
+    end
+
+    -- Block other event handlers.
+    return false
+end, {priority = 1000})
 
 
 -- Hook into damageHandToHand event for normal hand to hand attacks.
@@ -109,23 +131,25 @@ event.register("damageHandToHand", function(e)
     if common.isReferenceVampire(e.attackerReference) == false then return end
     if e.attackerReference.readiedWeapon then return end
 
-    -- Override fatigue damage so we can implement claw mechanics.
+    -- Override fatigue damage so we can implement claw damage mechanics.
     e.fatigueDamage = 0
 
-    -- Calculate damage and blood gain.
-    local damage, bloodMod = calcBloodDraw(e.attackerReference, e.reference)
-    common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", e.attackerReference, e.reference, bloodMod, damage)
+    -- Let damage handler know the next trigger comes from this code.
+    forwardedEvent = true
+    forwardedAttackerReference = e.attackerReference
 
-    if damage > 0 then
-        local damageMod = e.mobile:applyDamage({
-            damage = damage,
-            applyArmor = true,
-            playerAttack = e.attackerReference == tes3.player,
-        })
+    -- Provide value to applyDamage. Overwritten in damage handler.
+    local damage = calcClawDamage(e.attackerReference, e.reference)
 
-        common.debug("Damaged with claws. Attacker: %s, Target: %s, Damage Mod: %s", e.attackerReference, e.reference, damageMod)
-    end
+    e.mobile:applyDamage({
+        damage = damage,
+        applyArmor = true,
+        playerAttack = e.attackerReference == tes3.player,
+    })
+
+    common.debug("Forwarded damageHandTohand to damage event via applyDamage. Attacker: %s, Target: %s", e.attackerReference, e.reference)
 
 
-    if bloodMod > 0 then blood.modReferenceCurrentBloodStatistic(e.attackerReference, bloodMod, true) end
-end)
+    -- Block other event handlers.
+    return false
+end, {priority = 1000})

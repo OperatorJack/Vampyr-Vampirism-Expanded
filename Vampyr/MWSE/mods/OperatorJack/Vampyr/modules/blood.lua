@@ -33,6 +33,12 @@ function blood.isInitialized(reference)
     return false
 end
 
+function blood.applyFeedingAction(reference, amount)
+    if not common.roll(10) then return end
+    common.debug("Applying feeding action to %s. Amount %s.", reference, amount)
+    blood.modReferenceBaseBloodStatistic(reference, amount)
+end
+
  --[[ MOD Blood ]] --
 function blood.modReferenceBaseBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)

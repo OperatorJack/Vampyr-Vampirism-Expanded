@@ -142,19 +142,32 @@ local function confirmShadowStep()
     removeMarker()
 end
 
-local function shadowStepKey(e)
-    if (common.isPlayerVampire() == false) then return end
-    if (bloodPotency.getLevel(tes3.player) < 4) then
-        tes3.messageBox(common.text.shadowstepFailed_TooWeak)
-        return
+local function keyDownEqual(eventKeyDown, configKeyDown)
+    if eventKeyDown.keyCode == configKeyDown.keyCode and
+        eventKeyDown.isAltDown == configKeyDown.isAltDown and
+        eventKeyDown.isShiftDown == configKeyDown.isShiftDown and
+        eventKeyDown.isControlDown == configKeyDown.isControlDown then
+           return true
     end
+    return false
+end
 
-    if (isInShadowStepMode == false) then
-        enterShadowStepMode()
-    elseif (isInShadowStepMode == true and e.isAltDown == true) then
+local function shadowStepKey(e)
+    if keyDownEqual(e, common.config.shadowStepActionKey) == true then
+        if common.isPlayerVampire() == false then return end
+        if bloodPotency.getLevel(tes3.player) < 4 then
+            tes3.messageBox(common.text.shadowstepFailed_TooWeak)
+            return
+        end
+
+        if isInShadowStepMode == false then
+            enterShadowStepMode()
+        else
+            confirmShadowStep()
+        end
+    end
+    if keyDownEqual(e, common.config.shadowStepCancelKey) == true and isInShadowStepMode == true then
         exitShadowStepMode()
-    elseif (isInShadowStepMode == true and e.isAltDown == false) then
-        confirmShadowStep()
     end
 end
-event.register("keyDown", shadowStepKey, { filter = tes3.scanCode.z })
+event.register("keyDown", shadowStepKey)

@@ -6,10 +6,16 @@ return mwse.loadConfig("Vampyr", {
 
     clawsBaseChance = 10,
 
-    shadowStepKey = {
+    shadowStepActionKey = {
         keyCode = tes3.scanCode.z,
         isShiftDown = false,
         isAltDown = false,
+        isControlDown = false,
+    },
+    shadowStepCancelKey = {
+        keyCode = tes3.scanCode.z,
+        isShiftDown = false,
+        isAltDown = true,
         isControlDown = false,
     },
     fakeNpcVampires = {

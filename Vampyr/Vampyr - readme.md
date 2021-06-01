@@ -58,6 +58,7 @@ The table below outlines functionality added or changed in each alpha version.
   - Remaps beast fighting animation onto normal humanoids to use claw attacks. (Animation to be further improved)
   - Claw attacks can draw blood, restoring blood to the attacker. Drawn blood has a chance of increasing maximum blood for the attacking Vampire.
   - The Hand-to-hand skill and governing attributes, strength and speed, impacts how much blood can be drawn, and the frequency at which it is drawn.
+  - MCM to manage base chance of triggering blood draw.
 - Blood Spells
   - Redesigned Vampiric Touch Spells to use new effect (see below)
 - Blood Potency
@@ -76,6 +77,8 @@ The table below outlines functionality added or changed in each alpha version.
   - [**New!**] Fortify Claws
     - This effect is gained through new version of the Vampiric Touch spells.
     - Magnitude of this effect improves claw damage and blood draw by relative amount.
+- Shadowstep
+  - Shadowstep now supports custom keybindings, which can be found in the MCM.
 
 #### **0.0.1 - May 19, 2021 - Initial Alpha Release**
 

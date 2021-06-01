@@ -72,27 +72,41 @@ local function createUICategory(page)
     return category
 end
 
+local function createShadowStepSettings(category)
+    category:createKeyBinder{
+        label = "Assign Keybind for entering and confirming Shadowstep",
+        description = "Use this option to set the hotkey for Shadowstep. Click on the option and follow the prompt. This key will start Shadowstep as well as confirm the action.",
+        allowCombinations = true,
+        variable = createTableVar("shadowStepActionKey"),
+    }
+
+    category:createKeyBinder{
+        label = "Assign Keybind for exiting Shadowstep",
+        description = "Use this option to set the hotkey for exiting Shadowstep. Click on the option and follow the prompt. This key will exit Shadwstep if you are in Shadowstep mode.",
+        allowCombinations = true,
+        variable = createTableVar("shadowStepCancelKey"),
+    }
+end
+
+local function createClawsSettings(category)
+    category:createSlider{
+        label = "Claws Blood Draw Base Chance",
+        description = "The base chance per claw attack of drawing blood. Can be increased to make blood draw happen more often.",
+        min = 0,
+        max = 100,
+        step = 1,
+        jump = 5,
+        variable = createTableVar("clawsBaseChance"),
+    }
+end
+
 local function createMechanicCategory(page)
     local category = page:createCategory{
         label = "Mechanic Settings"
     }
 
-    category:createKeyBinder{
-        label = "Assign Keybind for Shadowstep",
-        description = "Use this option to set the hotkey for Shadowstep. Click on the option and follow the prompt.",
-        allowCombinations = true,
-        variable = mwse.mcm.createTableVariable{
-            id = "shadowStepKey",
-            table = config,
-            defaultSetting = {
-                keyCode = tes3.scanCode.z,
-                isShiftDown = false,
-                isAltDown = false,
-                isControlDown = false,
-            },
-            restartRequired = true
-        }
-    }
+    createShadowStepSettings(category)
+    createClawsSettings(category)
 end
 
 local function createGeneralPage(template)

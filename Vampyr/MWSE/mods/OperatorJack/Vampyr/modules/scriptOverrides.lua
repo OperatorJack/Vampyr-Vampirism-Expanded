@@ -32,7 +32,7 @@ local function initialized()
         mwscript.stopScript{script="OJ_VAMPYR_TestBecomeVampire"}
     end)
 
-    print("[Vampyr: INFO] Registered Script Overrides")
+    common.logger.info("Registered Script Overrides")
 end
 
 event.register("initialized", initialized)

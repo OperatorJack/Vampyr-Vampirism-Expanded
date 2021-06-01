@@ -17,9 +17,7 @@ local function doLog(logLevel)
     return logger.logLevels[config.logLevel] <= logger.logLevels[logLevel]
 end
 
-local function log(level, str, ...)
-        local info = debug.getinfo(2, "Sl")
-        local module = info.short_src:match("^.+\\(.+).lua$")
+local function log(level, module, info, str, ...)
         local prepend = ("[Vampyr.%s:%s:%s]:"):format(module, info.currentline, level)
         local aligned = ("%-36s"):format(prepend)
         mwse.log(aligned .. str, ...)
@@ -27,19 +25,25 @@ end
 
 function logger.debug(str, ...)
     if doLog("DEBUG") then
-       log("DEBUG",  str, ...)
+        local info = debug.getinfo(2, "Sl")
+        local module = info.short_src:match("^.+\\(.+).lua$")
+        log("DEBUG", module, info, str, ...)
     end
 end
 
 function logger.info(str, ...)
     if doLog("INFO") then
-       log("INFO",  str, ...)
+        local info = debug.getinfo(2, "Sl")
+        local module = info.short_src:match("^.+\\(.+).lua$")
+        log("INFO", module, info, str, ...)
     end
 end
 
 function logger.error(str, ...)
     if doLog("ERROR") then
-       log("ERROR",  str, ...)
+        local info = debug.getinfo(2, "Sl")
+        local module = info.short_src:match("^.+\\(.+).lua$")
+        log("ERROR", module, info, str, ...)
     end
 end
 

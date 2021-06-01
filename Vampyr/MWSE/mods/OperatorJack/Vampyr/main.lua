@@ -63,5 +63,5 @@ require("OperatorJack.Vampyr.modules.scriptOverrides")
 
 
 event.register("initialized", function(e)
-    mwse.log("[Vampyr] Initialized.")
+    common.logger.info("Initialized.")
 end)

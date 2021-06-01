@@ -1,7 +1,9 @@
 local config = require("OperatorJack.Vampyr.config")
+local logger = require("OperatorJack.Vampyr.modules.functions.logger")
 local common = {}
 
 common.config = config
+common.logger = logger
 
 common.text = {
     bloodSpellFailed = "You do not have enough blood to cast this spell.",
@@ -114,15 +116,6 @@ common.events = {
     secondPassed = "Vampyr:SecondPassed",
 }
 
-function common.debug(str, ...)
-    if config.debug then
-        local info = debug.getinfo(2, "Sl")
-        local module = info.short_src:match("^.+\\(.+).lua$")
-        local prepend = ("[Vampyr.%s:%s]:"):format(module, info.currentline)
-        local aligned = ("%-36s"):format(prepend)
-        mwse.log(aligned .. str, ...)
-    end
-end
 
 function common.roll(chanceSuccess)
     return math.random(0, 100) <= chanceSuccess

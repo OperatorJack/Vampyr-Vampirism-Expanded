@@ -11,7 +11,7 @@ local function setAnimation(ref)
     -- Avoid reloading animations to prevent FPS drops.
     if cache[ref] then return end
 
-    common.debug("Enabling claw animations for %s.", ref)
+    common.logger.debug("Enabling claw animations for %s.", ref)
 
     tes3.loadAnimation({
         reference = ref,
@@ -117,7 +117,7 @@ event.register("damage", function(e)
     forwardedAttackerReference = nil
 
     local bloodDraw = calcBloodDraw(attackerReference, e.reference, e.damage)
-    common.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", attackerReference, e.reference, bloodDraw, e.damage)
+    common.logger.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", attackerReference, e.reference, bloodDraw, e.damage)
 
     if bloodDraw > 0 then
         blood.modReferenceCurrentBloodStatistic(attackerReference, bloodDraw, true)
@@ -151,7 +151,7 @@ event.register("damageHandToHand", function(e)
         playerAttack = e.attackerReference == tes3.player,
     })
 
-    common.debug("Forwarded damageHandTohand to damage event via applyDamage. Attacker: %s, Target: %s", e.attackerReference, e.reference)
+    common.logger.debug("Forwarded damageHandTohand to damage event via applyDamage. Attacker: %s, Target: %s", e.attackerReference, e.reference)
 
 
     -- Block other event handlers.

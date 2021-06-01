@@ -35,7 +35,7 @@ end
 
 function blood.applyFeedingAction(reference, amount)
     if not common.roll(10) then return end
-    common.debug("Applying feeding action to %s. Amount %s.", reference, amount)
+    common.logger.debug("Applying feeding action to %s. Amount %s.", reference, amount)
     blood.modReferenceBaseBloodStatistic(reference, amount)
 end
 

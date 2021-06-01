@@ -3,7 +3,7 @@ local common = require("OperatorJack.Vampyr.common")
 
 local function checkPlayerVampireState(e)
     if (tes3.player.data.OJ_VAMPYR.isVampire ~= common.isPlayerVampire()) then
-        common.debug("Player vampire state changed.")
+        common.logger.debug("Player vampire state changed.")
 
         tes3.player.data.OJ_VAMPYR.isVampire = not tes3.player.data.OJ_VAMPYR.isVampire
         event.trigger(common.events.playerVampireStateChanged, {

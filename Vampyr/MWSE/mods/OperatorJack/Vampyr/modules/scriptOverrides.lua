@@ -12,8 +12,8 @@ local function initialized()
                 tes3.messageBox("Making Player a vampire..")
                 mwscript.addSpell{reference = tes3.player, spell = common.spells.vampirism}
                 mwscript.addSpell{reference = tes3.player, spell = common.spells.restoreBlood}
-                mwscript.addSpell{reference = tes3.player, spell = common.spells.drainBlood} 
-                mwscript.addSpell{reference = tes3.player, spell = common.bloodSpells.bloodstorm.id} 
+                mwscript.addSpell{reference = tes3.player, spell = common.spells.drainBlood}
+                mwscript.addSpell{reference = tes3.player, spell = common.bloodSpells.bloodstorm.id}
 
             timer.start({
                     duration = 10,
@@ -24,14 +24,14 @@ local function initialized()
                         local bloodStat = blood.getPlayerBloodStatistic()
                         tes3.messageBox("Current: " .. bloodStat.current .. " , Max: " .. bloodStat.base)
                     end
-                })  
+                })
             end
         })
-    
-        common.debug("Executed Lua Script Override OJ_VAMPYR_TestBecomeVampire")
+
+        common.logger.debug("Executed Lua Script Override OJ_VAMPYR_TestBecomeVampire")
         mwscript.stopScript{script="OJ_VAMPYR_TestBecomeVampire"}
     end)
-    
+
     print("[Vampyr: INFO] Registered Script Overrides")
 end
 

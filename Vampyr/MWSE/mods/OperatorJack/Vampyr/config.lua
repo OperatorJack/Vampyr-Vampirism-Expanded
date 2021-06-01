@@ -1,7 +1,7 @@
 -- Load configuration.
 return mwse.loadConfig("Vampyr", {
     -- Initialize Settings
-    debug = true,
+    logLevel = "INFO",
     uiBloodFillbarOnTop = true,
 
     clawsBaseChance = 10,

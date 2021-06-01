@@ -1,16 +1,20 @@
 local config = require("OperatorJack.Vampyr.config")
 
+local function createTableVar(id)
+    return mwse.mcm.createTableVariable{ id = id, table = config }
+end
+
 local function getNpcs()
     local temp = {}
     for obj in tes3.iterateObjects(tes3.objectType.npc) do
         temp[obj.id] = true
     end
-    
+
     local list = {}
     for id in pairs(temp) do
         list[#list+1] = id
     end
-    
+
     table.sort(list)
     return list
 end
@@ -20,12 +24,12 @@ local function getWeapons()
     for obj in tes3.iterateObjects(tes3.objectType.weapon) do
         temp[obj.id] = true
     end
-    
+
     local list = {}
     for id in pairs(temp) do
         list[#list+1] = id
     end
-    
+
     table.sort(list)
     return list
 end
@@ -35,14 +39,18 @@ local function createGeneralCategory(page)
         label = "General Settings"
     }
 
-    -- Create option to capture debug mode.
-    category:createOnOffButton{
-        label = "Enable Debug Messages",
-        description = "If enabled, Morrowind will show all debug messages related to this mod in-game and in the MWSE.log.",
-        variable = mwse.mcm.createTableVariable{
-            id = "debug",
-            table = config
-        }
+    -- Create option to capture debug mode. Set log level.
+
+    category:createDropdown{
+        label = "Log Level",
+        description = "Set the logging level for mwse.log. Keep on INFO unless you are debugging. DEBUG = maximum detail. Enable this when troubleshooting. INFO = standard information. ERROR = only errors. NONE = no logs.",
+        options = {
+            { label = "DEBUG", value = "DEBUG"},
+            { label = "INFO", value = "INFO"},
+            { label = "ERROR", value = "ERROR"},
+            { label = "NONE", value = "NONE"},
+        },
+        variable = createTableVar("logLevel"),
     }
 
     return category
@@ -57,10 +65,7 @@ local function createUICategory(page)
     category:createOnOffButton{
         label = "Blood Fillbar On Top",
         description = "If enabled, the blood fillbar will appear above the health fillbar in the HUD and Stats Menu. Otherwise, it will appear below stamina. Game restart required.",
-        variable = mwse.mcm.createTableVariable{
-            id = "uiBloodFillbarOnTop",
-            table = config
-        },
+        variable = createTableVar("uiBloodFillbarOnTop"),
         restartRequired = true
     }
 
@@ -107,10 +112,7 @@ local function createFakeNPCVampireList(template)
         description = "NPCs registered as a fake NPC Vampire will have the vampirism disease added to them, and thereafter be treated by the game as real vampires. This tool is used to fix issues where `vampires` do not have the vampirism disease in the base game or in mods. This will not update NPCs that you have already met in a current save game, and it requires a restart after making changes.",
         leftListLabel = "Fake NPC Vampires",
         rightListLabel = "All NPCs",
-        variable = mwse.mcm.createTableVariable{
-            id = "fakeNpcVampires",
-            table = config,
-        },
+        variable = createTableVar("fakeNpcVampires"),
         filters = {
             {callback = getNpcs},
         },
@@ -123,10 +125,7 @@ local function createStakeList(template)
         description = "Weapons registered as a stake will be used by NPCs to fight vampires, even above higher tier weapons.",
         leftListLabel = "Stakes",
         rightListLabel = "All Weapons",
-        variable = mwse.mcm.createTableVariable{
-            id = "stakes",
-            table = config,
-        },
+        variable = createTableVar("stakes"),
         filters = {
             {callback = getWeapons},
         },

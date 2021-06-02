@@ -7,7 +7,7 @@ local function addResistSunDamage()
 		-- Base information.
 		id = tes3.effect.resistSunDamage,
 		name = "Resist Sun Damage",
-		description = "Provides resistance against sun damage for vampires, where the percentage resisted is the magnitude of the effect..",
+		description = "Provides resistance against sun damage for vampires, where the percentage resisted is the magnitude of the effect.",
 
 		-- Basic dials.
 		baseCost = 2.0,

@@ -3,7 +3,7 @@ local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 tes3.claimSpellEffectId("resistSunDamage", 703)
 
 local function addResistSunDamage()
-	framework.effects.restoration.createBasicEffect({
+	framework.effects.alteration.createBasicEffect({
 		-- Base information.
 		id = tes3.effect.resistSunDamage,
 		name = "Resist Sun Damage",

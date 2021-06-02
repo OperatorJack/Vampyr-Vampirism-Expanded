@@ -24,7 +24,7 @@ event.register(common.events.calcClawBloodDraw, function(e)
 end)
 
 local function addFortifyClaws()
-	framework.effects.restoration.createBasicEffect({
+	framework.effects.alteration.createBasicEffect({
 		-- Base information.
 		id = tes3.effect.fortifyClaws,
 		name = "Fortify Claws",

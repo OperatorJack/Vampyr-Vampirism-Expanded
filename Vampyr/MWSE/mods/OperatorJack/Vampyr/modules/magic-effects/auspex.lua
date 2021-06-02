@@ -3,7 +3,7 @@ local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 tes3.claimSpellEffectId("auspex", 706)
 
 local function addAuspex()
-	framework.effects.mysticism.createBasicEffect({
+	framework.effects.illusion.createBasicEffect({
 		-- Base information.
 		id = tes3.effect.auspex,
 		name = "Auspex",

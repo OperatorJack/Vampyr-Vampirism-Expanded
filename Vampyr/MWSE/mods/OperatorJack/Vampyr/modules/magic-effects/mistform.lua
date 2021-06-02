@@ -142,7 +142,7 @@ local function mistformTick(e)
 end
 
 local function addMistform()
-	framework.effects.illusion.createBasicEffect({
+	framework.effects.alteration.createBasicEffect({
 		-- Base information.
 		id = tes3.effect.mistform,
 		name = "Mistform",

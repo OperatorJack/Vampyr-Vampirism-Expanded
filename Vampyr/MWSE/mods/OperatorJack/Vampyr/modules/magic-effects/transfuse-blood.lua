@@ -2,9 +2,9 @@ local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood")
 
-tes3.claimSpellEffectId("drainBlood", 701)
+tes3.claimSpellEffectId("transfuseBlood", 701)
 
-local function drainBloodTick(e)
+local function transfuseBloodTick(e)
     -- Reset feed date for vampire.
     if (e.effectInstance.state == tes3.spellState.beginning) then
         e.sourceInstance.caster.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
@@ -34,19 +34,17 @@ local function drainBloodTick(e)
     end
 end
 
-local function addDrainBlood()
+local function addTransfuseBlood()
 	framework.effects.destruction.createBasicEffect({
 		-- Base information.
-		id = tes3.effect.drainBlood,
-		name = "Drain Blood",
-		description = "Drains blood from the target, where the amount drained per second is equal to the effect's magnitude.",
+		id = tes3.effect.transfuseBlood,
+		name = "Tranfuse Blood",
+		description = "Drains blood from the target, where the amount drained per second is equal to the effect's magnitude. If the target is not a vampire, drains health at a lower rate.",
 
 		-- Basic dials.
 		baseCost = 5.0,
 
 		-- Various flags.
-		allowEnchanting = true,
-		allowSpellmaking = true,
 		canCastTarget = true,
         canCastTouch = true,
 		isHarmful = true,
@@ -55,8 +53,8 @@ local function addDrainBlood()
 		lighting = { 0.99, 0.95, 0.67 },
 
 		-- Required callbacks.
-		onTick = drainBloodTick,
+		onTick = transfuseBloodTick,
 	})
 end
 
-return addDrainBlood
+return addTransfuseBlood

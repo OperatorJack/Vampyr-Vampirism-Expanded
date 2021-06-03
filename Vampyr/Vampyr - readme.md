@@ -61,6 +61,7 @@ The table below outlines functionality added or changed in each alpha version.
   - MCM to manage base chance of triggering blood draw.
 - Blood Spells
   - Redesigned Vampiric Touch Spells to use new effect (see below)
+  - New Transfusion power, granted through the potency ladder.
 - Blood Potency
   - Redesigned progression ladder to be better distributed based on new effects and spells.
 - Blood Magic EFfects
@@ -68,6 +69,9 @@ The table below outlines functionality added or changed in each alpha version.
     - Mistform now allows you to move through doors.
     - Mistform prevents you from being hit physically. Magic will still do damage to you.
     - Awesome new VFX made by Kurp!
+  - [**New**] Transfuse Blood
+    - Renamed from Drain Blood
+    - Drains blood from vampires, or health from non-vampires.
   - [**New!**] Auspex
     - This effect is gained through the new _Vampiric Insight_ ability.
     - The functionality below is now part of the Auspex magic effect.
@@ -77,6 +81,7 @@ The table below outlines functionality added or changed in each alpha version.
   - [**New!**] Fortify Claws
     - This effect is gained through new version of the Vampiric Touch spells.
     - Magnitude of this effect improves claw damage and blood draw by relative amount.
+    -
 - Shadowstep
   - Shadowstep now supports custom keybindings, which can be found in the MCM.
 

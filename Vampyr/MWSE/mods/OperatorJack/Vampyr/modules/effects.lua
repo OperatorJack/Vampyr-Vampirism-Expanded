@@ -2,7 +2,7 @@
 event.register("magicEffectsResolved", function ()
 	require("OperatorJack.Vampyr.modules.magic-effects.auspex")()
 	require("OperatorJack.Vampyr.modules.magic-effects.bloodstorm")()
-	require("OperatorJack.Vampyr.modules.magic-effects.drain-blood")()
+	require("OperatorJack.Vampyr.modules.magic-effects.transfuse-blood")()
 	require("OperatorJack.Vampyr.modules.magic-effects.fortify-claws")()
 	require("OperatorJack.Vampyr.modules.magic-effects.glamour")()
 	require("OperatorJack.Vampyr.modules.magic-effects.mistform")()

@@ -61,6 +61,7 @@ common.spells = {
     lesserVampiricTouch = "OJ_V_LsrVampiricTouch",
     lesserVampiricKiss = "OJ_V_LsrVampiricKiss",
     restoreBlood = "OJ_V_RestoreBlood",
+    transfusion = "OJ_V_Transfusion",
     vampiricTouch = "OJ_V_VampiricTouch",
     vampiricKiss = "OJ_V_VampiricKiss",
     vampiricIntuition = "OJ_V_VampiricIntuition",

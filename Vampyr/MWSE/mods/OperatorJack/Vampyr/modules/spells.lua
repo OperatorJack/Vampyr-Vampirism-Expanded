@@ -22,6 +22,17 @@ local function registerSpells()
     })
 
     local spell = framework.spells.createBasicSpell({
+        id = common.spells.transfusion,
+        name = "Transfusion",
+        effect = tes3.effect.drainBlood,
+        range = tes3.effectRange.touch,
+        min = 10,
+        max = 10,
+        duration = 5
+    })
+    spell.castType = tes3.spellType.power
+
+    local spell = framework.spells.createBasicSpell({
         id = common.spells.weakVampiricTouch,
         name = "Weak Vampiric Touch",
         effect = tes3.effect.fortifyClaws,

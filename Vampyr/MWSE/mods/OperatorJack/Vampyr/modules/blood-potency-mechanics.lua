@@ -61,6 +61,7 @@ local ladder = {
     },
     [6] = {
         [common.bloodSpells.enslave.id] = actions.add,
+        [common.spells.transfusion] = actions.add,
     },
     [7] = {
         [common.bloodSpells.resistSunDamage20.id] = actions.add,

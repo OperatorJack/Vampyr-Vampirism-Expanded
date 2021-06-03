@@ -1,9 +1,14 @@
 local config = require("OperatorJack.Vampyr.config")
 local logger = require("OperatorJack.Vampyr.modules.functions.logger")
+local customMessagebox = require ("OperatorJack.Vampyr.modules.functions.custom-messagebox")
+
 local common = {}
 
 common.config = config
 common.logger = logger
+
+common.messageBox = customMessagebox.messageBox
+common.createTooltip = customMessagebox.createTooltip
 
 common.text = {
     bloodSpellFailed = "You do not have enough blood to cast this spell.",

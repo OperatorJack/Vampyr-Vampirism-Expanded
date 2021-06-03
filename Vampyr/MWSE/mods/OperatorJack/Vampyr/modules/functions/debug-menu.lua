@@ -1,4 +1,3 @@
-local helper = require ("OperatorJack.Vampyr.modules.functions.custom-messagebox")
 local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood")
 
@@ -61,7 +60,7 @@ local function debugMenuKey(e)
                 },
             },
         }
-        helper.messageBox{
+        common.messageBox{
             message = message,
             buttons = buttons,
             doesCancel = true

@@ -14,7 +14,7 @@ local function registerSpells()
     framework.spells.createBasicSpell({
         id = common.spells.drainBlood,
         name = "Drain Blood",
-        effect = tes3.effect.drainBlood,
+        effect = tes3.effect.transfuseBlood,
         range = tes3.effectRange.target,
         min = 5,
         max = 5,
@@ -24,7 +24,7 @@ local function registerSpells()
     local spell = framework.spells.createBasicSpell({
         id = common.spells.transfusion,
         name = "Transfusion",
-        effect = tes3.effect.drainBlood,
+        effect = tes3.effect.transfuseBlood,
         range = tes3.effectRange.touch,
         min = 10,
         max = 10,
@@ -45,7 +45,7 @@ local function registerSpells()
     framework.spells.createBasicSpell({
         id = common.spells.weakVampiricKiss,
         name = "Weak Vampiric Kiss",
-        effect = tes3.effect.drainBlood,
+        effect = tes3.effect.transfuseBlood,
         range = tes3.effectRange.touch,
         min = 5,
         max = 5,
@@ -65,7 +65,7 @@ local function registerSpells()
     framework.spells.createBasicSpell({
         id = common.spells.lesserVampiricKiss,
         name = "Lesser Vampiric Kiss",
-        effect = tes3.effect.drainBlood,
+        effect = tes3.effect.transfuseBlood,
         range = tes3.effectRange.touch,
         min = 15,
         max = 15,
@@ -85,7 +85,7 @@ local function registerSpells()
     framework.spells.createBasicSpell({
         id = common.spells.vampiricKiss,
         name = "Vampiric Kiss",
-        effect = tes3.effect.drainBlood,
+        effect = tes3.effect.transfuseBlood,
         range = tes3.effectRange.touch,
         min = 25,
         max = 25,
@@ -105,7 +105,7 @@ local function registerSpells()
     framework.spells.createBasicSpell({
         id = common.spells.greaterVampiricKiss,
         name = "Greater Vampiric Kiss",
-        effect = tes3.effect.drainBlood,
+        effect = tes3.effect.transfuseBlood,
         range = tes3.effectRange.touch,
         min = 100,
         max = 100,

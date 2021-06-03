@@ -2,6 +2,14 @@
 return mwse.loadConfig("Vampyr", {
     -- Initialize Settings
     logLevel = "INFO",
+    enableDebugMenu = true,
+    debugMenuKey = {
+        keyCode = tes3.scanCode["/"],
+        isShiftDown = true,
+        isAltDown = false,
+        isControlDown = false,
+    },
+
     uiBloodFillbarOnTop = true,
 
     clawsBaseChance = 10,

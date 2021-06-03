@@ -60,6 +60,7 @@ require("OperatorJack.Vampyr.modules.memory-overrides.sun-damage")
 require("OperatorJack.Vampyr.modules.memory-overrides.turn-undead")
 
 require("OperatorJack.Vampyr.modules.scriptOverrides")
+require("OperatorJack.Vampyr.modules.functions.debug-menu")
 
 
 event.register("initialized", function(e)

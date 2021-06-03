@@ -60,6 +60,8 @@ local function start()
     local node = nodeManager.getOrAttachVfx(tes3.player, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
     nodeManager.showNode(node)
 
+    tes3.player.sceneNode:update({controllers=true})
+
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
 end
 
@@ -156,6 +158,7 @@ local function addMistform()
 		casterLinked = true,
 		hasNoMagnitude = true,
 		nonRecastable = true,
+        hasContinuousVFX = true,
 
 		-- Graphics/sounds.
 		lighting = { 0.99, 0.95, 0.67 },

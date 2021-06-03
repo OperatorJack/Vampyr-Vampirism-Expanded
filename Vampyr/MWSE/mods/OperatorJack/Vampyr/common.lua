@@ -31,10 +31,12 @@ common.ids = {
         marker = "OJ_V_ShadowstepMarker",
     },
 
-    potions = {
-        smallRestoreBlood = "OJ_V_SmallVialRestoreBlood",
-        mediumRestoreBlood = "OJ_V_MediumVialRestoreBlood",
-        largeRestoreBlood = "OJ_V_LargeVialRestoreBlood",
+    serums = {
+        mini = "OJ_V_BloodSerum_00",
+        small = "OJ_V_BloodSerum_01",
+        medium = "OJ_V_BloodSerum_02",
+        large = "OJ_V_BloodSerum_03",
+        decanter = "OJ_V_BloodSerum_04",
     }
 }
 common.animations = {

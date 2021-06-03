@@ -59,6 +59,9 @@ The table below outlines functionality added or changed in each alpha version.
   - Claw attacks can draw blood, restoring blood to the attacker. Drawn blood has a chance of increasing maximum blood for the attacking Vampire.
   - The Hand-to-hand skill and governing attributes, strength and speed, impacts how much blood can be drawn, and the frequency at which it is drawn.
   - MCM to manage base chance of triggering blood draw.
+- Blood Serums (Object created, not implemented in-game)
+  - New models by Melchior Darhk!
+  - New big and mini serum models.
 - Blood Spells
   - Redesigned Vampiric Touch Spells to use new effect (see below)
   - New Transfusion power, granted through the potency ladder.

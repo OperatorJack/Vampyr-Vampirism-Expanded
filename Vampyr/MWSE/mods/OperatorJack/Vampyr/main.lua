@@ -49,7 +49,7 @@ require("OperatorJack.Vampyr.modules.effects")
 require("OperatorJack.Vampyr.modules.spells")
 
 require("OperatorJack.Vampyr.modules.fixNpcVampirism")
-require("OperatorJack.Vampyr.modules.potions")
+require("OperatorJack.Vampyr.modules.serums")
 require("OperatorJack.Vampyr.modules.shadowstep")
 require("OperatorJack.Vampyr.modules.stakes")
 

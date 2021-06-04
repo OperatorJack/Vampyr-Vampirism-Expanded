@@ -35,6 +35,7 @@ local function switchRainTexture(current, new)
         local success, texture = pcall(function() return node:getProperty(0x4).maps[1].texture end)
         if (success and texture) then
             if (texture.fileName == current.name) then
+                common.logger.trace("Setting rain texture path to %s", new.path)
                 node:getProperty(0x4).maps[1].texture = niSourceTexture.createFromPath(new.path)
             end
         end
@@ -86,12 +87,15 @@ local function bloodstormTick(e)
 
         startBloodstorm()
         initialized = true
+        common.logger.trace("Initializing effect.")
+
     end
     if (e.effectInstance.state == tes3.spellState.working) then
         if (caster.cell.isInterior == true) then
             tes3.messageBox("The spell fails to work indoors.")
             stopBloodstorm()
             e.effectInstance.state = tes3.spellState.retired
+            common.logger.trace("Entered indoors - retiring effect.")
             return
         end
 
@@ -101,11 +105,13 @@ local function bloodstormTick(e)
                 value = 100
             })
             tes3.player.data.OJ_VAMPYR.bloodstorm.crimeReported = crimeReported
+            common.logger.trace("Crime reported. Disabling future reports for current effect.")
         end
     end
     if (e.effectInstance.state == tes3.spellState.ending) then
         stopBloodstorm()
         initialized = false
+        common.logger.trace("Ending effect.")
     end
 
     -- Trigger into the spell system.

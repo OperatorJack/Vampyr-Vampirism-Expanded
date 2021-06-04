@@ -5,13 +5,17 @@ local blood = require("OperatorJack.Vampyr.modules.blood")
 tes3.claimSpellEffectId("transfuseBlood", 701)
 
 local function transfuseBloodTick(e)
+    local caster = e.sourceInstance.caster
+
     -- Reset feed date for vampire.
     if (e.effectInstance.state == tes3.spellState.beginning) then
-        e.sourceInstance.caster.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
+        caster.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
     end
 
+    local target = e.effectInstance.target
+
     -- Trigger into the spell system.
-    local currentBlood = blood.getReferenceBloodStatistic(e.effectInstance.target).current
+    local currentBlood = blood.getReferenceBloodStatistic(target).current
     local result, newBlood = e:trigger({
         type = 2,
         value = currentBlood
@@ -21,13 +25,15 @@ local function transfuseBloodTick(e)
     end
 
     local diff = newBlood - currentBlood
-    blood.modReferenceCurrentBloodStatistic(e.sourceInstance.caster, diff, true)
+    blood.modReferenceCurrentBloodStatistic(caster, diff, true)
 
-    if common.isReferenceVampire(e.effectInstance.target) then
-        blood.modReferenceCurrentBloodStatistic(e.effectInstance.target, diff * -1, true)
+    common.logger.trace("Caster: %s, Target: %s, Diff: %s", caster, target, diff)
+
+    if common.isReferenceVampire(target) then
+        blood.modReferenceCurrentBloodStatistic(target, diff * -1, true)
     else
         tes3.modStatistic({
-            reference = e.effectInstance.target,
+            reference = target,
             name = "health",
             current = diff * -0.5
         })

@@ -154,6 +154,8 @@ end
 
 local function shadowStepKey(e)
     if keyDownEqual(e, common.config.shadowStepActionKey) == true then
+        common.logger.trace("Detected Shadowstep action key.")
+
         if common.isPlayerVampire() == false then return end
         if bloodPotency.getLevel(tes3.player) < 4 then
             tes3.messageBox(common.text.shadowstepFailed_TooWeak)
@@ -161,12 +163,15 @@ local function shadowStepKey(e)
         end
 
         if isInShadowStepMode == false then
+            common.logger.trace("Entering Shadowstep mode.")
             enterShadowStepMode()
         else
+            common.logger.trace("Confirming Shadowstep.")
             confirmShadowStep()
         end
     end
     if keyDownEqual(e, common.config.shadowStepCancelKey) == true and isInShadowStepMode == true then
+        common.logger.trace("Detected Shadowstep cancel key while in shadowstep mode. Exitting Shadowstep.")
         exitShadowStepMode()
     end
 end

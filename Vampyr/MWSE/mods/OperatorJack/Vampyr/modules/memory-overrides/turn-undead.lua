@@ -1,14 +1,16 @@
 local common = require("OperatorJack.Vampyr.common")
 
 local function IsValidTurnUndeadTarget(target)
+    local result = false
     if target.actorType == tes3.actorType.creature then
-        return target.object.baseObject.type == tes3.creatureType.undead
+        result = target.object.baseObject.type == tes3.creatureType.undead
     elseif target.actorType == tes3.actorType.npc then
-        return common.isReferenceVampire(target.reference) == true
-    else
-        return false
+        result = common.isReferenceVampire(target.reference) == true
     end
 
+    common.logger.trace("Overriding Vanilla Turn Undead logic. %s is undead = %s.", target, result)
+
+    return result
 end
 
 -- Change the game code to call our custom function to check target validity when applying the Turn Undead effect to an actor.

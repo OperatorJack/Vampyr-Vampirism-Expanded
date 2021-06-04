@@ -9,6 +9,7 @@ local light = nil
 
 event.register("objectInvalidated", function(e)
     doors[e.object] = nil
+    common.logger.trace("Door invalidated. Stopping tracking. Reference: %s", e.object)
 end)
 
 local function resetDoors()
@@ -16,6 +17,7 @@ local function resetDoors()
         if door.position:distance(tes3.player.position) >= 128 then
             door.hasNoCollision = false
             doors[door] = nil
+            common.logger.trace("Door out of range. Setting collision and stopping tracking. Reference: %s", door)
         end
     end
 end
@@ -27,6 +29,7 @@ local function onTick(e)
         if not door.destination and not doors[door] then
             doors[door] = true
             door.hasNoCollision = true
+            common.logger.trace("Door detected. Setting collision and beginning tracking. Reference: %s", door)
         end
     end
 end
@@ -124,9 +127,11 @@ local function mistformTick(e)
     if e.effectInstance.state == tes3.spellState.beginning or initialized == false then
         start()
         initialized = true
+        common.logger.trace("Initilizing effect.")
 
     elseif e.effectInstance.state == tes3.spellState.working and tes3.mobilePlayer.mobToMobCollision == true then
         tes3.mobilePlayer.mobToMobCollision = false
+        common.logger.trace("Lost mob to mob collision. Resetting to false.")
 
     elseif e.effectInstance.state == tes3.spellState.ending then
         -- Disable combat controls
@@ -154,6 +159,7 @@ local function mistformTick(e)
             cell = tes3.player.cell
         })
         fadeout.modified = false
+        common.logger.trace("Fadeout created.")
 
         timer.start({
             duration = 5,
@@ -164,10 +170,13 @@ local function mistformTick(e)
                         mwscript.setDelete{ reference = fadeout}
                         fadeout.modified = false
                         fadeout = nil
+                        common.logger.trace("Fadeout deleted.")
                     end)
                 end
             end
         })
+
+        common.logger.trace("Ending effect.")
     end
 
     -- Trigger into the spell system.

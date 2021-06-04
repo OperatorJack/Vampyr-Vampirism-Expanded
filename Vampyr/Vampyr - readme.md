@@ -16,7 +16,7 @@ Expands Vampirism in TES III: Morrowind by adding new mechanics, new spells, new
 
 Credits are listed in alphabetical order.
 
-_Alice L_ - Writing lore surrounding the mechanics and how they interact with the game world. Helping with the design of the mod mechanics.
+_Alice L_ - Writing lore surrounding the mechanics and how they interact with the game world. Helping with the design of the mod mechanics. Author of _Introduction to Vampirism_.
 _Greatness7_ - Animation toolkits allowing the creation of the claws mechanics. Tons of scripting help. My goto guy when in a pickle.
 _Hrnchamd_ - Dehardcoding animation system in MWSE, allowing for new & advanced animation mechanics. Adding many new MWSE features to make my ideas a reality.
 _JaceyS_ - All magic effect icons currently in Vampyr, as well as the alternative icons found in the repository.

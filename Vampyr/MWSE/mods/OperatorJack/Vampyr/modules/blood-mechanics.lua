@@ -36,7 +36,6 @@ event.register(common.events.initializedReference, initializedReference )
 local function playerVampireStateChanged(e)
     if (e.isVampire == true) then
         initializeBlood(tes3.player)
-        blood.setPlayerCurrentBloodStatistic(0)
     end
 end
 event.register(common.events.playerVampireStateChanged, playerVampireStateChanged)

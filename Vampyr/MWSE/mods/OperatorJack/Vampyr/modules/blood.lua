@@ -42,7 +42,11 @@ end
  --[[ MOD Blood ]] --
 function blood.modReferenceBaseBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
-    reference.data.OJ_VAMPYR.blood.base = math.max(reference.data.OJ_VAMPYR.blood.base + amount, 0)
+    local oldBlood = reference.data.OJ_VAMPYR.blood.base
+    local currentBlood = math.max(reference.data.OJ_VAMPYR.blood.base + amount, 0)
+    reference.data.OJ_VAMPYR.blood.base = currentBlood
+
+    common.logger.debug("Modding Base Blood for %s. Amount: %s, Old: %s, New: %s.", reference, amount, oldBlood, currentBlood)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,
@@ -54,7 +58,9 @@ end
 function blood.modReferenceCurrentBloodStatistic(reference, amount, isCapped)
     common.initializeReferenceData(reference)
     local currentBlood = reference.data.OJ_VAMPYR.blood.current
-    local pastBlood = currentBlood
+    local oldBlood = currentBlood
+
+    if not isCapped then isCapped = true end
 
     if (amount < 0) then
         currentBlood = math.max(currentBlood + amount, 0)
@@ -62,13 +68,16 @@ function blood.modReferenceCurrentBloodStatistic(reference, amount, isCapped)
 
     if (isCapped == true and amount > 0) then
         currentBlood = math.min(currentBlood + amount, reference.data.OJ_VAMPYR.blood.base)
-    elseif (isCapped == false and amount > 0) then
+    elseif (not isCapped or isCapped == false and amount > 0) then
         currentBlood = currentBlood + amount
     end
 
     reference.data.OJ_VAMPYR.blood.current = currentBlood
 
-    local appliedAmount = currentBlood - pastBlood
+    local appliedAmount = currentBlood - oldBlood
+
+    common.logger.debug("Modding Current Blood for %s. Capped: %s, Amount: %s, Applied: %s, Old: %s, New: %s.", reference, isCapped, amount, appliedAmount, oldBlood, currentBlood)
+
     event.trigger(common.events.bloodChanged, {
         reference = reference,
         type = "mod",
@@ -87,7 +96,10 @@ end
  --[[ SET Blood ]] --
 function blood.setReferenceBaseBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
+    local oldBlood = reference.data.OJ_VAMPYR.blood.base
     reference.data.OJ_VAMPYR.blood.base = amount
+
+    common.logger.debug("Setting Base Blood for %s. Old: %s, New: %s.", reference, oldBlood, amount)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,
@@ -98,7 +110,10 @@ function blood.setReferenceBaseBloodStatistic(reference, amount)
 end
 function blood.setReferenceCurrentBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
+    local oldBlood = reference.data.OJ_VAMPYR.blood.current
     reference.data.OJ_VAMPYR.blood.current = amount
+
+    common.logger.debug("Setting Current Blood for %s. Old: %s, New: %s.", reference, oldBlood, amount)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,

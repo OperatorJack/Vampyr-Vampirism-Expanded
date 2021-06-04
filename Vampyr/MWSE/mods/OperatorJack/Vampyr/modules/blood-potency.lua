@@ -17,7 +17,7 @@ local levels = {
     [10] = "Daywalker"
 }
 function bloodPotency.getLevelNameFromLevel(level)
-    return levels[level]
+    return levels[math.min(level, 10)]
 end
 
 function bloodPotency.calculateBloodPotency(reference)

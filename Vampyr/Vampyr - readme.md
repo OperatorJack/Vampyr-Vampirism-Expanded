@@ -19,6 +19,7 @@ Credits are listed in alphabetical order.
 _Alice L_ - Writing lore surrounding the mechanics and how they interact with the game world. Helping with the design of the mod mechanics.
 _Greatness7_ - Animation toolkits allowing the creation of the claws mechanics. Tons of scripting help. My goto guy when in a pickle.
 _Hrnchamd_ - Dehardcoding animation system in MWSE, allowing for new & advanced animation mechanics. Adding many new MWSE features to make my ideas a reality.
+_JaceyS_ - All magic effect icons currently in Vampyr, as well as the alternative icons found in the repository.
 _Kurp (Kurpulio)_ - All VFX seen in Vampyr. Without Kurp's help, this mod would be decidedly less cool.
 _Melchior Darhk_ - Steel & Silver Stakes. Blood serum models.
 _NullCascade_ - MWSE Lua and the tons of updates he has completed that made this mod possible. Continued help with MWSE.

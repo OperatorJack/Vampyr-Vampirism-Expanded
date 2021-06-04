@@ -113,6 +113,12 @@ event.register("calcHitChance", function(e)
     end
 end)
 
+event.register("activate", function(e)
+    if tes3.isAffectedBy({reference = e.target, effect = tes3.effect.mistform}) == true then
+        return false
+    end
+end, {priority = 1000})
+
 local initialized = false
 local function mistformTick(e)
     if e.effectInstance.state == tes3.spellState.beginning or initialized == false then

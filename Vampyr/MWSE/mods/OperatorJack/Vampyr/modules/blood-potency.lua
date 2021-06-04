@@ -22,7 +22,7 @@ end
 
 function bloodPotency.calculateBloodPotency(reference)
     local baseBlood = blood.getReferenceBloodStatistic(reference).base
-    return 1 + math.floor(baseBlood / 50)
+    return math.min(1 + math.floor(baseBlood / 50), 10)
 end
 
 function bloodPotency.initializeReferenceData(reference)

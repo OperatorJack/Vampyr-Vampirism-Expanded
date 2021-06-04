@@ -114,7 +114,7 @@ event.register("calcHitChance", function(e)
 end)
 
 event.register("activate", function(e)
-    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.mistform}) == true then
+    if e.activator == tes3.player and tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.mistform}) == true then
         return false
     end
 end, {priority = 1000})

@@ -4,6 +4,7 @@ local config = require("OperatorJack.Vampyr.config")
 local logger = {}
 
 logger.logLevels = {
+    TRACE = 0,
     DEBUG = 1,
     INFO = 2,
     ERROR = 3,
@@ -21,6 +22,14 @@ local function log(level, module, info, str, ...)
         local prepend = ("[Vampyr.%s:%s:%s]:"):format(module, info.currentline, level)
         local aligned = ("%-36s"):format(prepend)
         mwse.log(aligned .. str, ...)
+end
+
+function logger.trace(str, ...)
+    if doLog("TRACE") then
+        local info = debug.getinfo(2, "Sl")
+        local module = info.short_src:match("^.+\\(.+).lua$")
+        log("TRACE", module, info, str, ...)
+    end
 end
 
 function logger.debug(str, ...)

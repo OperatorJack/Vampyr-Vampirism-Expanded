@@ -8,6 +8,7 @@ local function addAuspex()
 		id = tes3.effect.auspex,
 		name = "Auspex",
 		description = "When active, the caster can sense the health, blood, and potency of other beings.",
+		icon = "OJ\\V\\e\\Tx_S_Auspex.dds",
 
 		-- Basic dials.
 		baseCost = 0,

@@ -51,9 +51,11 @@ local function debugMenuKey(e)
                 text = "Add 50 Current Blood",
                 requirements = common.isPlayerVampire,
                 callback = function()
-                        blood.modPlayerCurrentBloodStatistic(50)
-                        local bloodStat = blood.getPlayerBloodStatistic()
-                        tes3.messageBox("Current: " .. bloodStat.current .. " , Max: " .. bloodStat.base)
+                        timer.delayOneFrame(function()
+                            blood.modPlayerCurrentBloodStatistic(50)
+                            local bloodStat = blood.getPlayerBloodStatistic()
+                            tes3.messageBox("Current: " .. bloodStat.current .. " , Max: " .. bloodStat.base)
+                        end)
                 end,
                 tooltipDisabled = {
                     text = "You must be a vampire."

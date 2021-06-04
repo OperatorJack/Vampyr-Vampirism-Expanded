@@ -149,6 +149,7 @@ local function addMistform()
 		id = tes3.effect.mistform,
 		name = "Mistform",
 		description = "When active, the caster will turn to mist and be able to move through nearby doors and actors.",
+		icon = "OJ\\V\\e\\Tx_S_Mstfrm.dds",
 
 		-- Basic dials.
 		baseCost = 0,

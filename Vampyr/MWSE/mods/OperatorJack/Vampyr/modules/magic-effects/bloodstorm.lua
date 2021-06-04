@@ -120,6 +120,7 @@ local function addBloodstorm()
 		id = tes3.effect.bloodstorm,
 		name = "Bloodstorm",
 		description = "Creates a bloodstorm for the duration of the spell, which rains blood and boosts the abilities of vampires within it.",
+		icon = "OJ\\V\\e\\Tx_S_BldStrm.dds",
 
 		-- Basic dials.
 		baseCost = 0,

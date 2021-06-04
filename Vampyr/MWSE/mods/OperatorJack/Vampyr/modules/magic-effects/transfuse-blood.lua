@@ -40,6 +40,7 @@ local function addTransfuseBlood()
 		id = tes3.effect.transfuseBlood,
 		name = "Tranfuse Blood",
 		description = "Drains blood from the target, where the amount drained per second is equal to the effect's magnitude. If the target is not a vampire, drains health at a lower rate.",
+		icon = "OJ\\V\\e\\Tx_S_TrnsfBld.dds",
 
 		-- Basic dials.
 		baseCost = 5.0,

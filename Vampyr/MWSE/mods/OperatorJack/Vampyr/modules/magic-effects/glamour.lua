@@ -55,6 +55,7 @@ local function addGlamour()
 		id = tes3.effect.glamour,
 		name = "Glamour",
 		description = "When active, the caster will not be recognized as a vampire.",
+		icon = "OJ\\V\\e\\Tx_S_Glamour.dds",
 
 		-- Basic dials.
 		baseCost = 0,

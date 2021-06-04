@@ -205,7 +205,7 @@ function common.initializeReferenceData(reference)
             },
             bloodInitialized = false,
             lastFeedDay = tes3.worldController.daysPassed.value,
-            isVampire = common.isReferenceVampire(reference)
+            isVampire = common.isReferenceVampire(reference),
         }
         event.trigger(common.events.initializedReference, {
             reference = reference

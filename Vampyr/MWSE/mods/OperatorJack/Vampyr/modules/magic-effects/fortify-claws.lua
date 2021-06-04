@@ -29,6 +29,7 @@ local function addFortifyClaws()
 		id = tes3.effect.fortifyClaws,
 		name = "Fortify Claws",
 		description = "Fortifies the claws of vampires, sharpening and enhancing their damage. Vampires under this effect will deal more damage and absorb more blood while fighting with claws.",
+		icon = "OJ\\V\\e\\Tx_S_FtfyClws.dds",
 
 		-- Basic dials.
 		baseCost = 5.0,

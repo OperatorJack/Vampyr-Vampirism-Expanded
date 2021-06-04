@@ -30,6 +30,7 @@ local function addRestoreBlood()
 		id = tes3.effect.restoreBlood,
 		name = "Restore Blood",
 		description = "Restores blood to vampires, where the amount restored per second is equal to the effect's magnitude.",
+		icon = "OJ\\V\\e\\Tx_S_RstBld.dds",
 
 		-- Basic dials.
 		baseCost = 5.0,

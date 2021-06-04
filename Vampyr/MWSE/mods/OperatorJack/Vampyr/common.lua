@@ -24,6 +24,7 @@ common.ids = {
         cast = "OJ_V_MistformCast",
         fadeout = "OJ_V_MistformFadeout",
         hit = "OJ_V_MistformHit",
+        light = "OJ_V_MistformHitLight",
     },
 
     shadowstep = {

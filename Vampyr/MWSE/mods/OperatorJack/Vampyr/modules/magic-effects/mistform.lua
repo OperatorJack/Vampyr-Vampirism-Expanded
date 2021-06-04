@@ -5,6 +5,7 @@ local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager"
 tes3.claimSpellEffectId("mistform", 705)
 
 local doors = {}
+local light = nil
 
 event.register("objectInvalidated", function(e)
     doors[e.object] = nil
@@ -30,6 +31,15 @@ local function onTick(e)
     end
 end
 
+local function onSimulate()
+    tes3.positionCell({
+        reference = light,
+        position = tes3.player.position,
+        orientation = tes3.player.orientation,
+        cell = tes3.player.cell
+    })
+end
+
 local function appCullNodes(nodes, appCulledState)
     for _, node in ipairs(nodes) do
         if node then
@@ -41,7 +51,16 @@ end
 local localTimer = nil
 local function stop()
     resetDoors()
-    if localTimer then localTimer:cancel() end
+    if localTimer then
+        localTimer:cancel()
+    end
+
+    event.unregister("simulate", onSimulate)
+    if light then
+        light:disable()
+        light.modified = false
+        light = nil
+    end
 end
 
 local function start()
@@ -63,6 +82,14 @@ local function start()
     tes3.player.sceneNode:update({controllers=true})
 
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
+
+    light = tes3.createReference({
+        object = common.ids.mistform.light,
+        position = tes3.player.position,
+        cell = tes3.player.cell
+    })
+    light.modified = false
+    event.register("simulate", onSimulate)
 end
 
 event.register(common.events.calcSunDamage, function(e)

@@ -53,7 +53,12 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.0.2 - June 3, 2021 - The Claws Update**
+#### **0.2.1**
+
+- Mistform
+  - Player can no longer activate objects while using mistform.
+
+#### **0.2.0 - June 3, 2021 - The Claws Update**
 
 - Bugfixes
 
@@ -111,7 +116,7 @@ The table below outlines functionality added or changed in each alpha version.
 - Shadowstep
   - Shadowstep now supports custom keybindings, which can be found in the MCM.
 
-#### **0.0.1 - May 19, 2021 - Initial Alpha Release**
+#### **0.1.0 - May 19, 2021 - Initial Alpha Release**
 
 - Blood Mechanic
   - Calculate Base Blood on becoming Vampire (or installing mod)

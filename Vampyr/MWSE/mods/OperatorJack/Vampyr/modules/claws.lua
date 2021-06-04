@@ -29,7 +29,7 @@ local function setAnimation(ref)
 end
 
 local function calcClawDamage(vampire, target)
-    local h2h = vampire.mobile.handToHand.current
+    local h2h = math.min(vampire.mobile.handToHand.current, 150)
     local luck = vampire.mobile.luck.current
     local crit = 1
     local baseDamage = 5 -- TODO: REPLACE WITH REAL FORMULA / RECONSIDER

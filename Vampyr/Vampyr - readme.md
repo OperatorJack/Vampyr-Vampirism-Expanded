@@ -37,6 +37,10 @@ Getting started is easy. Just become a vampire! Currently, the vanilla process t
 - You will become a vampire and have you blood level increased by 50 every 10 seconds for 100 seconds (10 times).
 - There is not currently a way to increase blood level without using script commands. You can run the above command repeatedly.
 
+Go to `coc vampyr_test` to see some test items and NPCs.
+
+Use `SHIFT + /` to open the debug menu.
+
 ### Version History
 
 The coming soon section describes what to expect in the next alpha version. Version roadmapping is not currently maintained.
@@ -49,10 +53,14 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.0.2 - DATE - The Claws Update**
+#### **0.0.2 - June 3, 2021 - The Claws Update**
 
 - Bugfixes
   - Fixed bug in Shadowstep where incorrect VFX was being used.
+  - Fixed being able to go beyond level 10 blood potency.
+- [**New!**] Debug Menu
+  - You can now press `SHIFT + /` to open a debug menu. This has options to become a vampire, cure vampirism, and change blood levels.
+  - Will be expanded in future updates.
 - [**New!**] Claws
   - Vampires will attack with claws when using hand to hand, instead of fists.
   - Uses normal hand to hand controls.
@@ -85,7 +93,6 @@ The table below outlines functionality added or changed in each alpha version.
   - [**New!**] Fortify Claws
     - This effect is gained through new version of the Vampiric Touch spells.
     - Magnitude of this effect improves claw damage and blood draw by relative amount.
-    -
 - Shadowstep
   - Shadowstep now supports custom keybindings, which can be found in the MCM.
 

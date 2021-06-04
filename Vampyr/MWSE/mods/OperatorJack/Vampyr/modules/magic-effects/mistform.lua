@@ -41,6 +41,7 @@ local function onSimulate()
         orientation = tes3.player.orientation,
         cell = tes3.player.cell
     })
+    light:setDynamicLighting()
 end
 
 local function appCullNodes(nodes, appCulledState)

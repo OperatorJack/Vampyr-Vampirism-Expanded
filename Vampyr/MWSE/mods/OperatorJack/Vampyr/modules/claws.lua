@@ -43,7 +43,7 @@ local function calcClawDamage(vampire, target)
 end
 
 local function calcBloodDraw(vampire, target, damage)
-    local h2h = vampire.mobile.handToHand.current
+    local h2h = math.min(vampire.mobile.handToHand.current, 150)
     local luck = vampire.mobile.luck.current
 
     local bloodDraw = math.random(0, damage)

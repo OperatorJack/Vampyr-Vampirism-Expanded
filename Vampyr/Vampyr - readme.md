@@ -50,6 +50,7 @@ The coming soon section describes what to expect in the next alpha version. Vers
 - Blood Magic Effects
   - Bloodstorm (100%)
   - Glamour (100%)
+  - Blood Transfusion Mechanics
 
 The table below outlines functionality added or changed in each alpha version.
 

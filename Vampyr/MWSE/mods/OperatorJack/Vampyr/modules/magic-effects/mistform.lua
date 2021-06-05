@@ -14,7 +14,7 @@ end)
 
 local function resetDoors()
     for door in pairs(doors) do
-        if door.position:distance(tes3.player.position) >= 128 then
+        if door.position:distance(tes3.player.position) >= 128 or door.cell ~= tes3.player.cell then
             door.hasNoCollision = false
             doors[door] = nil
             common.logger.trace("Door out of range. Setting collision and stopping tracking. Reference: %s", door)

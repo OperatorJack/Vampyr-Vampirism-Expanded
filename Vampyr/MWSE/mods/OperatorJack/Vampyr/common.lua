@@ -133,16 +133,24 @@ end
 function common.iterReferencesNearTargetPosition(position, distance, filter)
     filter = filter or {}
     return coroutine.wrap(function()
-        for _, cell in pairs(tes3.getActiveCells()) do
-            for ref in cell:iterateReferences(filter) do
-                if ref.position:distance(position) <= distance then
-                    coroutine.yield(ref)
-                end
+        for ref in common.iterReferences(filter) do
+            if ref.position:distance(position) <= distance then
+                coroutine.yield(ref)
             end
         end
     end)
 end
 
+function common.iterReferences(filter)
+    filter = filter or {}
+    return coroutine.wrap(function()
+        for _, cell in pairs(tes3.getActiveCells()) do
+            for ref in cell:iterateReferences(filter) do
+                coroutine.yield(ref)
+            end
+        end
+    end)
+end
 
 function common.keyDownEqual(eventKeyDown, configKeyDown)
     if eventKeyDown.keyCode == configKeyDown.keyCode and

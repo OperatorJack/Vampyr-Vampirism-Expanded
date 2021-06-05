@@ -85,9 +85,9 @@ local function onTick(e)
                             duration = 15,
                         }}
                     })
-                    ref.mobile:startCombat(caster)
+                    ref.mobile:startCombat(tes3.player)
                     timer.delayOneFrame(function()
-                        ref.mobile:stopCombat(caster)
+                        ref.mobile:stopCombat(tes3.player)
                     end)
                     actors[ref] = true
                 end
@@ -103,9 +103,9 @@ local function onTick(e)
                         duration = 15,
                     }}
                 })
-                ref.mobile:startCombat(caster)
+                ref.mobile:startCombat(tes3.player)
                 timer.delayOneFrame(function()
-                    ref.mobile:stopCombat(caster)
+                    ref.mobile:stopCombat(tes3.player)
                 end)
                 actors[ref] = true
             end

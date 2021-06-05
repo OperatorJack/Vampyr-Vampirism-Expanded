@@ -48,7 +48,6 @@ The coming soon section describes what to expect in the next alpha version. Vers
 #### **Coming Soon!**
 
 - Blood Magic Effects
-  - Bloodstorm (100%)
   - Glamour (100%)
   - Blood Transfusion Mechanics
 
@@ -68,6 +67,11 @@ The table below outlines functionality added or changed in each alpha version.
 - Blood Spells
 
   - Vampiric Kiss spells changed from Transfuse Blood to Absorb Health.
+
+- Bloodstorm
+
+  - Recovers small amounts of blood for vampires nearby the Player during bloodstorm.
+  - Demoralizes nearby NPCs and creatures during bloodstorm. Depending on their level, they may flee.
 
 - Mistform
 

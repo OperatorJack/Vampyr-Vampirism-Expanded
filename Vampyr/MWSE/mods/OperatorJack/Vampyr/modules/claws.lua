@@ -81,7 +81,7 @@ event.register("combatStart", function(e)
         setAnimation(e.actor.reference)
     end
 
-    if common.isReferenceVampire(e.target.reference) == true then
+    if e.target and common.isReferenceVampire(e.target.reference) == true then
         setAnimation(e.target.reference)
     end
 end)

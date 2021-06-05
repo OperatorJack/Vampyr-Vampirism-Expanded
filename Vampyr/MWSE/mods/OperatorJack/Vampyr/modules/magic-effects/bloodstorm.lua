@@ -42,16 +42,90 @@ local function switchRainTexture(current, new)
     end
 end
 
-event.register("loaded", function()
-    switchRainTexture(textures.bloodrain, textures.raindrop)
-    initialized = false
-end)
-
 event.register(common.events.calcSunDamage, function(e)
     if tes3.isAffectedBy({reference = e.reference, effect = tes3.effect.bloodstorm}) == true then
         e.damage = 0
     end
 end)
+
+local actors = {}
+event.register("objectInvalidated", function(e)
+    actors[e.object] = nil
+    common.logger.trace("Actor invalidated. Stopping tracking. Reference: %s", e.object)
+end)
+
+local function onTick(e)
+    for ref in common.iterReferencesNearTargetPosition(tes3.player.position, 512, {tes3.objectType.npc, tes3.objectType.creature}) do
+        common.logger.trace("Iterating Reference: %s", ref)
+
+        if not actors[ref] then
+            if ref.object.objectType == tes3.objectType.npc then
+                if common.isReferenceVampire(ref) == true then
+                    common.logger.trace("Vampire detected. Applying magic source. Reference: %s", ref)
+                    tes3.applyMagicSource({
+                        reference = ref,
+                        name = "Bloodstorm Amplification",
+                        effects={{
+                            id = tes3.effect.restoreBlood,
+                            min = 1,
+                            max = 10,
+                            duration = 15,
+                        }}
+                    })
+                    actors[ref] = true
+                else
+                    common.logger.trace("Non-vampire detected. Applying magic source. Reference: %s", ref)
+                    tes3.applyMagicSource({
+                        reference = ref,
+                        name = "Bloodstorm Paranoia",
+                        effects={{
+                            id = tes3.effect.demoralizeHumanoid,
+                            min = math.max(25 - ref.object.level, 0),
+                            max = math.max(50 - ref.object.level, 0),
+                            duration = 15,
+                        }}
+                    })
+                    ref.mobile:startCombat(caster)
+                    timer.delayOneFrame(function()
+                        ref.mobile:stopCombat(caster)
+                    end)
+                    actors[ref] = true
+                end
+            else
+                common.logger.trace("Creature detected. Applying magic source. Reference: %s", ref)
+                tes3.applyMagicSource({
+                    reference = ref,
+                    name = "Bloodstorm Paranoia",
+                    effects={{
+                        id = tes3.effect.demoralizeCreature,
+                        min = math.max(20 - ref.object.level, 0),
+                        max = math.max(40 - ref.object.level, 0),
+                        duration = 15,
+                    }}
+                })
+                ref.mobile:startCombat(caster)
+                timer.delayOneFrame(function()
+                    ref.mobile:stopCombat(caster)
+                end)
+                actors[ref] = true
+            end
+        end
+    end
+end
+
+local localTimer = nil
+local function stopBloodstorm()
+    if localTimer then
+        localTimer:cancel()
+    end
+
+    switchRainTexture(textures.bloodrain, textures.raindrop)
+
+    tes3.worldController.weatherController:switchImmediate(tes3.player.data.OJ_VAMPYR.bloodstorm.previousWeather)
+    tes3.worldController.weatherController:updateVisuals()
+
+    tes3.player.data.OJ_VAMPYR.bloodstorm = nil
+end
 
 local function startBloodstorm()
     tes3.player.data.OJ_VAMPYR.bloodstorm = {
@@ -63,16 +137,22 @@ local function startBloodstorm()
 
     tes3.worldController.weatherController:switchImmediate(tes3.weather.rain)
     tes3.worldController.weatherController:updateVisuals()
+
+    if localTimer then
+        localTimer:cancel()
+    end
+    localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
 end
 
-local function stopBloodstorm()
+event.register("loaded", function(e)
     switchRainTexture(textures.bloodrain, textures.raindrop)
 
-    tes3.worldController.weatherController:switchImmediate(tes3.player.data.OJ_VAMPYR.bloodstorm.previousWeather)
-    tes3.worldController.weatherController:updateVisuals()
+    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.bloodstorm}) == true then
+        startBloodstorm()
 
-    tes3.player.data.OJ_VAMPYR.bloodstorm = nil
-end
+        -- Add logic to handle beginning state, for when effect loads before game is ready.
+    end
+end)
 
 local function bloodstormTick(e)
     local caster = e.sourceInstance.caster
@@ -80,6 +160,7 @@ local function bloodstormTick(e)
     -- Reset feed date for vampire.
     if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then
         if (caster.cell.isInterior == true) then
+            common.logger.trace("Attempted to cast indoors. Retiring effect.")
             tes3.messageBox("The spell succeeds, but there is no effect indoors.")
             e.effectInstance.state = tes3.spellState.retired
             return
@@ -91,7 +172,7 @@ local function bloodstormTick(e)
 
     end
     if (e.effectInstance.state == tes3.spellState.working) then
-        if (caster.cell.isInterior == true) then
+        if (tes3.player.cell.isInterior == true) then
             tes3.messageBox("The spell fails to work indoors.")
             stopBloodstorm()
             e.effectInstance.state = tes3.spellState.retired

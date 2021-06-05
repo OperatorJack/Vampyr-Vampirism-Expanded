@@ -24,7 +24,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local damage = shadeModifier * resistanceModifier * attributeVariant
 
     if (target == tes3.player) then
-        common.logger.trace("Sun Damage: shade: %s, resist: %s, attrib: %s = damage: %s", shadeModifier, resistanceModifier, attributeVariant, damage)
+        --common.logger.trace("Sun Damage: shade: %s, resist: %s, attrib: %s = damage: %s", shadeModifier, resistanceModifier, attributeVariant, damage)
     end
 
     local params = { reference = target, damage = damage}

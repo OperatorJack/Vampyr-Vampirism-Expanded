@@ -55,8 +55,30 @@ The table below outlines functionality added or changed in each alpha version.
 
 #### **0.2.1**
 
+- Bugfixes
+
+  - Misc fixes to improve blood mechanics and prevent errors.
+  - Actually fixed being able to go beyond level 10 blood potency. (Whups)
+
+- Game World
+
+  - Added "Introduction to Vampirism" book to ESP. Not currently placed in game.
+
+- Blood Spells
+
+  - Vampiric Kiss spells changed from Transfuse Blood to Absorb Health.
+
 - Mistform
+
   - Player can no longer activate objects while using mistform.
+  - New, improved VFX by Kurp.
+  - Fixing lighting issue in Mistform effect.
+
+- Debuging
+
+  - Improved debug menu with more options for managing blood levels.
+  - Added new TRACE log level for low level logging.
+  - Added logging throughout Vampyr for better debugging.
 
 #### **0.2.0 - June 3, 2021 - The Claws Update**
 

@@ -142,18 +142,9 @@ local function confirmShadowStep()
     removeMarker()
 end
 
-local function keyDownEqual(eventKeyDown, configKeyDown)
-    if eventKeyDown.keyCode == configKeyDown.keyCode and
-        eventKeyDown.isAltDown == configKeyDown.isAltDown and
-        eventKeyDown.isShiftDown == configKeyDown.isShiftDown and
-        eventKeyDown.isControlDown == configKeyDown.isControlDown then
-           return true
-    end
-    return false
-end
 
 local function shadowStepKey(e)
-    if keyDownEqual(e, common.config.shadowStepActionKey) == true then
+    if common.keyDownEqual(e, common.config.shadowStepActionKey) == true then
         common.logger.trace("Detected Shadowstep action key.")
 
         if common.isPlayerVampire() == false then return end
@@ -170,7 +161,7 @@ local function shadowStepKey(e)
             confirmShadowStep()
         end
     end
-    if keyDownEqual(e, common.config.shadowStepCancelKey) == true and isInShadowStepMode == true then
+    if common.keyDownEqual(e, common.config.shadowStepCancelKey) == true and isInShadowStepMode == true then
         common.logger.trace("Detected Shadowstep cancel key while in shadowstep mode. Exitting Shadowstep.")
         exitShadowStepMode()
     end

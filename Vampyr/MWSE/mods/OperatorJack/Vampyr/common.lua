@@ -143,6 +143,17 @@ function common.iterReferencesNearTargetPosition(position, distance, filter)
     end)
 end
 
+
+function common.keyDownEqual(eventKeyDown, configKeyDown)
+    if eventKeyDown.keyCode == configKeyDown.keyCode and
+        eventKeyDown.isAltDown == configKeyDown.isAltDown and
+        eventKeyDown.isShiftDown == configKeyDown.isShiftDown and
+        eventKeyDown.isControlDown == configKeyDown.isControlDown then
+           return true
+    end
+    return false
+end
+
 function common.getKeyFromValueFunc(tbl, func)
     for key, value in pairs(tbl) do
         if (func(value) == true) then return key end

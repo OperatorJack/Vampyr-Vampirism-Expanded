@@ -73,6 +73,7 @@ The table below outlines functionality added or changed in each alpha version.
   - Player can no longer activate objects while using mistform.
   - New, improved VFX by Kurp.
   - Fixing lighting issue in Mistform effect.
+  - Removed default mysticism particle texture while casting.
 
 - Debuging
 

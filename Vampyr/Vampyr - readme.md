@@ -72,6 +72,7 @@ The table below outlines functionality added or changed in each alpha version.
 
   - Recovers small amounts of blood for vampires nearby the Player during bloodstorm.
   - Demoralizes nearby NPCs and creatures during bloodstorm. Depending on their level, they may flee.
+  - New VFX in future versions, maybe.
 
 - Mistform
 

@@ -6,8 +6,8 @@ local vfx = {}
 
 local stencil = nil
 local stencilArmsAndLegs = nil
-local stenciledActors = {}
 
+local stenciledActors = {}
 local vanillaStencilProperties = {}
 local vanillaStencilObjects = {
     ["Left Upper Leg"] = true,
@@ -16,6 +16,7 @@ local vanillaStencilObjects = {
     ["Left Upper Arm"] = true,
     ["Left Forearm"] = true,
     ["Left Wrist"] = true,
+    ["Left Foot"] = true,
 }
 functions.detachStencilProperty = function(reference)
     if not stenciledActors[reference] then return end
@@ -37,7 +38,10 @@ functions.detachStencilProperty = function(reference)
 
     sceneNode:update()
     sceneNode:updateNodeEffects()
+    sceneNode:updateProperties()
     stenciledActors[reference] = nil
+
+    common.logger.debug("Removed stencil properties from %s.", reference)
 end
 
 functions.attachStencilProperty = function(reference)
@@ -66,9 +70,10 @@ functions.attachStencilProperty = function(reference)
     sceneNode:attachProperty(stencil)
     sceneNode:update()
     sceneNode:updateNodeEffects()
+    sceneNode:updateProperties()
     stenciledActors[reference] = true
 
-    common.logger.trace("Attached %s to %s. Property: ", stencil.RTTI.name, reference, sceneNode:getProperty(0x3))
+    common.logger.debug("Added stencil properties to %s.", reference)
 end
 
 functions.getOrAttachVfx = function(reference, sceneObjectName, path)

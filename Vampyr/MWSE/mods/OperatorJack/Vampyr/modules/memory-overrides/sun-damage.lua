@@ -32,8 +32,8 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     damage = params.damage
 
     local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamageVfx)
-    nodeManager.attachStencilProperty(target)
     if math.abs(damage) > 0.001 then
+        nodeManager.attachStencilProperty(target)
         nodeManager.showNode(node)
 
         if (blood.isInitialized(target) == true) then
@@ -53,6 +53,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         end
     else
         nodeManager.hideNode(node)
+        nodeManager.detachStencilProperty(target)
     end
 
     -- Bypass vanilla sun damage function by returning 0 damage.

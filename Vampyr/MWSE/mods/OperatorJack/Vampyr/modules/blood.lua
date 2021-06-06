@@ -35,7 +35,7 @@ end
 
 function blood.applyFeedingAction(reference, amount)
     if not common.roll(10) then return end
-    common.logger.debug("Applying feeding action to %s. Amount %s.", reference, amount)
+    common.logger.trace("Applying feeding action to %s. Amount %s.", reference, amount)
     blood.modReferenceBaseBloodStatistic(reference, amount)
 end
 
@@ -46,7 +46,7 @@ function blood.modReferenceBaseBloodStatistic(reference, amount)
     local currentBlood = math.max(reference.data.OJ_VAMPYR.blood.base + amount, 0)
     reference.data.OJ_VAMPYR.blood.base = currentBlood
 
-    common.logger.debug("Modding Base Blood for %s. Amount: %s, Old: %s, New: %s.", reference, amount, oldBlood, currentBlood)
+    common.logger.trace("Modding Base Blood for %s. Amount: %s, Old: %s, New: %s.", reference, amount, oldBlood, currentBlood)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,
@@ -76,7 +76,7 @@ function blood.modReferenceCurrentBloodStatistic(reference, amount, isCapped)
 
     local appliedAmount = currentBlood - oldBlood
 
-    common.logger.debug("Modding Current Blood for %s. Capped: %s, Amount: %s, Applied: %s, Old: %s, New: %s.", reference, isCapped, amount, appliedAmount, oldBlood, currentBlood)
+    common.logger.trace("Modding Current Blood for %s. Capped: %s, Amount: %s, Applied: %s, Old: %s, New: %s.", reference, isCapped, amount, appliedAmount, oldBlood, currentBlood)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,
@@ -99,7 +99,7 @@ function blood.setReferenceBaseBloodStatistic(reference, amount)
     local oldBlood = reference.data.OJ_VAMPYR.blood.base
     reference.data.OJ_VAMPYR.blood.base = amount
 
-    common.logger.debug("Setting Base Blood for %s. Old: %s, New: %s.", reference, oldBlood, amount)
+    common.logger.trace("Setting Base Blood for %s. Old: %s, New: %s.", reference, oldBlood, amount)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,
@@ -113,7 +113,7 @@ function blood.setReferenceCurrentBloodStatistic(reference, amount)
     local oldBlood = reference.data.OJ_VAMPYR.blood.current
     reference.data.OJ_VAMPYR.blood.current = amount
 
-    common.logger.debug("Setting Current Blood for %s. Old: %s, New: %s.", reference, oldBlood, amount)
+    common.logger.trace("Setting Current Blood for %s. Old: %s, New: %s.", reference, oldBlood, amount)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,

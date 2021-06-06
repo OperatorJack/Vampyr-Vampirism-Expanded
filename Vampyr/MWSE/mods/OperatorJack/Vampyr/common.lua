@@ -47,6 +47,7 @@ common.animations = {
 common.paths = {
     -- Generic stencil property
     stencil = "OJ\\V\\e\\Stencil.nif",
+    stencilArmsAndLegs = "OJ\\V\\e\\Stencil_armslegs.nif",
 
     -- Requires special node name. Ref overrideSunDamage.lua
     sunDamageVfx = "OJ\\V\\e\\SunDamageVfx.nif",

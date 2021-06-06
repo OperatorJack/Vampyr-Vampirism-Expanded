@@ -18,6 +18,16 @@ local vanillaStencilObjects = {
     ["Left Wrist"] = true,
     ["Left Foot"] = true,
 }
+
+-- Handle rebuilding scenegraph for stenciled actors.
+event.register("referenceSceneNodeCreated", function(e)
+    if stenciledActors[e.reference] then
+        stenciledActors[e.reference] = nil
+        functions.attachStencilProperty(e.reference)
+    end
+end)
+
+
 functions.detachStencilProperty = function(reference)
     if not stenciledActors[reference] then return end
 
@@ -109,6 +119,8 @@ functions.getOrAttachVfx = function(reference, sceneObjectName, path)
         sceneNode:attachChild(node, true)
         sceneNode:update()
         sceneNode:updateNodeEffects()
+
+        common.logger.debug("Added object %s to %s.", sceneObjectName, reference)
     end
 
     return node

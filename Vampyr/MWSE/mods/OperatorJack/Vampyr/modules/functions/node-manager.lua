@@ -57,10 +57,10 @@ functions.attachStencilProperty = function(reference)
 
     -- Replace vanilla arm and leg stencil property. Cache to reset later.
     for name in pairs(vanillaStencilObjects) do
-        node = sceneNode:getObjectByName(name)
-        vanillaStencilProperties[name] = sceneNode:getProperty(0x3)
-        sceneNode:detachProperty(0x3)
-        sceneNode:attachProperty(stencilArmsAndLegs)
+        local node = sceneNode:getObjectByName(name)
+        vanillaStencilProperties[name] = node:getProperty(0x3)
+        node:detachProperty(0x3)
+        node:attachProperty(stencilArmsAndLegs)
     end
 
     sceneNode:attachProperty(stencil)

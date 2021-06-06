@@ -53,7 +53,13 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.2.1**
+#### **0.3 - The Sun Damage Update**
+
+- Sun Damage
+  - New VFX by Kurp
+  - Using stencil properties to project burning VFX onto the character's skin
+
+#### **0.2.1 - 0.2.3**
 
 - Bugfixes
 

@@ -1,7 +1,25 @@
 
+local common = require("OperatorJack.Vampyr.common")
 local functions = {}
 
 local vfx = {}
+
+local stencil = nil
+
+functions.attachStencilProperty = function(reference)
+    local sceneNode = reference.sceneNode
+    sceneNode:detachProperty(0x3)
+
+    if not stencil then
+        stencil = tes3.loadMesh(common.paths.stencil):getProperty(0x3)
+    end
+
+    sceneNode:attachProperty(stencil)
+    sceneNode:update()
+    sceneNode:updateNodeEffects()
+
+    common.logger.trace("Attached %s to %s. Property: ", stencil.RTTI.name, reference, sceneNode:getProperty(0x3))
+end
 
 functions.getOrAttachVfx = function(reference, sceneObjectName, path)
     local node, sceneNode
@@ -31,6 +49,7 @@ functions.getOrAttachVfx = function(reference, sceneObjectName, path)
             node.rotation = tes3matrix33.new(r.x * s, r.y * s, r.z * s)
             end
         end
+
 
         sceneNode:attachChild(node, true)
         sceneNode:update()

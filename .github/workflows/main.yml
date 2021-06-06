@@ -21,7 +21,7 @@ jobs:
           header: '### Changelog'
           include-hash: true
           include-range: true
-          token: ${{ secrets.GITHUB_TOKEN
+          token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Upload to Github
         uses: softprops/action-gh-release@v1

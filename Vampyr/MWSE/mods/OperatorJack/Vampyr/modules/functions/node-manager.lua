@@ -26,7 +26,10 @@ event.register("referenceSceneNodeCreated", function(e)
         functions.attachStencilProperty(e.reference)
     end
 end)
-
+-- When invalidated, scene node will be recreated. Remove from tracking.
+event.register("objectInvalidated", function(e)
+    stenciledActors[e.object] = nil
+end)
 
 functions.detachStencilProperty = function(reference)
     if not stenciledActors[reference] then return end

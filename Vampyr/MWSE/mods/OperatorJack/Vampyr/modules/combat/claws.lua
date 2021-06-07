@@ -11,6 +11,9 @@ local function setAnimation(ref)
     -- Avoid reloading animations to prevent FPS drops.
     if cache[ref] then return end
 
+    -- Beast races use standard animations.
+    if ref.object.race.isBeast == true then return end
+
     common.logger.debug("Enabling claw animations for %s.", ref)
 
     tes3.loadAnimation({

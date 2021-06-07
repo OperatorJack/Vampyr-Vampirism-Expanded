@@ -34,30 +34,30 @@ event.register("modConfigReady", function()
     dofile("Data Files\\MWSE\\mods\\OperatorJack\\Vampyr\\mcm.lua")
 end)
 
-require("OperatorJack.Vampyr.modules.blood-ui")
-require("OperatorJack.Vampyr.modules.blood-mechanics")
+require("OperatorJack.Vampyr.modules.blood-module.blood-ui")
+require("OperatorJack.Vampyr.modules.blood-module.blood-mechanics")
 
-require("OperatorJack.Vampyr.modules.blood-potency-ui")
-require("OperatorJack.Vampyr.modules.blood-potency-mechanics")
+require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency-ui")
+require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency-mechanics")
 
-require("OperatorJack.Vampyr.modules.blood-spells")
-require("OperatorJack.Vampyr.modules.blood-spells-ui")
-require("OperatorJack.Vampyr.modules.blood-spells-mechanics")
+require("OperatorJack.Vampyr.modules.blood-spells-module.blood-spells")
+require("OperatorJack.Vampyr.modules.blood-spells-module.blood-spells-ui")
+require("OperatorJack.Vampyr.modules.blood-spells-module.blood-spells-mechanics")
+
+require("OperatorJack.Vampyr.modules.magic.shadowstep")
+require("OperatorJack.Vampyr.modules.magic.spells")
+
+require("OperatorJack.Vampyr.modules.alchemy.serums")
+
+require("OperatorJack.Vampyr.modules.combat.stakes")
+require("OperatorJack.Vampyr.modules.combat.claws")
 
 require("OperatorJack.Vampyr.modules.simulate")
 require("OperatorJack.Vampyr.modules.effects")
-require("OperatorJack.Vampyr.modules.spells")
 
-require("OperatorJack.Vampyr.modules.fixNpcVampirism")
-require("OperatorJack.Vampyr.modules.serums")
-require("OperatorJack.Vampyr.modules.shadowstep")
-require("OperatorJack.Vampyr.modules.stakes")
-
-require("OperatorJack.Vampyr.modules.claws")
-
-
-require("OperatorJack.Vampyr.modules.memory-overrides.sun-damage")
-require("OperatorJack.Vampyr.modules.memory-overrides.turn-undead")
+require("OperatorJack.Vampyr.modules.vanilla-overides.fixNpcVampirism")
+require("OperatorJack.Vampyr.modules.vanilla-overides.sun-damage")
+require("OperatorJack.Vampyr.modules.vanilla-overides.turn-undead")
 
 require("OperatorJack.Vampyr.modules.scriptOverrides")
 require("OperatorJack.Vampyr.modules.functions.debug-menu")

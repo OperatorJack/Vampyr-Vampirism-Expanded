@@ -1,7 +1,7 @@
 local common = require("OperatorJack.Vampyr.common")
-local blood = require("OperatorJack.Vampyr.modules.blood")
-local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency")
-local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells")
+local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
+local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
+local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells-module.blood-spells")
 
 local UP = tes3vector3.new(0,0,1)
 local ID33 = tes3matrix33.new(1,0,0,0,1,0,0,0,1)

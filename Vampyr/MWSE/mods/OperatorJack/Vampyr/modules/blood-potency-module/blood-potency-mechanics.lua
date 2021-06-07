@@ -1,5 +1,5 @@
 local common = require("OperatorJack.Vampyr.common")
-local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency")
+local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
 
 local function initializedReference(e)
     if (common.isReferenceVampire(e.reference) == false) then return end

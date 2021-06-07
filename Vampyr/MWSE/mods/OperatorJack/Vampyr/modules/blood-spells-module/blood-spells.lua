@@ -1,11 +1,11 @@
 local common = require("OperatorJack.Vampyr.common")
-local blood = require("OperatorJack.Vampyr.modules.blood")
-local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency")
+local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
+local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
 
 local bloodSpells = {}
 
 function bloodSpells.getBloodSpellConfigurationBySpellId(id)
-    local bloodSpellKey = common.getKeyFromValueFunc(common.bloodSpells, function(value) 
+    local bloodSpellKey = common.getKeyFromValueFunc(common.bloodSpells, function(value)
         if (value.id == id) then
             return true
         end
@@ -27,7 +27,7 @@ end
 function bloodSpells.getBloodMagicCostModifierForReference(reference)
     local bloodPotencyLevel = bloodPotency.getLevel(reference)
     local modifier = (10 - bloodPotencyLevel) / 11
-    
+
     return modifier
 end
 

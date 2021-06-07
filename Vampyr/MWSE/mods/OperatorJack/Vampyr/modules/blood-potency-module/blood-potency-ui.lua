@@ -7,7 +7,7 @@
 
 local config = require("OperatorJack.Vampyr.config")
 local common = require("OperatorJack.Vampyr.common")
-local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency")
+local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
 
 
 -- Register UI for standard HUD.

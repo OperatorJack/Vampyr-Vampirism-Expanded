@@ -1,6 +1,5 @@
 local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
-local blood = require("OperatorJack.Vampyr.modules.blood")
 
 tes3.claimSpellEffectId("fortifyClaws", 707)
 

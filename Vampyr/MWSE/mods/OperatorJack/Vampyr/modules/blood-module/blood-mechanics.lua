@@ -6,7 +6,7 @@
 
 local config = require("OperatorJack.Vampyr.config")
 local common = require("OperatorJack.Vampyr.common")
-local blood = require("OperatorJack.Vampyr.modules.blood")
+local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
 local function initializeBlood(reference)
     if (common.isReferenceVampire(reference) == false) then return end

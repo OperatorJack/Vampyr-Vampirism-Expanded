@@ -1,4 +1,4 @@
-local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells")
+local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells-module.blood-spells")
 
 local function onSpellCast(e)
     local bloodSpell = bloodSpells.getBloodSpellConfigurationBySpellId(e.source.id)

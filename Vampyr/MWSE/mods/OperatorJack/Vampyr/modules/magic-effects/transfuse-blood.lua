@@ -1,6 +1,6 @@
 local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
-local blood = require("OperatorJack.Vampyr.modules.blood")
+local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
 tes3.claimSpellEffectId("transfuseBlood", 701)
 

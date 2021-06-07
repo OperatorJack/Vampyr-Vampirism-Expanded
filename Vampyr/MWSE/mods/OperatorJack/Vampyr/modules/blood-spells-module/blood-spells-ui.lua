@@ -1,9 +1,9 @@
 local common = require("OperatorJack.Vampyr.common")
-local blood = require("OperatorJack.Vampyr.modules.blood")
+local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
 local function onUiSpellTooltip(e)
     local spell = e.spell
-    local bloodSpellKey = common.getKeyFromValueFunc(common.bloodSpells, function(value) 
+    local bloodSpellKey = common.getKeyFromValueFunc(common.bloodSpells, function(value)
         if (value.id == spell.id) then
             return true
         end
@@ -13,7 +13,7 @@ local function onUiSpellTooltip(e)
         return
     end
 
-    local cost = bloodSpell.cost   
+    local cost = bloodSpell.cost
 
     local outerBlock = e.tooltip:createBlock()
 	outerBlock.flowDirection = "top_to_bottom"
@@ -35,7 +35,7 @@ local function onUiSpellTooltip(e)
         if (cost > referenceBlood.current) then
             tierColor = tes3ui.getPalette("negative_color")
         end
-   
+
         local label = innerBlock:createLabel({ text = text })
         label.color = color
         label.borderAllSides = 4

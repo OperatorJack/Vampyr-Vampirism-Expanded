@@ -55,9 +55,13 @@ The table below outlines functionality added or changed in each alpha version.
 
 #### **0.3 - The Sun Damage Update**
 
+- Bugfixes
+
+  - No longer attempts to set claw animations for beast bodies, preventing animation errors.
+
 - Sun Damage
   - New VFX by Kurp
-  - Using stencil properties to project burning VFX onto the character's skin
+  - Using stencil properties to project burning VFX onto vampires.
 
 #### **0.2.1 - 0.2.3**
 

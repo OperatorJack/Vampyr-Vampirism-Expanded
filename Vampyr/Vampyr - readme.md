@@ -59,6 +59,10 @@ The table below outlines functionality added or changed in each alpha version.
 
   - No longer attempts to set claw animations for beast bodies, preventing animation errors.
 
+- Stencil Effects
+
+  - Stencil properties are now added to all NPCs, creatures, and the player for more advanced VFX.
+
 - Sun Damage
   - New VFX by Kurp
   - Using stencil properties to project burning VFX onto vampires.

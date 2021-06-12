@@ -44,8 +44,10 @@ functions.detachStencilProperty = function(reference)
             common.logger.error("Cached vanilla stencil property not found.")
         else
             local node = sceneNode:getObjectByName(name)
-            node:detachProperty(0x3)
-            node:attachProperty(vanillaStencilProperties[name])
+            if node then
+                node:detachProperty(0x3)
+                node:attachProperty(vanillaStencilProperties[name])
+            end
         end
     end
 
@@ -75,9 +77,11 @@ functions.attachStencilProperty = function(reference)
     -- Replace vanilla arm and leg stencil property. Cache to reset later.
     for name in pairs(vanillaStencilObjects) do
         local node = sceneNode:getObjectByName(name)
-        vanillaStencilProperties[name] = node:getProperty(0x3)
-        node:detachProperty(0x3)
-        node:attachProperty(stencilArmsAndLegs)
+        if node then
+            vanillaStencilProperties[name] = node:getProperty(0x3)
+            node:detachProperty(0x3)
+            node:attachProperty(stencilArmsAndLegs)
+        end
     end
 
     sceneNode:attachProperty(stencil)

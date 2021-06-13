@@ -6,11 +6,18 @@
 
 ## **Alpha 0.3**
 
+## Requirements
+
+- MGE version 13 (recently released!)
+- Magicka Expanded
+
 ---
 
 ## Description
 
 Expands Vampirism in TES III: Morrowind by adding new mechanics, new spells, new items, and more for Vampires. At a cursory glance, these new mechanics are inspired by, but not limited to, the vampire mechanics found in the game Vampyr. Similar mechanics include blood statistics, serums, and some spells.
+
+---
 
 ## Credits
 
@@ -24,6 +31,8 @@ _Kurp (Kurpulio)_ - All VFX seen in Vampyr. Without Kurp's help, this mod would 
 _Melchior Darhk_ - Steel & Silver Stakes. Blood serum models. Blood Transfuser gauntlet.
 _NullCascade_ - MWSE Lua and the tons of updates he has completed that made this mod possible. Continued help with MWSE.
 _RedFurryDemon_ - Wooden Stake
+
+---
 
 ## Alpha Version
 
@@ -61,11 +70,15 @@ The table below outlines functionality added or changed in each alpha version.
 
 - Stencil Effects
 
-  - Stencil properties are now added to all NPCs, creatures, and the player for more advanced VFX.
+  - Stencil properties are now used for all NPCs, creatures, and the player for more advanced VFX. Currently used in Sun Damage, but it may be used elsewhere too.
 
 - Sun Damage
+
   - New VFX by Kurp
   - Using stencil properties to project burning VFX onto vampires.
+
+- Transfusion
+  - Added in Melchior's new Blood Transfuser assets. Not configured yet.
 
 #### **0.2.1 - 0.2.3**
 
@@ -191,6 +204,8 @@ The table below outlines functionality added or changed in each alpha version.
 - Stakes: Wooden, Steel, Silver (Object created, not implemented in-game)
 - Fix NPC Vampirism: NPCs which are "Vampires" in vanilla but do not have the vampirism magic effect now have it. Managed via MCM.
 - MCM: Initial MCM. Some configuration options.
+
+---
 
 ## Mechanics
 
@@ -459,6 +474,8 @@ Standard magic Spells and abilities:
 Blood magic Spells and abilities:
 
 - Bloodstorm
+
+---
 
 ## License
 

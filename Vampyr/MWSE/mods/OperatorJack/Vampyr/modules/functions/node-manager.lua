@@ -105,11 +105,15 @@ functions.attachStencilProperty = function(reference)
     local maskMirror
 
     -- Set mask paths & process
-    if reference == tes3.player or reference == tes3.player1stPerson then
+    if reference == tes3.player then
         mask = masks.player
         maskMirror = masks.playerMirror
 
         attachStencilMirrorPropertiesToReference(reference, maskMirror)
+        attachStencilPropertyToReference(reference, mask)
+
+    elseif reference == tes3.player1stPerson then
+        mask = masks.player1st
         attachStencilPropertyToReference(reference, mask)
 
     elseif reference.object.objectType == tes3.objectType.npc then
@@ -121,7 +125,6 @@ functions.attachStencilProperty = function(reference)
 
     elseif reference.object.objectType == tes3.objectType.creature then
         mask = masks.creature
-
         attachStencilPropertyToReference(reference, mask)
 
     end

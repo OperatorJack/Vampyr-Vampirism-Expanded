@@ -44,7 +44,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         end
     else
         -- Applies VFX for NPC / Creature
-        local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamage.npc)
+        local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx_NPC", common.paths.sunDamage.npc)
         if damage > 0.001 then
             nodeManager.attachStencilProperty(target)
             nodeManager.showNode(node)

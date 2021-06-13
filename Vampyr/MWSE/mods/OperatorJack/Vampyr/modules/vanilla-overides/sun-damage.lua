@@ -23,45 +23,52 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local shadeModifier = getShaderModifier(target)
     local damage = shadeModifier * resistanceModifier * attributeVariant
 
-    if (target == tes3.player) then
-        --common.logger.trace("Sun Damage: shade: %s, resist: %s, attrib: %s = damage: %s", shadeModifier, resistanceModifier, attributeVariant, damage)
-    end
-
+    -- Trigger event for other modules to modify sun damage if needed.
     local params = { reference = target, damage = damage}
     event.trigger(common.events.calcSunDamage, params)
     damage = params.damage
 
-    local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamageVfx)
-    if target == tes3.player then
-        local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx", common.paths.sunDamageVfx)
+    damage = math.abs(damage)
 
-        if math.abs(damage) > 0.001 then
+    -- Handle special circumstance VFX.
+    if target == tes3.player then
+        local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx", common.paths.sunDamage.player)
+        local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamage.player)
+
+        if damage > 0.001 then
             nodeManager.showNode(firstNode)
+            nodeManager.showNode(node)
         else
             nodeManager.hideNode(firstNode)
+            nodeManager.hideNode(node)
+        end
+    else
+        -- Applies VFX for NPC / Creature
+        local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamage.npc)
+        if damage > 0.001 then
+            nodeManager.attachStencilProperty(target)
+            nodeManager.showNode(node)
+        else
+            nodeManager.detachStencilProperty(target)
+            nodeManager.hideNode(node)
         end
     end
 
-    if math.abs(damage) > 0.001 then
-        nodeManager.showNode(node)
+    -- Daamge logic
+    if damage > 0.001 and blood.isInitialized(target) == true then
+        local bloodAmount = 1.0 * attributeVariant
+        local currentBloodAmount = blood.getReferenceBloodStatistic(target).current
 
-        if (blood.isInitialized(target) == true) then
-            local bloodAmount = 1.0 * attributeVariant
-            local currentBloodAmount = blood.getReferenceBloodStatistic(target).current
+        -- Blood amount will be negative.
+        local bloodRemainder = currentBloodAmount + bloodAmount
 
-            -- Blood amount will be negative.
-            local bloodRemainder = currentBloodAmount + bloodAmount
+        blood.modReferenceCurrentBloodStatistic(target, bloodAmount, true)
 
-            blood.modReferenceCurrentBloodStatistic(target, bloodAmount, true)
-
-            if bloodRemainder <= 0 then
-                -- Convert to positive and decrease by 50%.
-                local healthAmount = bloodRemainder * 0.5 * -1
-                target.mobile:applyHealthDamage(healthAmount)
-            end
+        if bloodRemainder <= 0 then
+            -- Convert to positive and decrease by 50%.
+            local healthAmount = bloodRemainder * 0.5 * -1
+            target.mobile:applyHealthDamage(healthAmount)
         end
-    else
-        nodeManager.hideNode(node)
     end
 
     -- Bypass vanilla sun damage function by returning 0 damage.

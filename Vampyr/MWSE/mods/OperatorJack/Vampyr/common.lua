@@ -46,11 +46,20 @@ common.animations = {
 }
 common.paths = {
     -- Generic stencil property
-    stencil = "OJ\\V\\e\\Stencil.nif",
-    stencilArmsAndLegs = "OJ\\V\\e\\Stencil_armslegs.nif",
+    stencils = {
+        player1st = "OJ\\stencils\\mask_char1st.nif",
+        player = "OJ\\stencils\\mask_char.nif",
+        playerMirror = "OJ\\stencils\\mask_char_mirror.nif",
+        npc = "OJ\\stencils\\mask_npc.nif",
+        npcMirror = "OJ\\stencils\\mask_npc_mirror.nif",
+        creature = "OJ\\stencils\\mask_creature.nif",
+    },
 
     -- Requires special node name. Ref overrideSunDamage.lua
-    sunDamageVfx = "OJ\\V\\e\\SunDamageVfx.nif",
+    sunDamage = {
+        player = "OJ\\V\\e\\SunDamageVfx.nif",
+        npc = "OJ\\V\\e\\SunDamageVfx_NPC.nif"
+    },
 
     -- Requires special node name. Ref glamour.lua
     glamourVfx = "OJ\\V\\e\\GlamourVfx.nif",

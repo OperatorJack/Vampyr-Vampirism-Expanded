@@ -60,7 +60,6 @@ require("OperatorJack.Vampyr.modules.vanilla-overides.sun-damage")
 require("OperatorJack.Vampyr.modules.vanilla-overides.turn-undead")
 
 require("OperatorJack.Vampyr.modules.scriptOverrides")
-require("OperatorJack.Vampyr.modules.functions.stencil-effects")
 require("OperatorJack.Vampyr.modules.functions.debug-menu")
 
 

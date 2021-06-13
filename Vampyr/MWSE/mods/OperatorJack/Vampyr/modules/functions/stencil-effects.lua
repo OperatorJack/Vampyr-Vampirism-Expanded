@@ -73,18 +73,15 @@ functions.attachStencilProperty = function(reference)
     local maskMirror
 
     -- Set mask paths & process
-    if reference == tes3.player then
-        mask= masks.player
+    if reference == tes3.player or reference == tes3.player1stPerson then
+        mask = masks.player
         maskMirror = masks.playerMirror
 
-        attachStencilMirrorPropertiesToReference(tes3.player, maskMirror)
-        --attachStencilMirrorPropertiesToReference(tes3.firstPersonReference, maskMirror)
-
-        attachStencilPropertyToReference(tes3.player, mask)
-        --attachStencilPropertyToReference(tes3.firstPersonReference, mask)
+        attachStencilMirrorPropertiesToReference(reference, maskMirror)
+        attachStencilPropertyToReference(reference, mask)
 
     elseif reference.object.objectType == tes3.objectType.npc then
-        mask= masks.npc
+        mask = masks.npc
         maskMirror = masks.npcMirror
 
         attachStencilMirrorPropertiesToReference(reference, maskMirror)
@@ -105,7 +102,8 @@ end
 event.register("referenceSceneNodeCreated", function(e)
     if  e.reference.object.objectType == tes3.objectType.npc or
         e.reference.object.objectType == tes3.objectType.creature or
-        e.reference == tes3.player then
+        e.reference == tes3.player or
+        e.reflected == tes3.player1stPerson then
         stenciledActors[e.reference] = nil
         functions.attachStencilProperty(e.reference)
     end

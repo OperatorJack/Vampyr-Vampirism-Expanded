@@ -32,6 +32,16 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     damage = params.damage
 
     local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamageVfx)
+    if target == tes3.player then
+        local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx", common.paths.sunDamageVfx)
+
+        if math.abs(damage) > 0.001 then
+            nodeManager.showNode(firstNode)
+        else
+            nodeManager.hideNode(firstNode)
+        end
+    end
+
     if math.abs(damage) > 0.001 then
         nodeManager.showNode(node)
 

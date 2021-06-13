@@ -22,7 +22,7 @@ local vanillaStencilObjects = {
 event.register("referenceSceneNodeCreated", function(e)
     -- Initialize player.
     if  e.reference == tes3.player or
-        e.reflected == tes3.player1stPerson then
+        e.reference == tes3.player1stPerson then
         stenciledActors[e.reference] = nil
         functions.attachStencilProperty(e.reference)
 

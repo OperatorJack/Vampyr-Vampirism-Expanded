@@ -2,12 +2,57 @@ local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
-local function getShaderModifier(reference)
+local function getShadeModifier(reference)
     if (reference.cell.isInterior == true and reference.cell.behaveAsExterior ~= true) then
         return 0
     end
 
     return 1
+end
+
+local parts = {
+    [tes3.activeBodyPart.head] = true,
+    [tes3.activeBodyPart.neck] = true,
+    [tes3.activeBodyPart.chest] = true,
+    [tes3.activeBodyPart.groin] = true,
+    [tes3.activeBodyPart.leftAnkle] = true,
+    [tes3.activeBodyPart.leftFoot] = true,
+    [tes3.activeBodyPart.leftForearm] = true,
+    [tes3.activeBodyPart.leftHand] = true,
+    [tes3.activeBodyPart.leftKnee] = true,
+    [tes3.activeBodyPart.leftPauldron] = true,
+    [tes3.activeBodyPart.leftUpperArm] = true,
+    [tes3.activeBodyPart.leftUpperLeg] = true,
+    [tes3.activeBodyPart.rightAnkle] = true,
+    [tes3.activeBodyPart.rightFoot] = true,
+    [tes3.activeBodyPart.rightForearm] = true,
+    [tes3.activeBodyPart.rightHand] = true,
+    [tes3.activeBodyPart.rightKnee] = true,
+    [tes3.activeBodyPart.rightPauldron] = true,
+    [tes3.activeBodyPart.rightUpperArm] = true,
+    [tes3.activeBodyPart.rightUpperLeg] = true,
+    [tes3.activeBodyPart.rightWrist] = true,
+    [tes3.activeBodyPart.skirt] = true,
+    [tes3.activeBodyPart.tail] = true,
+}
+
+local function getSkinExposureModifier(reference)
+    local covered = {}
+    local exposed = 0
+    for _, stack in pairs(reference.object.equipment) do
+        for partType in pairs(parts) do
+            local object = stack.object
+            for _, objectPart in pairs(object.parts) do
+                if partType == objectPart.type then
+                    covered[partType] = true
+                end
+            end
+        end
+    end
+
+    exposed = #parts - #covered
+
+    return 1 - exposed / #parts
 end
 
 local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, magic_effect_instance, effect_index)
@@ -20,8 +65,9 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local resistanceModifier = 1 - (resistanceMagnitude / 100)
 
     -- Calculate damage for reference, taking into account location, weather, shade, etc.
-    local shadeModifier = getShaderModifier(target)
-    local damage = shadeModifier * resistanceModifier * attributeVariant
+    local shadeModifier = getShadeModifier(target)
+    local skinExposureModifier = getSkinExposureModifier(target)
+    local damage = shadeModifier * skinExposureModifier * resistanceModifier * attributeVariant
 
     -- Trigger event for other modules to modify sun damage if needed.
     local params = { reference = target, damage = damage}

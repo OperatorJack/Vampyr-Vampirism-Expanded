@@ -10,49 +10,36 @@ local function getShadeModifier(reference)
     return 1
 end
 
-local parts = {
-    [tes3.activeBodyPart.head] = true,
-    [tes3.activeBodyPart.neck] = true,
-    [tes3.activeBodyPart.chest] = true,
+local bodyPartBlacklist = {
     [tes3.activeBodyPart.groin] = true,
-    [tes3.activeBodyPart.leftAnkle] = true,
-    [tes3.activeBodyPart.leftFoot] = true,
-    [tes3.activeBodyPart.leftForearm] = true,
-    [tes3.activeBodyPart.leftHand] = true,
-    [tes3.activeBodyPart.leftKnee] = true,
+    [tes3.activeBodyPart.hair] = true,
     [tes3.activeBodyPart.leftPauldron] = true,
-    [tes3.activeBodyPart.leftUpperArm] = true,
-    [tes3.activeBodyPart.leftUpperLeg] = true,
-    [tes3.activeBodyPart.rightAnkle] = true,
-    [tes3.activeBodyPart.rightFoot] = true,
-    [tes3.activeBodyPart.rightForearm] = true,
-    [tes3.activeBodyPart.rightHand] = true,
-    [tes3.activeBodyPart.rightKnee] = true,
     [tes3.activeBodyPart.rightPauldron] = true,
-    [tes3.activeBodyPart.rightUpperArm] = true,
-    [tes3.activeBodyPart.rightUpperLeg] = true,
-    [tes3.activeBodyPart.rightWrist] = true,
+    [tes3.activeBodyPart.shield] = true,
     [tes3.activeBodyPart.skirt] = true,
     [tes3.activeBodyPart.tail] = true,
+    [tes3.activeBodyPart.weapon] = true,
 }
-
-local function getSkinExposureModifier(reference)
-    local covered = {}
-    local exposed = 0
-    for _, stack in pairs(reference.object.equipment) do
-        for partType in pairs(parts) do
-            local object = stack.object
-            for _, objectPart in pairs(object.parts) do
-                if partType == objectPart.type then
-                    covered[partType] = true
+local function getExposedBodyParts(ref)
+    return coroutine.wrap(function()
+        for name, index in pairs(tes3.activeBodyPart) do
+            if not bodyPartBlacklist[index] then
+                local bodyPart = ref.bodyPartManager:getActiveBodyPart(tes3.activeBodyPartLayer.base, index)
+                if bodyPart and bodyPart.node then
+                    coroutine.yield(index, name)
                 end
             end
         end
+    end)
+end
+
+local function getSkinExposureModifier(reference)
+    local exposed = 0
+    for _ in getExposedBodyParts(reference) do
+        exposed = exposed + 1
     end
 
-    exposed = #parts - #covered
-
-    return 1 - exposed / #parts
+    return 1 - exposed / (#tes3.activeBodyPart - #bodyPartBlacklist)
 end
 
 local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, magic_effect_instance, effect_index)

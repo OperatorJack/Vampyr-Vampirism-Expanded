@@ -39,24 +39,18 @@ local function getShadeModifier(reference)
     end
 
     local sunVisibility = weather.glareView
-    local transition
-    local t
     if weatherController.transitionScalar ~= 0.0 then
         local nextWeather = weatherController.nextWeather
 
         if nextWeather.cloudsMaxPercent >= weatherController.transitionScalar then
-            t = weatherController.transitionScalar / nextWeather.cloudsMaxPercent
+            local t = weatherController.transitionScalar / nextWeather.cloudsMaxPercent
             sunVisibility = (1 - t) * weatherController.currentWeather.glareView + t * nextWeather.glareView
         else
             sunVisibility = nextWeather.glareView
         end
     end
 
-    local modifier = math.max(0, math.min(sunVisibility * sunRisen, 1))
-
-    common.logger.debug("%s: GH %s, SR %s, SV %s, T %s, TR %s, M %s", reference, hour, sunRisen, sunVisibility, t, transition, modifier)
-
-    return modifier
+    return math.max(0, math.min(sunVisibility * sunRisen, 1))
 end
 
 local bodyPartBlacklist = {

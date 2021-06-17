@@ -76,6 +76,8 @@ The table below outlines functionality added or changed in each alpha version.
 
   - New VFX by Kurp
   - Using stencil properties to project burning VFX onto vampires.
+  - Sun Damage now takes into account the amount of skin that is exposed on the vampire. Cover up! Absolute full coverage can negate sun damage.
+  - Sun Damage now takes into account the amount of shade the vampire is in. Particularly, if will consider the amount of cloud coverage and glare present in the current weather. If the weather is transitioning, it will use values from the current and next weather. This is based on the vanilla sun damage formula.
 
 - Transfusion
   - Added in Melchior's new Blood Transfuser assets. Not configured yet.

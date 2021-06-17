@@ -7,7 +7,28 @@ local function getShadeModifier(reference)
         return 0
     end
 
-    return 1
+    local weatherController = tes3.worldController.weatherController
+    local weather = weatherController.currentWeather
+    local gameHour = tes3.worldController.gameHour
+    local sunRisen = 1
+    if gameHour <= weatherController.sunriseHour or
+        gameHour >= weatherController.sunsetHour + weatherController.sunsetDuration then
+        sunRisen = 0
+    elseif  gameHour <= weatherController.sunriseHour + weatherController.sunriseDuration then
+        sunRisen = 1
+    elseif gameHour > weatherController.sunsetHour then
+        sunRisen = 1
+    end
+
+    local nextWeather = weatherController.nextWeather
+    local transition = nextWeather.transitionDelta
+    local sunVisibility = weather.glareView
+    if transition > 0.0 and transition < 1.0 and transition < nextWeather.cloudsMaxPercent then
+        local t = transition / nextWeather.cloudsMaxPercent
+        sunVisibility = (1 - t) * weather.glareView + t * nextWeather.glareView
+    end
+
+    return math.max(0, math.min(sunVisibility * sunRisen, 1))
 end
 
 local bodyPartBlacklist = {
@@ -65,13 +86,13 @@ end
 local function getSkinExposureModifier(reference)
     local exposed = 0
     for _, name in getExposedBodyParts(reference) do
-        common.logger.trace("Name: %s", name)
+        --common.logger.trace("Name: %s", name)
         exposed = exposed + 1
     end
     local numberBodyParts = getCountActiveBodyParts() - getCountBlacklistBodyParts()
-    local modifier = 1 - exposed / numberBodyParts
+    local modifier = exposed / numberBodyParts
 
-    common.logger.trace("Skin Exposure Modifier for ref %s. Exposed Parts: %s, Total Parts: %s, Modifier : %s", reference, exposed, numberBodyParts, modifier)
+    --common.logger.trace("Skin Exposure Modifier for ref %s. Exposed Parts: %s, Total Parts: %s, Modifier : %s", reference, exposed, numberBodyParts, modifier)
 
     return modifier
 end
@@ -83,12 +104,16 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         effect = tes3.effect.resistSunDamage
     }) or 0
 
-    local resistanceModifier = 1 - (resistanceMagnitude / 100)
 
     -- Calculate damage for reference, taking into account location, weather, shade, etc.
+    local resistanceModifier = resistanceMagnitude / 100
     local shadeModifier = getShadeModifier(target)
     local skinExposureModifier = getSkinExposureModifier(target)
-    local damage = shadeModifier * skinExposureModifier * resistanceModifier * attributeVariant
+
+    local modifier = resistanceModifier * shadeModifier * skinExposureModifier
+    local damage = attributeVariant * modifier
+
+    common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
 
     -- Trigger event for other modules to modify sun damage if needed.
     local params = { reference = target, damage = damage}

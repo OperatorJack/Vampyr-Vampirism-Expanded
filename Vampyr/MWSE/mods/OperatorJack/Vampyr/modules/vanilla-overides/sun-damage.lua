@@ -20,6 +20,35 @@ local bodyPartBlacklist = {
     [tes3.activeBodyPart.tail] = true,
     [tes3.activeBodyPart.weapon] = true,
 }
+
+local activeBodyPartCount
+local function getCountActiveBodyParts()
+    if activeBodyPartCount then
+        return activeBodyPartCount
+    end
+
+    activeBodyPartCount = 0
+    for _ in pairs(tes3.activeBodyPart) do
+        activeBodyPartCount = activeBodyPartCount + 1
+    end
+
+    return activeBodyPartCount
+end
+
+local blacklistBodyPartCount
+local function getCountBlacklistBodyParts()
+    if blacklistBodyPartCount then
+        return blacklistBodyPartCount
+    end
+
+    blacklistBodyPartCount = 0
+    for _ in pairs(bodyPartBlacklist) do
+        blacklistBodyPartCount = blacklistBodyPartCount + 1
+    end
+
+    return blacklistBodyPartCount
+end
+
 local function getExposedBodyParts(ref)
     return coroutine.wrap(function()
         for name, index in pairs(tes3.activeBodyPart) do
@@ -35,11 +64,16 @@ end
 
 local function getSkinExposureModifier(reference)
     local exposed = 0
-    for _ in getExposedBodyParts(reference) do
+    for _, name in getExposedBodyParts(reference) do
+        common.logger.trace("Name: %s", name)
         exposed = exposed + 1
     end
+    local numberBodyParts = getCountActiveBodyParts() - getCountBlacklistBodyParts()
+    local modifier = 1 - exposed / numberBodyParts
 
-    return 1 - exposed / (#tes3.activeBodyPart - #bodyPartBlacklist)
+    common.logger.trace("Skin Exposure Modifier for ref %s. Exposed Parts: %s, Total Parts: %s, Modifier : %s", reference, exposed, numberBodyParts, modifier)
+
+    return modifier
 end
 
 local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, magic_effect_instance, effect_index)

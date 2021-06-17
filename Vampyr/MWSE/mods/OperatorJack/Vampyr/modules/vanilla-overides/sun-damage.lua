@@ -53,7 +53,7 @@ local function getShadeModifier(reference)
     -- All weather has a 0.10 base visibility percentage. Sorry Todd!
     sunVisibility = sunVisibility + 0.1
 
-    return math.max(0, math.min(sunVisibility * sunRisen, 1))
+    return math.clamp(sunVisibility * sunRisen, 0, 1)
 end
 
 local bodyPartBlacklist = {

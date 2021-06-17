@@ -3,35 +3,60 @@ local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
 local function getShadeModifier(reference)
-    if (reference.cell.isInterior == true and reference.cell.behaveAsExterior ~= true) then
+    -- Detect interior cell.
+    if reference.cell.isInterior == true and reference.cell.behaveAsExterior ~= true then
         return 0
     end
 
+    -- Detect app culled sky... IDK, vanilla does it.
     local weatherController = tes3.worldController.weatherController
+    if weatherController.sceneSkyRoot.appCulled == true then
+        return 0
+    end
+
     local weather = weatherController.currentWeather
-    local gameHour = tes3.worldController.hour.value
+    local hour = tes3.worldController.hour.value
     local sunRisen = 1
 
-    if gameHour <= weatherController.sunriseHour or
-        gameHour >= weatherController.sunsetHour + weatherController.sunsetDuration then
+    if hour > weatherController.sunriseHour
+       and hour < weatherController.sunriseDuration + weatherController.sunriseHour then
+        sunRisen = (hour - weatherController.sunriseHour) / weatherController.sunriseDuration
+    end
+
+    if hour > weatherController.sunsetHour
+       and hour <= weatherController.sunsetDuration + weatherController.sunsetHour then
+        sunRisen = 1 - (hour - weatherController.sunsetHour) / weatherController.sunsetDuration
+    end
+
+    if hour > weatherController.sunriseDuration + weatherController.sunriseHour
+       and hour <= weatherController.sunsetHour then
+        sunRisen = 1
+    end
+
+    if hour > weatherController.sunsetDuration + weatherController.sunsetHour
+       or hour <= weatherController.sunriseHour then
         sunRisen = 0
-    elseif  gameHour <= weatherController.sunriseHour + weatherController.sunriseDuration then
-        sunRisen = 1
-    elseif gameHour > weatherController.sunsetHour then
-        sunRisen = 1
     end
 
     local sunVisibility = weather.glareView
-    if weatherController.nextWeather then
+    local transition
+    local t
+    if weatherController.transitionScalar ~= 0.0 then
         local nextWeather = weatherController.nextWeather
-        local transition = nextWeather.transitionDelta
-        if transition > 0.0 and transition < 1.0 and transition < nextWeather.cloudsMaxPercent then
-            local t = transition / nextWeather.cloudsMaxPercent
-            sunVisibility = (1 - t) * weather.glareView + t * nextWeather.glareView
+
+        if nextWeather.cloudsMaxPercent >= weatherController.transitionScalar then
+            t = weatherController.transitionScalar / nextWeather.cloudsMaxPercent
+            sunVisibility = (1 - t) * weatherController.currentWeather.glareView + t * nextWeather.glareView
+        else
+            sunVisibility = nextWeather.glareView
         end
     end
 
-    return math.max(0, math.min(sunVisibility * sunRisen, 1))
+    local modifier = math.max(0, math.min(sunVisibility * sunRisen, 1))
+
+    common.logger.debug("%s: GH %s, SR %s, SV %s, T %s, TR %s, M %s", reference, hour, sunRisen, sunVisibility, t, transition, modifier)
+
+    return modifier
 end
 
 local bodyPartBlacklist = {
@@ -113,7 +138,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local modifier = resistanceModifier * shadeModifier * skinExposureModifier
     local damage = attributeVariant * modifier
 
-    common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
+    --common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
 
     -- Trigger event for other modules to modify sun damage if needed.
     local params = { reference = target, damage = damage}

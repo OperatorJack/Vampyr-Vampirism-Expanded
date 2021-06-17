@@ -123,16 +123,13 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         effect = tes3.effect.resistSunDamage
     }) or 0
 
-
     -- Calculate damage for reference, taking into account location, weather, shade, etc.
-    local resistanceModifier = resistanceMagnitude / 100
+    local resistanceModifier = 1 - resistanceMagnitude / 100
     local shadeModifier = getShadeModifier(target)
     local skinExposureModifier = getSkinExposureModifier(target)
 
     local modifier = resistanceModifier * shadeModifier * skinExposureModifier
     local damage = attributeVariant * modifier
-
-    --common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
 
     -- Trigger event for other modules to modify sun damage if needed.
     local params = { reference = target, damage = damage}
@@ -140,6 +137,8 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     damage = params.damage
 
     damage = math.abs(damage)
+
+    --common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
 
     -- Handle special circumstance VFX.
     if target == tes3.player then

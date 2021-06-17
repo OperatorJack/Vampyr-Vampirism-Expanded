@@ -86,13 +86,10 @@ end
 local function getSkinExposureModifier(reference)
     local exposed = 0
     for _, name in getExposedBodyParts(reference) do
-        --common.logger.trace("Name: %s", name)
         exposed = exposed + 1
     end
     local numberBodyParts = getCountActiveBodyParts() - getCountBlacklistBodyParts()
     local modifier = exposed / numberBodyParts
-
-    --common.logger.trace("Skin Exposure Modifier for ref %s. Exposed Parts: %s, Total Parts: %s, Modifier : %s", reference, exposed, numberBodyParts, modifier)
 
     return modifier
 end
@@ -113,7 +110,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local modifier = resistanceModifier * shadeModifier * skinExposureModifier
     local damage = attributeVariant * modifier
 
-    common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
+    --common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
 
     -- Trigger event for other modules to modify sun damage if needed.
     local params = { reference = target, damage = damage}

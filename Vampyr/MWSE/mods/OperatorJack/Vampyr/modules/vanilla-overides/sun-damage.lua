@@ -9,8 +9,9 @@ local function getShadeModifier(reference)
 
     local weatherController = tes3.worldController.weatherController
     local weather = weatherController.currentWeather
-    local gameHour = tes3.worldController.gameHour
+    local gameHour = tes3.worldController.hour.value
     local sunRisen = 1
+
     if gameHour <= weatherController.sunriseHour or
         gameHour >= weatherController.sunsetHour + weatherController.sunsetDuration then
         sunRisen = 0
@@ -20,12 +21,14 @@ local function getShadeModifier(reference)
         sunRisen = 1
     end
 
-    local nextWeather = weatherController.nextWeather
-    local transition = nextWeather.transitionDelta
     local sunVisibility = weather.glareView
-    if transition > 0.0 and transition < 1.0 and transition < nextWeather.cloudsMaxPercent then
-        local t = transition / nextWeather.cloudsMaxPercent
-        sunVisibility = (1 - t) * weather.glareView + t * nextWeather.glareView
+    if weatherController.nextWeather then
+        local nextWeather = weatherController.nextWeather
+        local transition = nextWeather.transitionDelta
+        if transition > 0.0 and transition < 1.0 and transition < nextWeather.cloudsMaxPercent then
+            local t = transition / nextWeather.cloudsMaxPercent
+            sunVisibility = (1 - t) * weather.glareView + t * nextWeather.glareView
+        end
     end
 
     return math.max(0, math.min(sunVisibility * sunRisen, 1))
@@ -110,7 +113,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local modifier = resistanceModifier * shadeModifier * skinExposureModifier
     local damage = attributeVariant * modifier
 
-    --common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
+    common.logger.trace("Sun Damage Calculated. Reference(%s) - Resist %s, Shade %s, Skin %s, Modifier %s, Damage %s", target, resistanceModifier, shadeModifier, skinExposureModifier, modifier, damage)
 
     -- Trigger event for other modules to modify sun damage if needed.
     local params = { reference = target, damage = damage}

@@ -17,6 +17,7 @@ local vanillaStencilObjects = {
     ["Left Forearm"] = true,
     ["Left Wrist"] = true,
     ["Left Foot"] = true,
+    ["Left Shoulder"] = true,
 }
 -- Handle initializing and rebuilding scenegraph for stenciled actors.
 event.register("referenceSceneNodeCreated", function(e)

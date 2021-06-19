@@ -19,8 +19,9 @@ local vanillaStencilObjects = {
     ["Left Foot"] = true,
     ["Left Pauldron"] = true,
 }
--- Handle initializing and rebuilding scenegraph for stenciled actors.
-event.register("referenceSceneNodeCreated", function(e)
+
+
+local function reattachStencils(e)
     -- Initialize player.
     if  e.reference == tes3.player or
         e.reference == tes3.player1stPerson then
@@ -32,6 +33,27 @@ event.register("referenceSceneNodeCreated", function(e)
         stenciledActors[e.reference] = nil
         functions.attachStencilProperty(e.reference)
     end
+end
+
+-- Handle initializing and rebuilding scenegraph for stenciled actors.
+event.register("referenceSceneNodeCreated", reattachStencils)
+
+-- Handle change in equipment for stenciled actors.
+event.register("equipped", function(e)
+    timer.delayOneFrame(function()
+        if e.reference == tes3.player then
+            reattachStencils({reference = tes3.player1stPerson})
+        end
+        reattachStencils(e)
+    end)
+end)
+event.register("unequipped", function(e)
+    timer.delayOneFrame(function()
+        if e.reference == tes3.player then
+            reattachStencils({reference = tes3.player1stPerson})
+        end
+        reattachStencils(e)
+    end)
 end)
 
 -- When invalidated, scene node will be recreated. Remove from tracking.

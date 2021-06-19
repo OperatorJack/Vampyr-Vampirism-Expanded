@@ -53,6 +53,7 @@ common.paths = {
         npc = "OJ\\stencils\\mask_npc.nif",
         npcMirror = "OJ\\stencils\\mask_npc_mirror.nif",
         creature = "OJ\\stencils\\mask_creature.nif",
+        weapon = "OJ\\stencils\\mask_weapon.nif",
     },
 
     -- Requires special node name. Ref overrideSunDamage.lua

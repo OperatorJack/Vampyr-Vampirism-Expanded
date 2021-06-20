@@ -141,22 +141,17 @@ functions.attachStencilProperty = function(reference)
         attachStencilPropertyToReference(reference, masks.player)
 
     elseif reference == tes3.player1stPerson then
-        mask = masks.player1st
         attachWeaponStencilPropertyToReference(reference, masks.weapon)
-        attachStencilPropertyToReference(reference, masks.player)
+        attachStencilPropertyToReference(reference, masks.player1st)
 
     elseif reference.object.objectType == tes3.objectType.npc then
-        mask = masks.npc
-        maskMirror = masks.npcMirror
-
-        attachStencilMirrorPropertiesToReference(reference, masks.playerMirror)
+        attachStencilMirrorPropertiesToReference(reference, masks.npcMirror)
         attachWeaponStencilPropertyToReference(reference, masks.weapon)
-        attachStencilPropertyToReference(reference, masks.player)
+        attachStencilPropertyToReference(reference, masks.npc)
 
     elseif reference.object.objectType == tes3.objectType.creature then
-        mask = masks.creature
         attachWeaponStencilPropertyToReference(reference, masks.weapon)
-        attachStencilPropertyToReference(reference, masks.player)
+        attachStencilPropertyToReference(reference, masks.creature)
 
     end
 

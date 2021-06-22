@@ -145,8 +145,8 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
 
     -- Handle special circumstance VFX.
     if target == tes3.player then
-        local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx", common.paths.sunDamage.player)
-        local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx", common.paths.sunDamage.player)
+        local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx1st", common.paths.sunDamage.player1st)
+        local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx3rd", common.paths.sunDamage.player3rd)
 
         if damage > 0.001 then
             nodeManager.showNode(firstNode)

@@ -58,7 +58,8 @@ common.paths = {
 
     -- Requires special node name. Ref overrideSunDamage.lua
     sunDamage = {
-        player = "OJ\\V\\e\\SunDamageVfx.nif",
+        player1st = "OJ\\V\\e\\SunDamageVfx1st.nif",
+        player3rd = "OJ\\V\\e\\SunDamageVfx3rd.nif",
         npc = "OJ\\V\\e\\SunDamageVfx_NPC.nif"
     },
 

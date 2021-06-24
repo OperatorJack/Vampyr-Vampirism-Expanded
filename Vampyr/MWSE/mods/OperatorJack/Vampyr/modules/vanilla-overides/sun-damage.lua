@@ -148,7 +148,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
         local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx1st", common.paths.sunDamage.player1st)
         local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx3rd", common.paths.sunDamage.player3rd)
 
-        if damage > 0.001 then
+        if damage > 0.0001 then
             nodeManager.showNode(firstNode)
             nodeManager.showNode(node)
         else
@@ -158,7 +158,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     else
         -- Applies VFX for NPC / Creature
         local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx_NPC", common.paths.sunDamage.npc)
-        if damage > 0.001 then
+        if damage > 0.0001 then
             nodeManager.attachStencilProperty(target)
             nodeManager.showNode(node)
         else
@@ -168,7 +168,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     end
 
     -- Daamge logic
-    if damage > 0.001 and blood.isInitialized(target) == true then
+    if damage > 0.0001 and blood.isInitialized(target) == true then
         local bloodAmount = 1.0 * attributeVariant
         local currentBloodAmount = blood.getReferenceBloodStatistic(target).current
 

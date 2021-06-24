@@ -58,6 +58,7 @@ require("OperatorJack.Vampyr.modules.effects")
 require("OperatorJack.Vampyr.modules.vanilla-overides.fixNpcVampirism")
 require("OperatorJack.Vampyr.modules.vanilla-overides.sun-damage")
 require("OperatorJack.Vampyr.modules.vanilla-overides.turn-undead")
+require("OperatorJack.Vampyr.modules.vanilla-overides.dialogue-pc-vampire")
 
 require("OperatorJack.Vampyr.modules.scriptOverrides")
 require("OperatorJack.Vampyr.modules.functions.debug-menu")

@@ -4,6 +4,17 @@ local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager"
 
 tes3.claimSpellEffectId("glamour", 704)
 
+event.register(common.events.dialogueFilterPcVampire, function(e)
+    if e.isVampire == false then return end
+
+    local isVampire = tes3.isAffectedBy({
+        reference = tes3.player,
+        effect = tes3.effect.glamour
+      }) == false
+
+    e.isVampire = isVampire
+end)
+
 local initialized = false
 local function onGlamourTick(e)
     if (e.effectInstance.state == tes3.spellState.beginning or initialized == false) then

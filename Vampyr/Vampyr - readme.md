@@ -62,17 +62,14 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.3.1**
-
-- Claws
-
-  - Fixed animation load error for beast bodies that could cause CTD.
+#### **0.3.1 - 0.3.3**
 
 - Sun Damage
 
   - Improved VFX by Kurp.
   - Added Left Pauldron to stencil functionality, so VFX now shows correctly on it.
   - Fixed bug where changing equipment could break stencil VFX.
+  - Fixed bug where high FPS could cause damage to not calculate correctly, causing VFX flickering.
 
 #### **0.3 - The Sun Damage Update**
 

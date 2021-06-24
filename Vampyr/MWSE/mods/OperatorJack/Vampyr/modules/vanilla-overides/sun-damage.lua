@@ -168,7 +168,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     end
 
     -- Daamge logic
-    if damage > 0.0001 and blood.isInitialized(target) == true then
+    if damage > 0.001 and blood.isInitialized(target) == true then
         local bloodAmount = 1.0 * attributeVariant
         local currentBloodAmount = blood.getReferenceBloodStatistic(target).current
 

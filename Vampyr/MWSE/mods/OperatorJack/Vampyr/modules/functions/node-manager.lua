@@ -189,8 +189,8 @@ functions.getOrAttachVfx = function(reference, sceneObjectName, path)
 
 
         sceneNode:attachChild(node, true)
-        sceneNode:update()
-        sceneNode:updateNodeEffects()
+        node:update({controllers=true})
+        node:updateNodeEffects()
 
         common.logger.debug("Added object %s to %s.", sceneObjectName, reference)
     end

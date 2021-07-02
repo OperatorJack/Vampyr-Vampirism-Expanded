@@ -62,6 +62,17 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
+#### **0.4 - The Glamour Update**
+
+- Glamour
+
+  - The glamour magic effect now overrides the PC Vampire dialogue check, allowing the player to converse as a normal being.
+
+- Mistform
+  - Fixed a bug where the VFX pushed the player a small amount, causing a jarring camera motion.
+  - Fixed a bug where the "Start" VFX was only played on the initial cast.
+  - The "light" now stays with the fadeout VFX, making the VFX ending more consistent with the rest of the VFX sequence.
+
 #### **0.3.1 - 0.3.3**
 
 - Sun Damage

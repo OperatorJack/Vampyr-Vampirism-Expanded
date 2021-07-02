@@ -69,9 +69,13 @@ The table below outlines functionality added or changed in each alpha version.
   - The glamour magic effect now overrides the PC Vampire dialogue check, allowing the player to converse as a normal being.
 
 - Mistform
+
   - Fixed a bug where the VFX pushed the player a small amount, causing a jarring camera motion.
   - Fixed a bug where the "Start" VFX was only played on the initial cast.
   - The "light" now stays with the fadeout VFX, making the VFX ending more consistent with the rest of the VFX sequence.
+
+- Other
+  - Merged the temporary blood transfuser ESP into main ESP.
 
 #### **0.3.1 - 0.3.3**
 

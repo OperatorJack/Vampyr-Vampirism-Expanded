@@ -38,6 +38,10 @@ common.ids = {
         medium = "OJ_V_BloodSerum_02",
         large = "OJ_V_BloodSerum_03",
         decanter = "OJ_V_BloodSerum_04",
+    },
+
+    transfuser = {
+        bloodTransfuser = "OJ_V_BloodTransfuser"
     }
 }
 common.animations = {

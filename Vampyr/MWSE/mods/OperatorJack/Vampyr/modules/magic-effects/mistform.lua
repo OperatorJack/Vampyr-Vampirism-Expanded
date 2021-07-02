@@ -80,7 +80,7 @@ local function start()
     appCullNodes(tes3.player.sceneNode.children, true)
     appCullNodes(tes3.player1stPerson.sceneNode.children, true)
 
-    local node = nodeManager.getOrAttachVfx(tes3.player, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
+    local node = nodeManager.getOrAttachVfx(tes3.player, "OJ_V_MistformStartVfx", common.paths.mistformStartVfx)
     nodeManager.showNode(node)
 
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})

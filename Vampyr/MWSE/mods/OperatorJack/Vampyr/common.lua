@@ -42,6 +42,12 @@ common.ids = {
 
     transfuser = {
         bloodTransfuser = "OJ_V_BloodTransfuser"
+    },
+
+    actors = {
+        testNpc = "OJ_V_TestNormalNpc",
+        testVampire = "OJ_V_TestVampireNpc",
+        testHunter = "OJ_V_TestVampireHunter",
     }
 }
 common.animations = {

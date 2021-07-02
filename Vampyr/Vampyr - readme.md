@@ -74,6 +74,11 @@ The table below outlines functionality added or changed in each alpha version.
   - Fixed a bug where the "Start" VFX was only played on the initial cast.
   - The "light" now stays with the fadeout VFX, making the VFX ending more consistent with the rest of the VFX sequence.
 
+- Debug Menu
+
+  - You can now add some items, like serum and blood transfuser, from the debug menu.
+  - You can now spawn some NPCs, like the test NPC and test Vampire NPC, from the debug menu.
+
 - Other
   - Merged the temporary blood transfuser ESP into main ESP.
 

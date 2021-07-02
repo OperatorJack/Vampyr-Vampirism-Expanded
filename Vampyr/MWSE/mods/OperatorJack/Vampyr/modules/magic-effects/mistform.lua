@@ -22,6 +22,14 @@ local function resetDoors()
     end
 end
 
+local function removeLight(ref)
+    if ref then
+        ref:disable()
+        ref.modified = false
+        ref = nil
+    end
+end
+
 local function onTick(e)
     resetDoors()
 
@@ -60,15 +68,11 @@ local function stop()
     end
 
     event.unregister("simulate", onSimulate)
-    if light then
-        light:disable()
-        light.modified = false
-        light = nil
-    end
 end
 
 local function start()
     stop()
+    removeLight(light)
 
     -- Disable combat controls
     tes3.mobilePlayer.attackDisabled = true
@@ -166,9 +170,13 @@ local function mistformTick(e)
         fadeout.modified = false
         common.logger.trace("Fadeout created.")
 
+        local fadeoutLight = light
+
         timer.start({
             duration = 5,
             callback = function ()
+                removeLight(fadeoutLight)
+
                 if (fadeout) then
                     fadeout:disable()
                     timer.delayOneFrame(function()

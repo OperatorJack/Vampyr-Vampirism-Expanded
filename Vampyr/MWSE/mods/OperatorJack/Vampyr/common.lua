@@ -145,6 +145,7 @@ common.events = {
     calcClawBloodDraw = "Vampyr:CalcClawBloodDraw",
     calcClawDamage = "Vampyr:CalcClawDamage",
     calcSunDamage = "Vampyr:CalcSunDamageScalar",
+    calcSunDamageModifiers = "Vampyr:CalcSunDamageScalarModifiers",
     dialogueFilterPcVampire = "Vampyr:DialogueFilterPcVampire",
     playerVampireStateChanged = "Vampyr:PlayerVampireStateChanged",
     initializedReference = "Vampyr:InitializedReference",

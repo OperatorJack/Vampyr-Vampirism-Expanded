@@ -110,6 +110,25 @@ local function createMechanicCategory(page)
     createClawsSettings(category)
 end
 
+
+local function createAshfallSettings(category)
+    -- Create option to capture debug mode.
+    category:createOnOffButton{
+        label = "Enable Ashfall Integrations",
+        description = "If enabled and Ashfall is installed, Ashfall calculations for sunlight and coverage will be used instead of Vampyr calculations. Game restart required.",
+        variable = createTableVar("enableAshfallIntegration"),
+        restartRequired = true
+    }
+end
+
+local function createIntegrationsCategory(page)
+    local category = page:createCategory{
+        label = "Integrations Settings"
+    }
+
+    createAshfallSettings(category)
+end
+
 local function createGeneralPage(template)
     local page = template:createSideBarPage{
         label = "General Settings",
@@ -119,6 +138,7 @@ local function createGeneralPage(template)
     createGeneralCategory(page)
     createUICategory(page)
     createMechanicCategory(page)
+    createIntegrationsCategory(page)
 end
 
 local function createFakeNPCVampireList(template)

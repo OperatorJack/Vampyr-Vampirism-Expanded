@@ -10,6 +10,8 @@ return mwse.loadConfig("Vampyr", {
         isControlDown = false,
     },
 
+    enableAshfallIntegration = true,
+
     uiBloodFillbarOnTop = true,
 
     clawsBaseChance = 10,

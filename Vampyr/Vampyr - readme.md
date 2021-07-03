@@ -62,7 +62,12 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.4 - The Glamour Update**
+#### **0.4 - The Ashfall & Glamour Update**
+
+- Ashfall
+
+  - Add integrations with Ashfall. If it is installed, Vampyr will use the Ashfall sun temperature calculation instead of the Vampyr shade calculation when determining sun damage.
+  - Add MCM menu to manage integrations.
 
 - Glamour
 

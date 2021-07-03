@@ -131,6 +131,13 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local shadeModifier = getShadeModifier(target)
     local skinExposureModifier = getSkinExposureModifier(target)
 
+    -- Trigger event for other modules to modify sun damage modifiers if needed.
+    local params = { reference = target, resistance = resistanceModifier, shade = shadeModifier, skinExposure = skinExposureModifier}
+    event.trigger(common.events.calcSunDamageModifiers, params)
+    resistanceModifier = params.resistance
+    shadeModifier = params.shade
+    skinExposureModifier = params.skinExposure
+
     local modifier = resistanceModifier * shadeModifier * skinExposureModifier
     local damage = attributeVariant * modifier
 

@@ -78,7 +78,9 @@ local function addGlamour()
 		nonRecastable = true,
 
 		-- Graphics/sounds.
+		particleTexture = "vampyr\\kurp\\blank.dds",
 		lighting = { 0.99, 0.95, 0.67 },
+        castVFX = common.ids.glamour.cast,
 
 		-- Required callbacks.
 		onTick = onGlamourTick,

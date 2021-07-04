@@ -18,6 +18,7 @@ common.text = {
 }
 common.ids = {
     glamour = {
+        cast = "OJ_V_GlamourCast",
         fadeout = "OJ_V_GlamourFadeout"
     },
     mistform = {

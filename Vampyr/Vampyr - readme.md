@@ -77,7 +77,8 @@ The table below outlines functionality added or changed in each alpha version.
 
   - Fixed a bug where the VFX pushed the player a small amount, causing a jarring camera motion.
   - Fixed a bug where the "Start" VFX was only played on the initial cast.
-  - The "light" now stays with the fadeout VFX, making the VFX ending more consistent with the rest of the VFX sequence.
+  - The "light" now stays after the effect ends, following the player for a few seconds.
+  - On casting and ending of the effect, new stencil visuals to show transition into mist.
 
 - Debug Menu
 

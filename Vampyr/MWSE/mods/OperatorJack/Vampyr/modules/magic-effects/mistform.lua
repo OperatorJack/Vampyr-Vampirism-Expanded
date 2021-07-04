@@ -6,6 +6,7 @@ tes3.claimSpellEffectId("mistform", 705)
 
 local doors = {}
 local light = nil
+local lights = {}
 
 event.register("objectInvalidated", function(e)
     doors[e.object] = nil
@@ -24,6 +25,7 @@ end
 
 local function removeLight(ref)
     if ref then
+        lights[ref] = nil
         ref:disable()
         ref.modified = false
         ref = nil
@@ -43,13 +45,19 @@ local function onTick(e)
 end
 
 local function onSimulate()
-    tes3.positionCell({
-        reference = light,
-        position = tes3.player.position,
-        orientation = tes3.player.orientation,
-        cell = tes3.player.cell
-    })
-    light:setDynamicLighting()
+    if #lights == 0 and light == nil then
+        event.unregister("simulate", onSimulate)
+    end
+
+    for ref in pairs(lights) do
+        tes3.positionCell({
+            reference = ref,
+            position = tes3.player.position,
+            orientation = tes3.player.orientation,
+            cell = tes3.player.cell
+        })
+        ref:setDynamicLighting()
+    end
 end
 
 local function appCullNodes(nodes, appCulledState)
@@ -66,8 +74,6 @@ local function stop()
     if localTimer then
         localTimer:cancel()
     end
-
-    event.unregister("simulate", onSimulate)
 end
 
 local function start()
@@ -84,7 +90,7 @@ local function start()
     appCullNodes(tes3.player.sceneNode.children, true)
     appCullNodes(tes3.player1stPerson.sceneNode.children, true)
 
-    local node = nodeManager.getOrAttachVfx(tes3.player, "OJ_V_MistformStartVfx", common.paths.mistformStartVfx)
+    local node = nodeManager.getOrAttachVfx(tes3.player, "OJ_V_MistformStartVfx", common.paths.mistform.startVfx)
     nodeManager.showNode(node)
 
     localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
@@ -95,6 +101,8 @@ local function start()
         cell = tes3.player.cell
     })
     light.modified = false
+    lights[light] = true
+    event.unregister("simulate", onSimulate)
     event.register("simulate", onSimulate)
 end
 
@@ -156,36 +164,18 @@ local function mistformTick(e)
         appCullNodes(tes3.player.sceneNode.children, false)
         appCullNodes(tes3.player1stPerson.sceneNode.children, false)
 
-        local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformVfx", common.paths.mistformStartVfx)
-        nodeManager.hideNode(node)
+        local startVfxNode = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformStartVfx", common.paths.mistform.startVfx)
+        nodeManager.hideNode(startVfxNode)
 
         -- Place fade-out VFX
-        local object = tes3.getObject(common.ids.mistform.fadeout)
-
-        local fadeout = tes3.createReference({
-            object = object,
-            position = tes3.player.position,
-            cell = tes3.player.cell
-        })
-        fadeout.modified = false
-        common.logger.trace("Fadeout created.")
-
+        local endVfxNode = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformEndVfx", common.paths.mistform.endVfx)
         local fadeoutLight = light
-
+        lights[fadeoutLight] = true
         timer.start({
-            duration = 5,
+            duration = 4,
             callback = function ()
                 removeLight(fadeoutLight)
-
-                if (fadeout) then
-                    fadeout:disable()
-                    timer.delayOneFrame(function()
-                        mwscript.setDelete{ reference = fadeout}
-                        fadeout.modified = false
-                        fadeout = nil
-                        common.logger.trace("Fadeout deleted.")
-                    end)
-                end
+                nodeManager.hideNode(endVfxNode)
             end
         })
 

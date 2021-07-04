@@ -77,7 +77,10 @@ common.paths = {
     glamourVfx = "OJ\\V\\e\\GlamourVfx.nif",
 
     -- Requires special node name. Ref mistform.lua
-    mistformStartVfx = "OJ\\V\\e\\MistformVfxStart.nif",
+    mistform = {
+        startVfx = "OJ\\V\\e\\MistformVfxStart.nif",
+        endVfx = "OJ\\V\\e\\MistformVfxEnd.nif",
+    },
 
     bloodrainEffect_raindrop = "textures\\Tx_Raindrop_01.tga",
     bloodrainEffect_bloodraindrop = "textures\\V\\OJ_V_Bloodrain.dds"

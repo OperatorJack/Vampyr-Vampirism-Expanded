@@ -2,122 +2,7 @@ local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local nodeManager = require("OperatorJack.Vampyr.modules.functions.node-manager")
 
-local function getShadeModifier(reference)
-    -- Detect interior cell.
-    if reference.cell.isInterior == true and reference.cell.behaveAsExterior ~= true then
-        return 0
-    end
 
-    -- Detect app culled sky... IDK, vanilla does it.
-    local weatherController = tes3.worldController.weatherController
-    if weatherController.sceneSkyRoot.appCulled == true then
-        return 0
-    end
-
-    local weather = weatherController.currentWeather
-    local hour = tes3.worldController.hour.value
-    local sunRisen = 1
-
-    if hour > weatherController.sunriseHour
-       and hour < weatherController.sunriseDuration + weatherController.sunriseHour then
-        sunRisen = (hour - weatherController.sunriseHour) / weatherController.sunriseDuration
-    end
-
-    if hour > weatherController.sunsetHour
-       and hour <= weatherController.sunsetDuration + weatherController.sunsetHour then
-        sunRisen = 1 - (hour - weatherController.sunsetHour) / weatherController.sunsetDuration
-    end
-
-    if hour > weatherController.sunriseDuration + weatherController.sunriseHour
-       and hour <= weatherController.sunsetHour then
-        sunRisen = 1
-    end
-
-    if hour > weatherController.sunsetDuration + weatherController.sunsetHour
-       or hour <= weatherController.sunriseHour then
-        sunRisen = 0
-    end
-
-    local sunVisibility = weather.glareView
-    if weatherController.transitionScalar ~= 0.0 then
-        local nextWeather = weatherController.nextWeather
-
-        if nextWeather.cloudsMaxPercent >= weatherController.transitionScalar then
-            local t = weatherController.transitionScalar / nextWeather.cloudsMaxPercent
-            sunVisibility = (1 - t) * weatherController.currentWeather.glareView + t * nextWeather.glareView
-        else
-            sunVisibility = nextWeather.glareView
-        end
-    end
-
-    -- All weather has a 0.10 base visibility percentage. Sorry Todd!
-    sunVisibility = sunVisibility + 0.1
-
-    return math.clamp(sunVisibility * sunRisen, 0, 1)
-end
-
-local bodyPartBlacklist = {
-    [tes3.activeBodyPart.groin] = true,
-    [tes3.activeBodyPart.hair] = true,
-    [tes3.activeBodyPart.leftPauldron] = true,
-    [tes3.activeBodyPart.rightPauldron] = true,
-    [tes3.activeBodyPart.shield] = true,
-    [tes3.activeBodyPart.skirt] = true,
-    [tes3.activeBodyPart.tail] = true,
-    [tes3.activeBodyPart.weapon] = true,
-}
-
-local activeBodyPartCount
-local function getCountActiveBodyParts()
-    if activeBodyPartCount then
-        return activeBodyPartCount
-    end
-
-    activeBodyPartCount = 0
-    for _ in pairs(tes3.activeBodyPart) do
-        activeBodyPartCount = activeBodyPartCount + 1
-    end
-
-    return activeBodyPartCount
-end
-
-local blacklistBodyPartCount
-local function getCountBlacklistBodyParts()
-    if blacklistBodyPartCount then
-        return blacklistBodyPartCount
-    end
-
-    blacklistBodyPartCount = 0
-    for _ in pairs(bodyPartBlacklist) do
-        blacklistBodyPartCount = blacklistBodyPartCount + 1
-    end
-
-    return blacklistBodyPartCount
-end
-
-local function getExposedBodyParts(ref)
-    return coroutine.wrap(function()
-        for name, index in pairs(tes3.activeBodyPart) do
-            if not bodyPartBlacklist[index] then
-                local bodyPart = ref.bodyPartManager:getActiveBodyPart(tes3.activeBodyPartLayer.base, index)
-                if bodyPart and bodyPart.node then
-                    coroutine.yield(index, name)
-                end
-            end
-        end
-    end)
-end
-
-local function getSkinExposureModifier(reference)
-    local exposed = 0
-    for _, name in getExposedBodyParts(reference) do
-        exposed = exposed + 1
-    end
-    local numberBodyParts = getCountActiveBodyParts() - getCountBlacklistBodyParts()
-    local modifier = exposed / numberBodyParts
-
-    return modifier
-end
 
 local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, magic_effect_instance, effect_index)
     local target = mobile.reference
@@ -128,8 +13,8 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
 
     -- Calculate damage for reference, taking into account location, weather, shade, etc.
     local resistanceModifier = 1 - resistanceMagnitude / 100
-    local shadeModifier = getShadeModifier(target)
-    local skinExposureModifier = getSkinExposureModifier(target)
+    local shadeModifier = common.shade.getNormalizedShadeModifier(target)
+    local skinExposureModifier = common.skinExposure.getNormalizedSkinExposureModifier(target)
 
     -- Trigger event for other modules to modify sun damage modifiers if needed.
     local params = { reference = target, resistance = resistanceModifier, shade = shadeModifier, skinExposure = skinExposureModifier}

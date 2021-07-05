@@ -1,6 +1,8 @@
 local config = require("OperatorJack.Vampyr.config")
 local logger = require("OperatorJack.Vampyr.modules.functions.logger")
 local customMessagebox = require ("OperatorJack.Vampyr.modules.functions.custom-messagebox")
+local shade = require("OperatorJack.Vampyr.modules.functions.shade")
+local skinExposure = require("OperatorJack.Vampyr.modules.functions.skin-exposure")
 
 local common = {}
 
@@ -9,6 +11,9 @@ common.logger = logger
 
 common.messageBox = customMessagebox.messageBox
 common.createTooltip = customMessagebox.createTooltip
+
+common.shade = shade
+common.skinExposure = skinExposure
 
 common.text = {
     bloodSpellFailed = "You do not have enough blood to cast this spell.",
@@ -210,30 +215,6 @@ function common.calcEvasionChance(mobile)
     -- From UESP: ((Agility / 5) + (Luck / 10)) * (0.75 + 0.5 * Current Fatigue / Maximum Fatigue) + Sanctuary Magnitude
 
     return (mobile.agility.current / 5) + (mobile.luck.current / 10) + (0.75 + 0.5 * mobile.fatigue.current / mobile.fatigue.base) + mobile.sanctuary
-end
-
-function common.isPositionInShadow(position)
-    if (tes3.player.cell.isInterior and not tes3.player.cell.behaveAsExterior) then
-        return true
-    end
-
-    local hour = tes3.worldController.hour.value
-    if (hour < 4 or hour > 20)then
-        return true
-    end
-
-    local sunPos = tes3.worldController.weatherController.sceneSunBase.worldTransform.translation
-    local sunLightDirection = (sunPos - position):normalized()
-    local result = tes3.rayTest({
-        position = position,
-        direction = sunLightDirection,
-        ignore = { tes3.player }
-    })
-    if (result) then
-        return true
-    end
-
-    return false
 end
 
 function common.isReferenceVampire(reference)

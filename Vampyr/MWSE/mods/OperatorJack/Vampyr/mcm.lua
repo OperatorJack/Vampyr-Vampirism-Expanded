@@ -89,6 +89,15 @@ local function createShadowStepSettings(category)
     }
 end
 
+local function createFeedSettings(category)
+    category:createKeyBinder{
+        label = "Assign Keybind for feeding.",
+        description = "Use this option to set the hotkey for feeding. Click on the option and follow the prompt. This key will make the Player feed on their target, if the player is a vampire and meets other feeding criteria.",
+        allowCombinations = true,
+        variable = createTableVar("feedingActionKey"),
+    }
+end
+
 local function createClawsSettings(category)
     category:createSlider{
         label = "Claws Blood Draw Base Chance",
@@ -107,6 +116,7 @@ local function createMechanicCategory(page)
     }
 
     createShadowStepSettings(category)
+    createFeedSettings(category)
     createClawsSettings(category)
 end
 

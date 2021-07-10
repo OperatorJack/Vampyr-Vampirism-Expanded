@@ -145,7 +145,7 @@ end
 
 local function shadowStepKey(e)
     if common.keyDownEqual(e, common.config.shadowStepActionKey) == true then
-        common.logger.trace("Detected Shadowstep action key.")
+        common.logger.debug("Detected Shadowstep action key.")
 
         if common.isPlayerVampire() == false then return end
         if bloodPotency.getLevel(tes3.player) < 4 then

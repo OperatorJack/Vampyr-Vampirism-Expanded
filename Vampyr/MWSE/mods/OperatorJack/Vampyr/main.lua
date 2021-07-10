@@ -50,6 +50,7 @@ require("OperatorJack.Vampyr.modules.magic.spells")
 require("OperatorJack.Vampyr.modules.alchemy.serums")
 
 require("OperatorJack.Vampyr.modules.combat.stakes")
+require("OperatorJack.Vampyr.modules.combat.feeding")
 require("OperatorJack.Vampyr.modules.combat.claws")
 
 require("OperatorJack.Vampyr.modules.simulate")

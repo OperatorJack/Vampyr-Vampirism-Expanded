@@ -58,6 +58,7 @@ local function addGlamour()
 		particleTexture = "vampyr\\kurp\\blank.dds",
 		lighting = { 0.99, 0.95, 0.67 },
         castVFX = common.ids.glamour.cast,
+        hitVFX = common.ids.glamour.hit,
 
 		-- Required callbacks.
 		onTick = onGlamourTick,

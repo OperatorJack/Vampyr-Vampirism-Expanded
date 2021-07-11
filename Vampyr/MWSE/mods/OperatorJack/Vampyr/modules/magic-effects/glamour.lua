@@ -29,29 +29,6 @@ local function onGlamourTick(e)
 
         local node = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_GlamourVfx", common.paths.glamourVfx)
         nodeManager.hideNode(node)
-
-        -- Place fade-out VFX
-        local object = tes3.getObject(common.ids.glamour.fadeout)
-
-        local fadeout = tes3.createReference({
-            object = object,
-            position = tes3.player.position,
-            cell = tes3.player.cell
-        })
-        fadeout.modified = false
-
-        timer.start({
-            duration = 2,
-            callback = function ()
-                if (fadeout) then
-                    fadeout:disable()
-                    timer.delayOneFrame(function()
-                        mwscript.setDelete{ reference = fadeout}
-                        fadeout = nil
-                    end)
-                end
-            end
-        })
     end
 
     -- Trigger into the spell system.

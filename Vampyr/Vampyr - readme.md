@@ -4,7 +4,7 @@
 
 ---
 
-## **Alpha 0.3**
+## **Alpha 0.4**
 
 ## Requirements
 
@@ -56,22 +56,22 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 #### **Coming Soon!**
 
-- Blood Magic Effects
-  - Glamour (100%)
-  - Blood Transfusion Mechanics
+- Blood Transfusion Mechanics
+- Feeding Mechanics
 
 The table below outlines functionality added or changed in each alpha version.
 
 #### **0.4 - The Ashfall & Glamour Update**
 
+- Glamour
+
+  - The glamour magic effect now overrides the PC Vampire dialogue check, allowing the player to converse as a normal being.
+  - Glamour now has beautiful & unique cast and hit VFX created by Kurp!
+
 - Ashfall
 
   - Add integrations with Ashfall. If it is installed, Vampyr will use the Ashfall sun temperature calculation instead of the Vampyr shade calculation when determining sun damage.
   - Add MCM menu to manage integrations.
-
-- Glamour
-
-  - The glamour magic effect now overrides the PC Vampire dialogue check, allowing the player to converse as a normal being.
 
 - Mistform
 
@@ -87,6 +87,8 @@ The table below outlines functionality added or changed in each alpha version.
 
 - Other
   - Merged the temporary blood transfuser ESP into main ESP.
+  - Setup some functionality for Feeding. New MCM option and feeding key, defaulted to `x`.
+  - Setup some functionality for Blood Transfusion. New improved meshes by Melchior Dahrk.
 
 #### **0.3.1 - 0.3.3**
 

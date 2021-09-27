@@ -26,7 +26,7 @@ local function initializeBlood(reference)
         reference.data.OJ_VAMPYR.blood.current = math.random(1, baseBlood)
     else
         -- Magic fixup for UI syncing issues, due to simple vampire state not recalculating UI values.
-        blood.modPlayerBaseBloodStatistic(1)
+        blood.modPlayerBaseBloodStatistic(0)
     end
 
     reference.data.OJ_VAMPYR.bloodInitialized = true

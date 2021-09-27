@@ -61,6 +61,12 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
+#### **0.4.1**
+
+- Bugfixes
+
+  - Fixed blood defaulting to -1/-1 during vampire transition. Now will correctly default to 1/31 (default formula changed in future update).
+
 #### **0.4 - The Ashfall & Glamour Update**
 
 - Glamour

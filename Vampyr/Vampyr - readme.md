@@ -66,6 +66,7 @@ The table below outlines functionality added or changed in each alpha version.
 - Bugfixes
 
   - Fixed blood defaulting to -1/-1 during vampire transition. Now will correctly default to 1/31 (default formula changed in future update).
+  - Fixed bug where blood potency data structure was incorrectly initiated, which could cause some logical errors when a newborn vampire.
 
 #### **0.4 - The Ashfall & Glamour Update**
 

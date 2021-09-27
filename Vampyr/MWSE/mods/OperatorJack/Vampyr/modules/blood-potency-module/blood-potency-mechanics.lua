@@ -1,19 +1,6 @@
 local common = require("OperatorJack.Vampyr.common")
 local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
 
-local function initializedReference(e)
-    if (common.isReferenceVampire(e.reference) == false) then return end
-    bloodPotency.initializeReferenceData(e.reference)
-end
-event.register(common.events.initializedReference, initializedReference)
-
-local function playerVampireStateChanged(e)
-    if (e.isVampire == true) then
-        bloodPotency.initializeReferenceData(tes3.player)
-    end
-end
-event.register(common.events.playerVampireStateChanged, playerVampireStateChanged)
-
 local function onBloodChanged(e)
     if (e.statistic ~= "base") then return end
 

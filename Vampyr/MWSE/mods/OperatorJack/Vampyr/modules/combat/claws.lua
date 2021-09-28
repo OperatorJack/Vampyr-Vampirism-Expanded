@@ -102,7 +102,7 @@ event.register("damage", function(e)
     else
         if not e.attackerReference then return end
         if common.isReferenceVampire(e.attackerReference) == false then return end
-        if e.attackerReference.readiedWeapon then return end
+        if e.attackerReference.mobile.readiedWeapon then return end
         if e.magicSourceInstance then return end
         if e.projectile then return end
         if e.source == "script" then return end
@@ -136,7 +136,7 @@ end, {priority = 1000})
 event.register("damageHandToHand", function(e)
     if not e.attackerReference then return end
     if common.isReferenceVampire(e.attackerReference) == false then return end
-    if e.attackerReference.readiedWeapon then return end
+    if e.attackerReference.mobile.readiedWeapon then return end
 
     -- Override fatigue damage so we can implement claw damage mechanics. Set to 1 to still trigger HUD element.
     e.fatigueDamage = 1

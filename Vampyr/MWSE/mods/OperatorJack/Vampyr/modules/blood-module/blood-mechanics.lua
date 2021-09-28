@@ -27,6 +27,7 @@ local function initializeBlood(reference)
     else
         -- Magic fixup for UI syncing issues, due to simple vampire state not recalculating UI values.
         blood.modPlayerBaseBloodStatistic(0)
+        reference.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
     end
 
     reference.data.OJ_VAMPYR.bloodInitialized = true

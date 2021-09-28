@@ -61,12 +61,13 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.4.1**
+#### **0.4.1 - 0.4.2**
 
 - Bugfixes
 
   - Fixed blood defaulting to -1/-1 during vampire transition. Now will correctly default to 1/30 (default formula changed in future update).
   - Fixed bug where blood potency data structure was incorrectly initiated, which could cause some logical errors when a newborn vampire.
+  - Fixed bug where vampires could not deal damage with weapons due to incorrectly accessed property in claws logic.
 
 #### **0.4 - The Ashfall & Glamour Update**
 

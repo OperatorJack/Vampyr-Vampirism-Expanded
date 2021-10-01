@@ -56,6 +56,9 @@ require("OperatorJack.Vampyr.modules.combat.claws")
 require("OperatorJack.Vampyr.modules.simulate")
 require("OperatorJack.Vampyr.modules.effects")
 
+require("OperatorJack.Vampyr.modules.services.merchants")
+require("OperatorJack.Vampyr.modules.services.prices")
+
 require("OperatorJack.Vampyr.modules.vanilla-overides.fix-npc-vampirism")
 require("OperatorJack.Vampyr.modules.vanilla-overides.sun-damage")
 require("OperatorJack.Vampyr.modules.vanilla-overides.turn-undead")

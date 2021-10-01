@@ -55,6 +55,10 @@ common.ids = {
         testNpc = "OJ_V_TestNormalNpc",
         testVampire = "OJ_V_TestVampireNpc",
         testHunter = "OJ_V_TestVampireHunter",
+    },
+
+    containers = {
+        merchant = "OJ_V_MerchantCrate"
     }
 }
 common.animations = {
@@ -227,6 +231,41 @@ end
 
 function common.isPlayerVampire()
     return common.isReferenceVampire(tes3.player)
+end
+
+function common.isSerum(id)
+    for _, serumId in pairs(common.ids.serums) do
+        if id == serumId then
+            return true
+        end
+    end
+    return false
+end
+
+function common.isVampireFaction(id)
+    for factionId in pairs(config.vampireFactions) do
+        if id == factionId then
+            return true
+        end
+    end
+    return false
+end
+
+function common.isVampireMerchant(ref)
+    if not common.isReferenceVampire(ref) == true then return false end
+
+    -- @TODO: Add logic for detecting if a merchant.
+
+    return true
+end
+
+--TODO: Null needs to fix collision crashes on Disable/Delete
+function common.yeet(ref, no)
+    if no then
+        mwse.error("You called yeet() with a colon, didn't you?")
+    end
+    ref:disable()
+    mwscript.setDelete{ reference = ref}
 end
 
 function common.initializeReferenceData(reference)

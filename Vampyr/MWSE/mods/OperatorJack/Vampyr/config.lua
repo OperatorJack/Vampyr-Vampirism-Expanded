@@ -70,5 +70,10 @@ return mwse.loadConfig("Vampyr", {
         ["OJ_V_WoodenStake"] = true,
         ["OJ_V_SteelStake"] = true,
         ["OJ_V_SilverStake"] = true,
+    },
+    vampireFactions = {
+        ["Clan Aundae"] = true,
+        ["Clan Berne"] = true,
+        ["Clan Quarra"] = true,
     }
 })

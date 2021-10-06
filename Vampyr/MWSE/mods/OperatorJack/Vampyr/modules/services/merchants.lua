@@ -13,9 +13,13 @@ local function placeContainer(merchant, containerId)
     tes3.setOwner{ reference = container, owner = merchant}
 end
 
+local bloodVialObjectTypes = {
+    [tes3.objectType.ingredient] = true,
+    [tes3.objectType.alchemy] = true,
+}
 
 local function onMobileActivated(e)
-    if common.isVampireMerchant(e.reference) == true then
+    if common.isVampireMerchant(e.reference, bloodVialObjectTypes) == true then
         local added = e.reference.data.vampyrGearAdded == true
         if not added then
             e.reference.data.vampyrGearAdded = true

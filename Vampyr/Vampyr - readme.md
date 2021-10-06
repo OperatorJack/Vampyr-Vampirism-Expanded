@@ -61,6 +61,16 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
+#### **0.5 - Vampire Merchants & Blood Serums**
+
+- Vampire Merchants
+
+  - Any vampire that sells potions or ingrediants will now have a small respawning stock of blood serums.
+
+- Blood Serums
+
+  - New Icons
+
 #### **0.4.1 - 0.4.3**
 
 - Bugfixes

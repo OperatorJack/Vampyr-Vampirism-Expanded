@@ -254,11 +254,6 @@ end
 function common.isVampireMerchant(ref, objectTypes)
     if not common.isReferenceVampire(ref) == true then return false end
 
-    if #objectTypes == 0 then
-        common.logger.error("Invalid call to common.isVampireMerchant. No object types provided.");
-        return false
-    end
-
     for objectType in pairs(objectTypes) do
         if ref.object:tradesItemType(objectType) == false then return false end
     end

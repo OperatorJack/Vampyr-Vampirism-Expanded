@@ -72,3 +72,19 @@ local function feedingKey(e)
     enterFeedMode(targetRef)
 end
 event.register("keyDown", feedingKey)
+
+local function initialized()
+    mwse.overrideScript(common.ids.scripts.initiateFeedOnTarget, function(e)
+        timer.start({
+            duration = 0.01,
+            callback = function ()
+                common.logger.debug("Feed: Dialogue route activated. Entering feed mode.")
+                local target = tes3.getPlayerTarget()
+                enterFeedMode(target)
+            end
+        })
+        mwscript.stopScript{script=common.ids.scripts.initiateFeedOnTarget}
+    end)
+end
+
+event.register("initialized", initialized)

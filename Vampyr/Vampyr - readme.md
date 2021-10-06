@@ -4,7 +4,7 @@
 
 ---
 
-## **Alpha 0.4.3**
+## **Alpha 0.5.0**
 
 ## Requirements
 
@@ -61,7 +61,15 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 The table below outlines functionality added or changed in each alpha version.
 
-#### **0.5 - Vampire Merchants & Blood Serums**
+#### **0.5 - Basic Feeding, Vampire Merchants & Blood Serums**
+
+- Feeding
+
+  - Dialogue option "- Feed" is now visible when you are a vampire, and the actor you're speaking with is not a vampire.
+  - Feed topic allows you to drink blood or extract blood into vials.
+  - Drinking blood triggers the Feed mechanic, which will eventually show an animation and other features.
+  - Extracting blood creates blood serums and damages the actor.
+  - _Dialogue is placeholder and very much subject to change._
 
 - Vampire Merchants
 

@@ -65,6 +65,7 @@ require("OperatorJack.Vampyr.modules.vanilla-overides.turn-undead")
 require("OperatorJack.Vampyr.modules.vanilla-overides.dialogue-pc-vampire")
 
 require("OperatorJack.Vampyr.modules.scriptOverrides")
+require("OperatorJack.Vampyr.modules.functions.globals")
 require("OperatorJack.Vampyr.modules.functions.debug-menu")
 
 

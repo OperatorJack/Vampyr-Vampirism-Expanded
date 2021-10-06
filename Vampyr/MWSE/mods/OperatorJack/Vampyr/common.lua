@@ -22,6 +22,14 @@ common.text = {
     shadowstepFailed_TooFar = "You do not have enough blood remaining to shadowstep to that position.",
 }
 common.ids = {
+    globals = {
+        targetIsVampire = "OJ_V_TargetIsVampire",
+        playerIsVampire = "OJ_V_PlayerIsVampire"
+    },
+    scripts = {
+        initiateFeedOnTarget = "OJ_V_ScriptInitiateFeedOnTarget"
+    },
+
     glamour = {
         cast = "OJ_V_GlamourCast",
         hit = "OJ_V_GlamourHit",

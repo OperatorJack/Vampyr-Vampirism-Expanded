@@ -66,6 +66,7 @@ The table below outlines functionality added or changed in each alpha version.
 - Vampire Merchants
 
   - Any vampire that sells potions or ingrediants will now have a small respawning stock of blood serums.
+  - Blood serum price fluctuates based on your relative rank in the faction of the merchant, your thirst, and your blood potency. A satiated daywalker will be able to buy blood serums much cheaper than a starving newborn.
 
 - Blood Serums
 

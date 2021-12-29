@@ -33,10 +33,33 @@ function blood.isInitialized(reference)
     return false
 end
 
+function blood.resetLastFeedDay(reference)
+    reference.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
+end
+
 function blood.applyFeedingAction(reference, amount)
-    if not common.roll(10) then return end
+    local chance = 10
+    local payload = {
+        reference = reference,
+        chance = chance
+    }
+    event.trigger(common.events.calcBloodFeedingChance, payload)
+    chance = payload.chance
+
+    if not common.roll(chance) then return 0 end
     common.logger.trace("Applying feeding action to %s. Amount %s.", reference, amount)
-    blood.modReferenceBaseBloodStatistic(reference, amount)
+
+    -- If current blood is less than base, refill current blood first.
+    -- If current blood is full, increase base blood.
+    local referenceBlood =  blood.getReferenceBloodStatistic(reference)
+    if referenceBlood.current < reference.base then
+        blood.modReferenceCurrentBloodStatistic(reference, amount)
+    else
+        blood.modReferenceBaseBloodStatistic(reference, amount)
+    end
+
+    blood.resetLastFeedDay(reference)
+    return amount
 end
 
  --[[ MOD Blood ]] --

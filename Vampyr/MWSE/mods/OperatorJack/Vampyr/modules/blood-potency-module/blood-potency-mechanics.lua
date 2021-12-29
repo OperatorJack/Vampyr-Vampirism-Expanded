@@ -103,3 +103,9 @@ event.register(common.events.bloodPotencyChanged, function(e)
         end
     end
 end)
+
+-- Higher blood level is more effective at feeding.
+event.register(common.events.calcBloodFeedingChance, function(e)
+    local level = bloodPotency.getLevel(e.reference)
+    e.chance = e.chance * level
+end)

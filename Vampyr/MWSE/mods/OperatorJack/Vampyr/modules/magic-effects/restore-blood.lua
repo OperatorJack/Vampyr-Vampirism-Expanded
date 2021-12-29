@@ -9,7 +9,7 @@ local function restoreBloodTick(e)
 
     -- Reset feed date for vampire.
     if (e.effectInstance.state == tes3.spellState.beginning) then
-        target.data.OJ_VAMPYR.lastFeedDay = tes3.worldController.daysPassed.value
+        blood.resetLastFeedDay(target)
     end
 
     -- Trigger into the spell system.

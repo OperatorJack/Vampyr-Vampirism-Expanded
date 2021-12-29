@@ -75,7 +75,7 @@ common.animations = {
     claws = "OJ\\V\\claws.nif",
     clawsFirstPerson = "OJ\\V\\claws.1st.nif",
     feedVampire = "OJ\\V\\feed_vampire.nif",
-    feedVictim = "OJ\\V\\feed_vampire.nif"
+    feedVictim = "OJ\\V\\feed_victim.nif"
 }
 common.paths = {
     -- Generic stencil property
@@ -168,6 +168,7 @@ common.events = {
     bloodChanged = "Vampyr:BloodChangedEvent",
     bloodPotencyChanged = "Vampyr:BloodPotencyChangedEvent",
     bloodMagicCostApplied = "Vampyr:BloodMagicCostApplied",
+    calcBloodFeedingChance = "Vampyr:CalcBloodFeedingChance",
     calcClawBloodDraw = "Vampyr:CalcClawBloodDraw",
     calcClawDamage = "Vampyr:CalcClawDamage",
     calcSunDamage = "Vampyr:CalcSunDamageScalar",

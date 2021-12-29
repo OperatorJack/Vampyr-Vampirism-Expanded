@@ -1,32 +1,15 @@
 local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
--- Adapted from Merlord's Brutal Backstabbing. Thanks mate!
-local degrees = 80
-local angle = (2 * math.pi) * (degrees / 360)
-
-local function isReferenceFacingAway(targetRef, attackerRef)
-	-- Check that target is facing away from attacker orientation is between -Pi and Pi.
-	-- We get the difference between attacker and target angles, and if it's greater than pie,
-	-- we've got the obtuse angle, so subtract 2*pi to get the acute angle.
-	local attackerAngle = attackerRef.orientation.z
-	local targetAngle = targetRef.orientation.z
-	local diff = math.abs (attackerAngle - targetAngle )
-	if diff > math.pi then
-		diff = math.abs ( diff - ( 2 * math.pi ) )
-	end
-	-- If the player and attacker have the same orientation, then the attacker must be behind the target
-	if ( diff < angle) then
-        return true
-	end
-    return false
-end
 
 local targetRef = nil
 local isFeeding = false
 local isCancelled = false
 local bloodDrained = 0
 local function exitFeedMode()
+    -- Kill Tick event
+    event.unregister(common.events.secondPassed, feedModeTick)
+
      -- Reset animations for NPC
     if targetRef then tes3.loadAnimation({reference = targetRef}) end
 
@@ -72,7 +55,6 @@ end
 local function feedModeTick()
     -- Handle cancellation
     if isCancelled == true or targetRef.mobile.health.current < 5 then
-        event.unregister(common.events.secondPassed, feedModeTick)
         exitFeedMode()
         return
     end
@@ -96,22 +78,16 @@ local function feedModeTick()
     -- If average is more than 25, NPC is much more powerful than player.
     if avg > math.random(0, 25) then
         -- NPC Breaks free
-        event.unregister(common.events.secondPassed, feedModeTick)
         exitFeedMode()
         targetRef.mobile:startCombat(tes3.player)
+        return
     end
 
     -- Target Health Reduction
     targetRef.mobile:applyHealthDamage(2)
 
     -- Player Blood Gain
-    local playerBlood = blood.getPlayerBloodStatistic()
-    if playerBlood.current >= playerBlood.base then
-        blood.modPlayerBaseBloodStatistic(1)
-    else
-        blood.modPlayerCurrentBloodStatistic(1)
-    end
-    bloodDrained = bloodDrained + 1
+    bloodDrained = bloodDrained + blood.applyFeedingAction(tes3.player, 2)
 end
 
 local function enterFeedMode(ref)
@@ -193,7 +169,7 @@ local function feedingKey(e)
     end
 
     -- Player must be behind target
-    if isReferenceFacingAway(targetRef, tes3.player) ~= true then
+    if common.isReferenceFacingAway(targetRef, tes3.player) ~= true then
         common.logger.debug("Feed: Player not behind target.")
         tes3.messageBox("You must be behind your target to feed on them.")
         return

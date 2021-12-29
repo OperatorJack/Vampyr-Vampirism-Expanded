@@ -19,6 +19,7 @@ common.text = {
     bloodSpellFailed = "You do not have enough blood to cast this spell.",
 
     feed_victimDied = "You consume too much, and your victim dies. Their death drains you.",
+    feed_victimBreakFree = "Your victim manages to break free.",
 
     shadowstepFailed_TooWeak = "You are not powerful enough to shadowstep yet.",
     shadowstepFailed_TooFar = "You do not have enough blood remaining to shadowstep to that position.",
@@ -299,6 +300,28 @@ function common.initializeReferenceData(reference)
             reference = reference
         })
     end
+end
+
+
+-- Adapted from Merlord's Brutal Backstabbing. Thanks mate!
+local degrees = 80
+local angle = (2 * math.pi) * (degrees / 360)
+
+function common.isReferenceFacingAway(targetRef, attackerRef)
+	-- Check that target is facing away from attacker orientation is between -Pi and Pi.
+	-- We get the difference between attacker and target angles, and if it's greater than pie,
+	-- we've got the obtuse angle, so subtract 2*pi to get the acute angle.
+	local attackerAngle = attackerRef.orientation.z
+	local targetAngle = targetRef.orientation.z
+	local diff = math.abs (attackerAngle - targetAngle )
+	if diff > math.pi then
+		diff = math.abs ( diff - ( 2 * math.pi ) )
+	end
+	-- If the player and attacker have the same orientation, then the attacker must be behind the target
+	if ( diff < angle) then
+        return true
+	end
+    return false
 end
 
 return common

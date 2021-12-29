@@ -3,15 +3,25 @@ local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
 
 local targetRef = nil
+
+local movementTick = nil
+local feedModeTick = nil
+
 local isFeeding = false
 local isCancelled = false
 local bloodDrained = 0
-local function exitFeedMode()
+local oldPosition = nil
+local function exitFeedMode(bypassFinalChecks)
     -- Kill Tick event
+    event.unregister("simulate", movementTick)
     event.unregister(common.events.secondPassed, feedModeTick)
 
      -- Reset animations for NPC
-    if targetRef then tes3.loadAnimation({reference = targetRef}) end
+    if targetRef then
+        tes3.loadAnimation({reference = targetRef})
+        targetRef.mobile.mobToMobCollision = true
+        targetRef.position = oldPosition:copy()
+    end
 
     -- Reset animations for Player
     event.trigger(common.events.reloadClawsAnimations, {
@@ -30,19 +40,21 @@ local function exitFeedMode()
     tes3.mobilePlayer.mouseLookDisabled = false
 
     -- Stagger NPC
-    if bloodDrained > 20 and targetRef.mobile.health.current >= 5 then
-        tes3.playAnimation({
-            reference = targetRef,
-            group = tes3.animationGroup.knockDown,
-            startFlag = tes3.animationStartFlag.normal,
-            loopCount = 0
-        })
-        targetRef.mobile:startCombat(tes3.player)
-    end
-    if targetRef.mobile.health.current < 5 then
-        targetRef.mobile:applyHealthDamage(5)
-        blood.modPlayerBaseBloodStatistic(-1 * targetRef.mobile.health.base)
-        tes3.messageBox(common.text.feed_victimDied)
+    if not bypassFinalChecks then
+        if bloodDrained > 20 and targetRef.mobile.health.current >= 5 then
+            tes3.playAnimation({
+                reference = targetRef,
+                group = tes3.animationGroup.knockDown,
+                startFlag = tes3.animationStartFlag.normal,
+                loopCount = 0
+            })
+            targetRef.mobile:startCombat(tes3.player)
+        end
+        if targetRef.mobile.health.current < 5 then
+            targetRef.mobile:applyHealthDamage(5)
+            blood.modPlayerBaseBloodStatistic(-1 * targetRef.mobile.health.base)
+            tes3.messageBox(common.text.feed_victimDied)
+        end
     end
 
     -- Reset variables
@@ -50,16 +62,23 @@ local function exitFeedMode()
     isCancelled = false
     isFeeding = false
     bloodDrained = 0
+    oldPosition = nil
 end
 
-local function feedModeTick()
+movementTick = function()
+    mwse.log(targetRef.position)
+
+    targetRef.mobile.mobToMobCollision = false
+    targetRef.orientation = tes3.player.orientation:copy()
+    targetRef.position = tes3.player.position:copy()
+end
+
+feedModeTick = function()
     -- Handle cancellation
     if isCancelled == true or targetRef.mobile.health.current < 5 then
         exitFeedMode()
         return
     end
-
-    tes3.messageBox(targetRef.mobile.health.current)
 
     -- [[Process tick]]
     -- Trigger crime
@@ -78,8 +97,9 @@ local function feedModeTick()
     -- If average is more than 25, NPC is much more powerful than player.
     if avg > math.random(0, 25) then
         -- NPC Breaks free
-        exitFeedMode()
         targetRef.mobile:startCombat(tes3.player)
+        tes3.messageBox(common.text.feed_victimDied)
+        exitFeedMode(true)
         return
     end
 
@@ -93,6 +113,7 @@ end
 local function enterFeedMode(ref)
     -- Set target ref
     targetRef = ref
+    oldPosition = targetRef.position:copy()
 
     -- Load animations.
     tes3.loadAnimation({
@@ -127,6 +148,7 @@ local function enterFeedMode(ref)
     -- Initiate simulate event.
     isFeeding = true
     event.register(common.events.secondPassed, feedModeTick)
+    event.register("simulate", movementTick)
 end
 
 local function feedingKey(e)

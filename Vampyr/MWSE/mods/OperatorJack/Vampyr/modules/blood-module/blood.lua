@@ -51,8 +51,7 @@ function blood.applyFeedingAction(reference, amount)
 
     -- If current blood is less than base, refill current blood first.
     -- If current blood is full, increase base blood.
-    local referenceBlood =  blood.getReferenceBloodStatistic(reference)
-    if referenceBlood.current < reference.base then
+    if reference.data.OJ_VAMPYR.blood.current < reference.data.OJ_VAMPYR.blood.base then
         blood.modReferenceCurrentBloodStatistic(reference, amount)
     else
         blood.modReferenceBaseBloodStatistic(reference, amount)

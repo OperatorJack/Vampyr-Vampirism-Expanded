@@ -73,6 +73,13 @@ local function playerVampireStateChanged(e)
 end
 event.register(common.events.playerVampireStateChanged, playerVampireStateChanged)
 
+event.register(common.events.reloadClawsAnimations, function(e)
+    if common.isReferenceVampire(e.reference) == true then
+        if cache[e.reference] then cache[e.reference] = nil end
+        setAnimation(e.reference)
+    end
+end)
+
 event.register("loaded", function(e)
     if common.isPlayerVampire() == true then
         setAnimation(tes3.player)

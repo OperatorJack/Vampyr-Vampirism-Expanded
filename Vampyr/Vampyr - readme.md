@@ -4,7 +4,7 @@
 
 ---
 
-## **Alpha 0.5.0**
+## **Alpha 0.6.0**
 
 ## Requirements
 
@@ -60,6 +60,16 @@ The coming soon section describes what to expect in the next alpha version. Vers
 - Feeding Mechanics
 
 The table below outlines functionality added or changed in each alpha version.
+
+#### **0.6 - Advanced Feeding**
+
+- Feeding
+
+  - Sneak up behind someone and press 'X' to enter Feed mode.
+    - Drain their health to build your own blood supply.
+    - If you drain too much and they die, you lose a little of yourself.
+    - Custom animations (see video!) for feeding between vampire and victim.
+    - Other side effects: Victim can overpower you, triggers crime, builds blood levels
 
 #### **0.5 - Basic Feeding, Vampire Merchants & Blood Serums**
 

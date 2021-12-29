@@ -54,6 +54,24 @@ function blood.modReferenceBaseBloodStatistic(reference, amount)
         statistic = "base",
         amount = amount
     })
+
+    -- Reset current blood to not exceed base blood.
+    if reference.data.OJ_VAMPYR.blood.current > reference.data.OJ_VAMPYR.blood.base then
+        oldBlood = reference.data.OJ_VAMPYR.blood.base
+        currentBlood = reference.data.OJ_VAMPYR.blood.current
+        amount = currentBlood - oldBlood
+
+        reference.data.OJ_VAMPYR.blood.current = reference.data.OJ_VAMPYR.blood.base
+
+        common.logger.trace("Modding Current Blood for %s to settle base blood reduction. Amount: %s, Old: %s, New: %s.", reference, amount, oldBlood, currentBlood)
+
+        event.trigger(common.events.bloodChanged, {
+            reference = reference,
+            type = "mod",
+            statistic = "current",
+            amount = amount
+        })
+    end
 end
 function blood.modReferenceCurrentBloodStatistic(reference, amount, isCapped)
     common.initializeReferenceData(reference)

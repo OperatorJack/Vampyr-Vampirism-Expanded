@@ -18,6 +18,8 @@ common.skinExposure = skinExposure
 common.text = {
     bloodSpellFailed = "You do not have enough blood to cast this spell.",
 
+    feed_victimDied = "You consume too much, and your victim dies. Their death drains you.",
+
     shadowstepFailed_TooWeak = "You are not powerful enough to shadowstep yet.",
     shadowstepFailed_TooFar = "You do not have enough blood remaining to shadowstep to that position.",
 }
@@ -72,6 +74,8 @@ common.ids = {
 common.animations = {
     claws = "OJ\\V\\claws.nif",
     clawsFirstPerson = "OJ\\V\\claws.1st.nif",
+    feedVampire = "OJ\\V\\feed_vampire.nif",
+    feedVictim = "OJ\\V\\feed_vampire.nif"
 }
 common.paths = {
     -- Generic stencil property
@@ -172,6 +176,7 @@ common.events = {
     playerVampireStateChanged = "Vampyr:PlayerVampireStateChanged",
     initializedReference = "Vampyr:InitializedReference",
     secondPassed = "Vampyr:SecondPassed",
+    reloadClawsAnimations = "Vampyr:ReloadClawsAnimations"
 }
 
 

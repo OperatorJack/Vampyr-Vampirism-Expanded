@@ -66,8 +66,6 @@ local function exitFeedMode(bypassFinalChecks)
 end
 
 movementTick = function()
-    mwse.log(targetRef.position)
-
     targetRef.mobile.mobToMobCollision = false
     targetRef.orientation = tes3.player.orientation:copy()
     targetRef.position = tes3.player.position:copy()

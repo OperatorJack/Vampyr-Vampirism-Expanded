@@ -150,7 +150,7 @@ local function enterFeedMode(ref)
 end
 
 local function feedingKey(e)
-    if common.keyDownEqual(e, common.config.feedingActionKey) == false then return end
+    if common.keyDownEqual(e, common.config.feedingActionKey) == false or not tes3.player then return end
 
     if isFeeding == true then
         isCancelled = true

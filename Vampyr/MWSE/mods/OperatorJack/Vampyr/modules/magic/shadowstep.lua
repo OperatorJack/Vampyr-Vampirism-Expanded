@@ -144,6 +144,7 @@ end
 
 
 local function shadowStepKey(e)
+    if not tes3.player then return end
     if common.keyDownEqual(e, common.config.shadowStepActionKey) == true then
         common.logger.debug("Detected Shadowstep action key.")
 

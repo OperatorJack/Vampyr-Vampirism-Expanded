@@ -163,10 +163,10 @@ local function feedingKey(e)
 
     local targetRef = tes3.getPlayerTarget()
 
-    -- Target must be a creature or NPC
+    -- Target must be a NPC
     if not targetRef then return end
-    if targetRef.object.objectType ~= tes3.objectType.creature and targetRef.object.objectType ~= tes3.objectType.npc then
-        common.logger.debug("Feed: Target not NPC or creature.")
+    if targetRef.object.objectType ~= tes3.objectType.npc then
+        common.logger.debug("Feed: Target not NPC.")
         return
     end
 

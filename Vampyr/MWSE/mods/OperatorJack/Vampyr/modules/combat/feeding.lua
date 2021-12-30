@@ -11,6 +11,7 @@ local isFeeding = false
 local isCancelled = false
 local bloodDrained = 0
 local oldPosition = nil
+local oldHello = nil
 local function exitFeedMode(bypassFinalChecks)
     -- Kill Tick event
     event.unregister("simulate", movementTick)
@@ -18,25 +19,26 @@ local function exitFeedMode(bypassFinalChecks)
 
      -- Reset animations for NPC
     if targetRef then
-        tes3.loadAnimation({reference = targetRef})
+        targetRef.position = oldPosition
+        targetRef.mobile.hello = oldHello
+
         targetRef.mobile.mobToMobCollision = true
-        targetRef.position = oldPosition:copy()
+        targetRef.mobile.movementCollision = true
+
+        tes3.mobilePlayer.mobToMobCollision = true
+        tes3.mobilePlayer.movementCollision = true
+
+        tes3.loadAnimation({reference = targetRef})
     end
 
     -- Reset animations for Player
-    event.trigger(common.events.reloadClawsAnimations, {
-        reference = tes3.player
-    })
+    event.trigger(common.events.reloadClawsAnimations, { reference = tes3.player })
     tes3.playAnimation({
         reference = tes3.player,
         group = tes3.animationGroup.idle,
-        startFlag = tes3.animationStartFlag.normal
     })
 
     -- Reconfigure controls
-    tes3.setVanityMode({
-        enabled = false
-    })
     tes3.mobilePlayer.mouseLookDisabled = false
 
     -- Stagger NPC
@@ -45,7 +47,6 @@ local function exitFeedMode(bypassFinalChecks)
             tes3.playAnimation({
                 reference = targetRef,
                 group = tes3.animationGroup.knockDown,
-                startFlag = tes3.animationStartFlag.normal,
                 loopCount = 0
             })
             targetRef.mobile:startCombat(tes3.player)
@@ -66,9 +67,8 @@ local function exitFeedMode(bypassFinalChecks)
 end
 
 movementTick = function()
-    targetRef.mobile.mobToMobCollision = false
-    targetRef.orientation = tes3.player.orientation:copy()
-    targetRef.position = tes3.player.position:copy()
+    targetRef.orientation = tes3.player.orientation
+    targetRef.position = tes3.player.position
 end
 
 feedModeTick = function()
@@ -111,42 +111,52 @@ end
 local function enterFeedMode(ref)
     -- Set target ref
     targetRef = ref
-    oldPosition = targetRef.position:copy()
+    oldPosition = ref.position:copy()
+    oldHello = ref.mobile.hello
 
-    -- Load animations.
-    tes3.loadAnimation({
-        reference = tes3.player,
-        file = common.animations.feedVampire,
-    })
+    -- Configure controls.
+    tes3.mobilePlayer.mouseLookDisabled = true
 
-    tes3.loadAnimation({
-        reference = targetRef,
-        file = common.animations.feedVictim,
-    })
+    -- Prevent Greetings.
+    ref.mobile.hello = 0
+
+    -- Disable physics.
+    ref.mobile.velocity = {0, 0, 0}
+    ref.mobile.mobToMobCollision = false
+    ref.mobile.movementCollision = false
+
+    tes3.mobilePlayer.velocity = {0, 0, 0}
+    tes3.mobilePlayer.mobToMobCollision = false
+    tes3.mobilePlayer.movementCollision = false
+
+    -- Reset animations.
+    tes3.playAnimation{ reference = tes3.player, group = tes3.animationGroup.idle }
+    tes3.playAnimation{ reference = ref, group = tes3.animationGroup.idle }
 
     -- Trigger animations.
-    tes3.playAnimation({
-        reference = tes3.player,
-        group = tes3.animationGroup.idle9,
-        startFlag = tes3.animationStartFlag.immediate
-    })
+    timer.start{
+        duration = 0.1,
+        iterations = 1,
+        callback = function()
+            tes3.playAnimation({
+                reference = tes3.player,
+                mesh = common.animations.feedVampire,
+                group = tes3.animationGroup.idle9,
+                idleAnim = true,
+            })
+            tes3.playAnimation({
+                reference = ref,
+                mesh = common.animations.feedVictim,
+                group = tes3.animationGroup.idle9,
+                idleAnim = true,
+            })
+            -- Initiate simulate event.
+            isFeeding = true
+            event.register(common.events.secondPassed, feedModeTick)
+            event.register("simulate", movementTick)
 
-    tes3.playAnimation({
-        reference = targetRef,
-        group = tes3.animationGroup.idle9,
-        startFlag = tes3.animationStartFlag.immediate
-    })
-
-    -- Configure controls
-    tes3.mobilePlayer.mouseLookDisabled = true
-    tes3.setVanityMode({
-        enabled = true
-    })
-
-    -- Initiate simulate event.
-    isFeeding = true
-    event.register(common.events.secondPassed, feedModeTick)
-    event.register("simulate", movementTick)
+        end
+    }
 end
 
 local function feedingKey(e)

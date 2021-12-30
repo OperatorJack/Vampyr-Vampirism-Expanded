@@ -25,11 +25,11 @@ local function exitFeedMode(bypassFinalChecks)
         targetRef.mobile.mobToMobCollision = true
         targetRef.mobile.movementCollision = true
 
-        tes3.mobilePlayer.mobToMobCollision = true
-        tes3.mobilePlayer.movementCollision = true
-
         tes3.loadAnimation({reference = targetRef})
     end
+
+    tes3.mobilePlayer.mobToMobCollision = true
+    tes3.mobilePlayer.movementCollision = true
 
     -- Reset animations for Player
     event.trigger(common.events.reloadClawsAnimations, { reference = tes3.player })
@@ -43,13 +43,14 @@ local function exitFeedMode(bypassFinalChecks)
 
     -- Stagger NPC
     if not bypassFinalChecks and targetRef then
+        targetRef.mobile:startCombat(tes3.mobilePlayer)
+
         if bloodDrained > 20 and targetRef.mobile.health.current >= 5 then
             tes3.playAnimation({
                 reference = targetRef,
                 group = tes3.animationGroup.knockDown,
                 loopCount = 0
             })
-            targetRef.mobile:startCombat(tes3.player)
         end
         if targetRef.mobile.health.current < 5 then
             targetRef.mobile:applyHealthDamage(5)
@@ -114,6 +115,8 @@ feedModeTick = function()
 end
 
 local function enterFeedMode(ref)
+    isFeeding = true
+
     -- Set target ref
     targetRef = ref
     oldPosition = ref.position:copy()
@@ -156,7 +159,6 @@ local function enterFeedMode(ref)
                 idleAnim = true,
             })
             -- Initiate simulate event.
-            isFeeding = true
             event.unregister(common.events.secondPassed, feedModeTick)
             event.register(common.events.secondPassed, feedModeTick)
             event.unregister("simulate", movementTick)
@@ -171,6 +173,7 @@ local function feedingKey(e)
 
     if isFeeding == true then
         isCancelled = true
+        return
     end
 
     common.logger.debug("Detected Feeding action key.")
@@ -196,7 +199,7 @@ local function feedingKey(e)
     -- Player cannot feed on other vampires.
     if targetRef.object.objectType == tes3.objectType.npc and common.isReferenceVampire(targetRef) == true then
         common.logger.debug("Feed: Target is vampire.")
-        tes3.messageBox("You cannot feed on other vampires.")
+        tes3.messageBox(common.text.feed_errorVampire)
         return
     end
 
@@ -207,14 +210,14 @@ local function feedingKey(e)
     end
     if targetRef.mobile.inCombat == true and hostileToPlayer == true then
         common.logger.debug("Feed: Target is in combat with player.")
-        tes3.messageBox("You cannot feed on targets that are in combat with you.")
+        tes3.messageBox(common.text.feed_errorInCombat)
         return
     end
 
     -- Player must be behind target
     if common.isReferenceFacingAway(targetRef, tes3.player) ~= true then
         common.logger.debug("Feed: Player not behind target.")
-        tes3.messageBox("You must be behind your target to feed on them.")
+        tes3.messageBox(common.text.feed_errorFacingAway)
         return
     end
 

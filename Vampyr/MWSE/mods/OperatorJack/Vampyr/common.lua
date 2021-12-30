@@ -20,6 +20,9 @@ common.text = {
 
     feed_victimDied = "You consume too much, and your victim dies. Their death drains you.",
     feed_victimBreakFree = "Your victim manages to break free.",
+    feed_errorVampire = "You cannot feed on other vampires.",
+    feed_errorInCombat = "You cannot while your victim is in combat.",
+    feed_errorFacingAway = "You must be behind your victim to feed on them.",
 
     shadowstepFailed_TooWeak = "You are not powerful enough to shadowstep yet.",
     shadowstepFailed_TooFar = "You do not have enough blood remaining to shadowstep to that position.",

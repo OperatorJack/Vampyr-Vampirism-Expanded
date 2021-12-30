@@ -42,7 +42,7 @@ local function exitFeedMode(bypassFinalChecks)
     tes3.mobilePlayer.mouseLookDisabled = false
 
     -- Stagger NPC
-    if not bypassFinalChecks then
+    if not bypassFinalChecks and targetRef then
         if bloodDrained > 20 and targetRef.mobile.health.current >= 5 then
             tes3.playAnimation({
                 reference = targetRef,
@@ -67,13 +67,18 @@ local function exitFeedMode(bypassFinalChecks)
 end
 
 movementTick = function()
+    if not targetRef then
+        event.unregister("simulate", movementTick)
+        return
+    end
+
     targetRef.orientation = tes3.player.orientation
     targetRef.position = tes3.player.position
 end
 
 feedModeTick = function()
     -- Handle cancellation
-    if isCancelled == true or targetRef.mobile.health.current < 5 then
+    if isCancelled == true or not targetRef or targetRef.mobile.health.current < 5 then
         exitFeedMode()
         return
     end
@@ -152,7 +157,9 @@ local function enterFeedMode(ref)
             })
             -- Initiate simulate event.
             isFeeding = true
+            event.unregister(common.events.secondPassed, feedModeTick)
             event.register(common.events.secondPassed, feedModeTick)
+            event.unregister("simulate", movementTick)
             event.register("simulate", movementTick)
 
         end
@@ -177,6 +184,12 @@ local function feedingKey(e)
     if not targetRef then return end
     if targetRef.object.objectType ~= tes3.objectType.npc then
         common.logger.debug("Feed: Target not NPC.")
+        return
+    end
+
+    -- Target must be close to NPC.
+    if targetRef.position:distance(tes3.player.position) > 128 then
+        common.logger.debug("Feed: Target is too far away.")
         return
     end
 

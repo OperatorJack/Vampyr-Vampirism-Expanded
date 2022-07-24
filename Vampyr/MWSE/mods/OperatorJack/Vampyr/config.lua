@@ -16,7 +16,6 @@ return mwse.loadConfig("Vampyr", {
 
     clawsBaseChance = 10,
 
-
     feedingActionKey = {
         keyCode = tes3.scanCode.x,
         isShiftDown = false,

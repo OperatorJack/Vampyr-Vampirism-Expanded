@@ -134,8 +134,8 @@ event.register("damage", function(e)
         blood.applyFeedingAction(attackerReference, bloodDraw * .25)
     end
 
-    -- Block other event handlers.
-    return false
+    -- Prevent anyone else from mucking with our damage by blocking them.
+    e.claim = true
 end, {priority = 1000})
 
 

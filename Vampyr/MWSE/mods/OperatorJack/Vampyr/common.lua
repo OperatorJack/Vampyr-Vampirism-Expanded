@@ -117,6 +117,14 @@ common.filenames = {
     bloodrainEffect_bloodraindrop = "OJ_V_Bloodrain.dds",
 }
 common.spells = {
+    satiety = {
+        deadSkinOne = "OJ_V_DeadSkinOne",
+        deadSkinTwo = "OJ_V_DeadSkinTwo",
+        deadSkinThree = "OJ_V_DeadSkinThree",
+        deadSkinFour = "OJ_V_DeadSkinFour",
+        deadSkinFive = "OJ_V_DeadSkinFive",
+        deadSkinSix = "OJ_V_DeadSkinSix",
+    },
     drainBlood = "OJ_V_DrainBlood",
     glamour = "OJ_V_Glamour",
     greaterVampiricTouch = "OJ_V_GreaterVampiricTouch",
@@ -171,6 +179,7 @@ common.bloodSpells = {
 common.events = {
     bloodChanged = "Vampyr:BloodChangedEvent",
     bloodPotencyChanged = "Vampyr:BloodPotencyChangedEvent",
+    bloodSatietyChanged = "Vampir:BloodSatietyChangedEvent",
     bloodMagicCostApplied = "Vampyr:BloodMagicCostApplied",
     calcBloodFeedingChance = "Vampyr:CalcBloodFeedingChance",
     calcClawBloodDraw = "Vampyr:CalcClawBloodDraw",

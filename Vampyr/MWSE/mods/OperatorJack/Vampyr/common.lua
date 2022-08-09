@@ -30,6 +30,11 @@ common.text = {
 common.ids = {
     globals = {
         targetIsVampire = "OJ_V_TargetIsVampire",
+        targetDaysSinceLastFeed = "OJ_V_TargetDaysLastFeed",
+        targetEmbracedByPlayer = "OJ_V_EmbracedByPlayer",
+        targetFeedCount = "OJ_V_TargetFeedCount",
+        targetIsThrall = "OJ_V_TargetIsThrall",
+        targetThrallLevel = "OJ_V_TargetThrallLevel",
         playerIsVampire = "OJ_V_PlayerIsVampire"
     },
     scripts = {
@@ -190,6 +195,7 @@ common.events = {
     playerVampireStateChanged = "Vampyr:PlayerVampireStateChanged",
     initializedReference = "Vampyr:InitializedReference",
     secondPassed = "Vampyr:SecondPassed",
+    registerSerums = "Vamypr:RegisterSerums",
     reloadClawsAnimations = "Vampyr:ReloadClawsAnimations"
 }
 

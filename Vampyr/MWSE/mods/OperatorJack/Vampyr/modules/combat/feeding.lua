@@ -8,6 +8,7 @@ local movementTick = nil
 local feedModeTick = nil
 
 local isFeeding = false
+local isHostile = true
 local isCancelled = false
 local bloodDrained = 0
 local oldPosition = nil
@@ -99,10 +100,10 @@ feedModeTick = function()
     local avg = (willpower + strength) / 2
 
     -- If average is more than 25, NPC is much more powerful than player.
-    if avg > math.random(0, 25) then
+    if avg > math.random(0, 25) and isHostile == true then
         -- NPC Breaks free
         targetRef.mobile:startCombat(tes3.player)
-        tes3.messageBox(common.text.feed_victimDied)
+        tes3.messageBox(common.text.feed_victimBreakFree)
         exitFeedMode(true)
         return
     end
@@ -114,7 +115,9 @@ feedModeTick = function()
     bloodDrained = bloodDrained + blood.applyFeedingAction(tes3.player, 2)
 end
 
-local function enterFeedMode(ref)
+local function enterFeedMode(params)
+    local ref = params.target
+    isHostile = params.hostile or true
     isFeeding = true
 
     -- Set target ref
@@ -221,22 +224,15 @@ local function feedingKey(e)
         return
     end
 
-    enterFeedMode(targetRef)
+    enterFeedMode({
+        target = targetRef,
+        hostile = true
+    })
 end
 event.register("keyDown", feedingKey)
 
-local function initialized()
-    mwse.overrideScript(common.ids.scripts.initiateFeedOnTarget, function(e)
-        timer.start({
-            duration = 0.01,
-            callback = function ()
-                common.logger.debug("Feed: Dialogue route activated. Entering feed mode.")
-                local target = tes3.getPlayerTarget()
-                enterFeedMode(target)
-            end
-        })
-        mwscript.stopScript{script=common.ids.scripts.initiateFeedOnTarget}
-    end)
-end
-
-event.register("initialized", initialized)
+local exports = {
+    enterFeedMode = enterFeedMode,
+    exitFeedMode = exitFeedMode
+}
+return exports

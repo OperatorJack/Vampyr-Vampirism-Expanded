@@ -19,7 +19,9 @@ local bloodVialObjectTypes = {
 }
 
 local function onMobileActivated(e)
-    if common.isVampireMerchant(e.reference, bloodVialObjectTypes) == true then
+    if e.reference and
+        e.reference.mobile and
+        common.isVampireMerchant(e.reference, bloodVialObjectTypes) == true then
         local added = e.reference.data.vampyrGearAdded == true
         if not added then
             e.reference.data.vampyrGearAdded = true

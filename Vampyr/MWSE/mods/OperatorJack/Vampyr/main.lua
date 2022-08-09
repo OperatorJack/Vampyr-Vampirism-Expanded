@@ -71,8 +71,10 @@ require("OperatorJack.Vampyr.modules.vanilla-overides.dialogue-pc-vampire")
 require("OperatorJack.Vampyr.modules.scriptOverrides")
 require("OperatorJack.Vampyr.modules.functions.globals")
 require("OperatorJack.Vampyr.modules.functions.debug-menu")
+require("OperatorJack.Vampyr.modules.functions.dialogue")
 
 
 event.register("initialized", function(e)
+    event.trigger(common.events.registerSerums)
     common.logger.info("Initialized.")
 end)

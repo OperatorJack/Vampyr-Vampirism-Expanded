@@ -1,7 +1,8 @@
 local framework = require("OperatorJack.MagickaExpanded.magickaExpanded")
 local common = require("OperatorJack.Vampyr.common")
+local bloodExtraction = require("OperatorJack.Vampyr.modules.functions.blood-extraction")
 
-local function registerPotions()
+local function createPotions()
     framework.alchemy.createBasicPotion({
         id = common.ids.serums.mini,
         name = "Blood Serum Tube",
@@ -49,4 +50,33 @@ local function registerPotions()
     })
 end
 
-event.register("MagickaExpanded:Register", registerPotions)
+event.register("MagickaExpanded:Register", createPotions)
+
+local function registerSerums()
+    bloodExtraction.registerSerum({
+        serumId = common.ids.serums.mini,
+        emptySerumId = common.ids.serums.mini + "_e",
+        applyHealthDamage = 5
+    })
+    bloodExtraction.registerSerum({
+        serumId = common.ids.serums.small,
+        emptySerumId = common.ids.serums.small + "_e",
+        applyHealthDamage = 10
+    })
+    bloodExtraction.registerSerum({
+        serumId = common.ids.serums.medium,
+        emptySerumId = common.ids.serums.medium + "_e",
+        applyHealthDamage = 20
+    })
+    bloodExtraction.registerSerum({
+        serumId = common.ids.serums.large,
+        emptySerumId = common.ids.serums.large + "_e",
+        applyHealthDamage = 40
+    })
+    bloodExtraction.registerSerum({
+        serumId = common.ids.serums.decanter,
+        emptySerumId = common.ids.serums.decanter + "_e",
+        applyHealthDamage = 80
+    })
+end
+event.register(common.events.registerSerums, registerSerums)

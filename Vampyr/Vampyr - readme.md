@@ -4,7 +4,7 @@
 
 ---
 
-## **Alpha 0.6.0**
+## **Alpha 0.7.0**
 
 ## Requirements
 
@@ -56,10 +56,37 @@ The coming soon section describes what to expect in the next alpha version. Vers
 
 #### **Coming Soon!**
 
-- Blood Transfusion Mechanics
-- Feeding Mechanics
+- More dialogue based content
+- Beast body animations for feeding.
+- Enthrallment of NPCs
+- Embracing NPCs
 
 The table below outlines functionality added or changed in each alpha version.
+
+#### **0.7 - Introduction of Dialogue System & Blood Satiety**
+
+- Dialogue System
+
+  - Added new Global variables which update for the current active dialogue reference, allowing content mods to filter against much deeper and specific vampiric information, including if the NPC was embraced by the player, if they're a thrall, their thrall level, and more.
+  - Added new dialogue system lua functions to allow dialogue to directly call lua Vampyr functions.
+    - Feed, Embrace, Enthrall, Blood Extraction, and more can now be triggered via the dialogue system. _Note: Enthrallment and embracing are not currently implemented, so this is not testable yet. These are placeholders for now._
+
+- Blood Satiety
+
+  - Added a new mechanic, Blood Satiety, which is based on what percentage of your blood you have used. The thirstier you are, the more negative effects you feel. If you are satiated, you will feel stronger. Currently this manipulates a new ability called "Dead Skin", which adjusts your weakness to fire and resistance to frost. Other effects may be added. Satiety is visible in the Stat Menu + on an NPC tooltip via the Auspex spell.
+  - Satiety makes it so that even a powerful vampire must be aware of their blood levels, but doesn't make things too much more difficult for newborns since they can quickly feed on someone to become satiated.
+
+- Blood Serums
+
+  - Added empty versions of blood serums for use in blood transfusion.
+  - Added new dialogue options on the "- Feed" topic that allow the player to extract blood from an NPC. This requires having an empty version of the vial onhand. Extracting blood harms the NPC, so be careful, but this is a consensual act.
+
+- Feeding
+
+  - Feeding can now be triggered via the "- Feed" topic in the dialogue system. This counts as a consensual act, not an attack like the regular feeding action does.
+
+- Bugfixes
+  - Fixed a bug where claws would not cause damage.
 
 #### **0.6 - Advanced Feeding**
 

@@ -61,14 +61,15 @@ function blood.applyFeedingAction(reference, amount)
     return amount
 end
 
- --[[ MOD Blood ]] --
+--[[ MOD Blood ]]  --
 function blood.modReferenceBaseBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
     local oldBlood = reference.data.OJ_VAMPYR.blood.base
     local currentBlood = math.max(reference.data.OJ_VAMPYR.blood.base + amount, 0)
     reference.data.OJ_VAMPYR.blood.base = currentBlood
 
-    common.logger.trace("Modding Base Blood for %s. Amount: %s, Old: %s, New: %s.", reference, amount, oldBlood, currentBlood)
+    common.logger.trace("Modding Base Blood for %s. Amount: %s, Old: %s, New: %s.", reference, amount, oldBlood,
+        currentBlood)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,
@@ -85,7 +86,8 @@ function blood.modReferenceBaseBloodStatistic(reference, amount)
 
         reference.data.OJ_VAMPYR.blood.current = reference.data.OJ_VAMPYR.blood.base
 
-        common.logger.trace("Modding Current Blood for %s to settle base blood reduction. Amount: %s, Old: %s, New: %s.", reference, amount, oldBlood, currentBlood)
+        common.logger.trace("Modding Current Blood for %s to settle base blood reduction. Amount: %s, Old: %s, New: %s.",
+            reference, amount, oldBlood, currentBlood)
 
         event.trigger(common.events.bloodChanged, {
             reference = reference,
@@ -95,6 +97,7 @@ function blood.modReferenceBaseBloodStatistic(reference, amount)
         })
     end
 end
+
 function blood.modReferenceCurrentBloodStatistic(reference, amount, isCapped)
     common.initializeReferenceData(reference)
     local currentBlood = reference.data.OJ_VAMPYR.blood.current
@@ -116,7 +119,8 @@ function blood.modReferenceCurrentBloodStatistic(reference, amount, isCapped)
 
     local appliedAmount = currentBlood - oldBlood
 
-    common.logger.trace("Modding Current Blood for %s. Capped: %s, Amount: %s, Applied: %s, Old: %s, New: %s.", reference, isCapped, amount, appliedAmount, oldBlood, currentBlood)
+    common.logger.trace("Modding Current Blood for %s. Capped: %s, Amount: %s, Applied: %s, Old: %s, New: %s.", reference,
+        isCapped, amount, appliedAmount, oldBlood, currentBlood)
 
     event.trigger(common.events.bloodChanged, {
         reference = reference,
@@ -129,11 +133,12 @@ end
 function blood.modPlayerBaseBloodStatistic(amount)
     blood.modReferenceBaseBloodStatistic(tes3.player, amount)
 end
+
 function blood.modPlayerCurrentBloodStatistic(amount, isCapped)
     blood.modReferenceCurrentBloodStatistic(tes3.player, amount, isCapped)
 end
 
- --[[ SET Blood ]] --
+--[[ SET Blood ]]  --
 function blood.setReferenceBaseBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
     local oldBlood = reference.data.OJ_VAMPYR.blood.base
@@ -148,6 +153,7 @@ function blood.setReferenceBaseBloodStatistic(reference, amount)
         amount = amount
     })
 end
+
 function blood.setReferenceCurrentBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
     local oldBlood = reference.data.OJ_VAMPYR.blood.current
@@ -166,11 +172,12 @@ end
 function blood.setPlayerBaseBloodStatistic(amount)
     blood.setReferenceBaseBloodStatistic(tes3.player, amount)
 end
+
 function blood.setPlayerCurrentBloodStatistic(amount)
     blood.setReferenceCurrentBloodStatistic(tes3.player, amount)
 end
 
- --[[ GET Blood ]] --
+--[[ GET Blood ]]  --
 function blood.getReferenceBloodStatistic(reference)
     common.initializeReferenceData(reference)
     return reference.data.OJ_VAMPYR.blood

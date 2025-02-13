@@ -3,6 +3,7 @@ local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
 
 
+---@param e calcBarterPriceEventData
 local function calcItemDataPrice(e)
     if not e.reference then return end
     if not common.isPlayerVampire() == true then return end
@@ -42,4 +43,4 @@ local function calcItemDataPrice(e)
     common.logger.debug("Blood Serum Price: %s || %s", e.price, price)
     e.price = math.max(1, price)
 end
-event.register("calcBarterPrice", calcItemDataPrice)
+event.register(tes3.event.calcBarterPrice, calcItemDataPrice)

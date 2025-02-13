@@ -3,7 +3,7 @@ local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
 local cache = {}
 
-event.register("objectInvalidated", function(e)
+event.register(tes3.event.objectInvalidated, function(e)
     cache[e.object] = nil
 end)
 
@@ -36,9 +36,9 @@ local function calcClawDamage(vampire, target)
     local luck = vampire.mobile.luck.current
     local crit = 1
     local baseDamage = 5 -- TODO: REPLACE WITH REAL FORMULA / RECONSIDER
-    local damage = baseDamage +  h2h * 0.075
+    local damage = baseDamage + h2h * 0.075
 
-    local params = {attackerReference = vampire, targetReference = target, damage = damage}
+    local params = { attackerReference = vampire, targetReference = target, damage = damage }
     event.trigger(common.events.calcClawDamage, params)
     damage = params.damage
 
@@ -53,7 +53,7 @@ local function calcBloodDraw(vampire, target, damage)
     local bloodChance = common.config.clawsBaseChance + h2h / 10 + luck / 20
 
 
-    local params = {attackerReference = vampire, targetReference = target, blood = bloodDraw, bloodChance = bloodChance}
+    local params = { attackerReference = vampire, targetReference = target, blood = bloodDraw, bloodChance = bloodChance }
     event.trigger(common.events.calcClawBloodDraw, params)
     bloodDraw = params.blood
     bloodChance = params.bloodChance
@@ -80,13 +80,13 @@ event.register(common.events.reloadClawsAnimations, function(e)
     end
 end)
 
-event.register("loaded", function(e)
+event.register(tes3.event.loaded, function(e)
     if common.isPlayerVampire() == true then
         setAnimation(tes3.player)
     end
 end)
 
-event.register("combatStart", function(e)
+event.register(tes3.event.combatStart, function(e)
     if common.isReferenceVampire(e.actor.reference) == true then
         setAnimation(e.actor.reference)
     end
@@ -102,8 +102,9 @@ end)
 local forwardedEvent = false
 local forwardedAttackerReference = nil
 
-event.register("damage", function(e)
+event.register(tes3.event.damage, function(e)
     local attackerReference = e.attackerReference
+
     if forwardedEvent == true then
         attackerReference = forwardedAttackerReference
     else
@@ -127,7 +128,8 @@ event.register("damage", function(e)
     forwardedAttackerReference = nil
 
     local bloodDraw = calcBloodDraw(attackerReference, e.reference, e.damage)
-    common.logger.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", attackerReference, e.reference, bloodDraw, e.damage)
+    common.logger.debug("Attacking with claws! Attacker: %s, Target: %s, B: %s.  D: %s", attackerReference, e.reference,
+        bloodDraw, e.damage)
 
     if bloodDraw > 0 then
         blood.modReferenceCurrentBloodStatistic(attackerReference, bloodDraw, true)
@@ -136,11 +138,11 @@ event.register("damage", function(e)
 
     -- Prevent anyone else from mucking with our damage by blocking them.
     e.claim = true
-end, {priority = 1000})
+end, { priority = 1000 })
 
 
 -- Hook into damageHandToHand event for normal hand to hand attacks.
-event.register("damageHandToHand", function(e)
+event.register(tes3.event.damageHandToHand, function(e)
     if not e.attackerReference then return end
     if common.isReferenceVampire(e.attackerReference) == false then return end
     if e.attackerReference.mobile.readiedWeapon then return end
@@ -161,9 +163,10 @@ event.register("damageHandToHand", function(e)
         playerAttack = e.attackerReference == tes3.player,
     })
 
-    common.logger.debug("Forwarded damageHandTohand to damage event via applyDamage. Attacker: %s, Target: %s", e.attackerReference, e.reference)
+    common.logger.debug("Forwarded damageHandTohand to damage event via applyDamage. Attacker: %s, Target: %s",
+        e.attackerReference, e.reference)
 
 
     -- Block other event handlers.
     return false
-end, {priority = 1000})
+end, { priority = 1000 })

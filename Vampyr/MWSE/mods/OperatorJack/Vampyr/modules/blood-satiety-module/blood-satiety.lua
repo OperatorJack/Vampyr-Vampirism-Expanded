@@ -4,12 +4,12 @@ local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local bloodSatiety = {}
 
 local levels = {
-    [1] = { name =  "Desiccated", percentage = 5},
-    [2] = { name =  "Torrid", percentage = 20},
-    [3] = { name =  "Drained", percentage = 40},
-    [4] = { name =  "Thirsty", percentage = 60},
-    [5] = { name =  "Uncomfortable", percentage = 80},
-    [6] = { name =  "Satisfied", percentage = 90},
+    [1] = { name = "Desiccated", percentage = 5 },
+    [2] = { name = "Torrid", percentage = 20 },
+    [3] = { name = "Drained", percentage = 40 },
+    [4] = { name = "Thirsty", percentage = 60 },
+    [5] = { name = "Uncomfortable", percentage = 80 },
+    [6] = { name = "Satisfied", percentage = 90 },
 }
 function bloodSatiety.getLevelNameFromLevel(level)
     if (levels[math.min(level, 6)]) then
@@ -24,7 +24,8 @@ function bloodSatiety.calculateBloodSatiety(reference)
 
     for level, config in ipairs(levels) do
         if (config.percentage > percentage) then
-            common.logger.trace("Calculated blood satiety of %s for reference %s. Percentage %s, Current %s, Base %s", level - 1, reference, percentage, bloodStatistic.current, bloodStatistic.base)
+            common.logger.trace("Calculated blood satiety of %s for reference %s. Percentage %s, Current %s, Base %s",
+                level - 1, reference, percentage, bloodStatistic.current, bloodStatistic.base)
 
             return math.max(level - 1, 1)
         end

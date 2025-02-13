@@ -1,12 +1,12 @@
 local class = {}
 
 function class.isPositionInShadow(position)
-    if (tes3.player.cell.isInterior and not tes3.player.cell.behaveAsExterior) then
+    if (tes3.player.cell.isInterior and not tes3.player.cell.behavesAsExterior) then
         return true
     end
 
     local hour = tes3.worldController.hour.value
-    if (hour < 4 or hour > 20)then
+    if (hour < 4 or hour > 20) then
         return true
     end
 
@@ -41,22 +41,22 @@ function class.getNormalizedShadeModifier(reference)
     local sunRisen = 1
 
     if hour > weatherController.sunriseHour
-       and hour < weatherController.sunriseDuration + weatherController.sunriseHour then
+        and hour < weatherController.sunriseDuration + weatherController.sunriseHour then
         sunRisen = (hour - weatherController.sunriseHour) / weatherController.sunriseDuration
     end
 
     if hour > weatherController.sunsetHour
-       and hour <= weatherController.sunsetDuration + weatherController.sunsetHour then
+        and hour <= weatherController.sunsetDuration + weatherController.sunsetHour then
         sunRisen = 1 - (hour - weatherController.sunsetHour) / weatherController.sunsetDuration
     end
 
     if hour > weatherController.sunriseDuration + weatherController.sunriseHour
-       and hour <= weatherController.sunsetHour then
+        and hour <= weatherController.sunsetHour then
         sunRisen = 1
     end
 
     if hour > weatherController.sunsetDuration + weatherController.sunsetHour
-       or hour <= weatherController.sunriseHour then
+        or hour <= weatherController.sunriseHour then
         sunRisen = 0
     end
 

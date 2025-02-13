@@ -17,7 +17,13 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local skinExposureModifier = common.skinExposure.getNormalizedSkinExposureModifier(target)
 
     -- Trigger event for other modules to modify sun damage modifiers if needed.
-    local params = { reference = target, resistance = resistanceModifier, shade = shadeModifier, skinExposure = skinExposureModifier}
+    local params = {
+        reference = target,
+        resistance = resistanceModifier,
+        shade = shadeModifier,
+        skinExposure =
+            skinExposureModifier
+    }
     event.trigger(common.events.calcSunDamageModifiers, params)
     resistanceModifier = params.resistance
     shadeModifier = params.shade
@@ -27,7 +33,7 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
     local damage = attributeVariant * modifier
 
     -- Trigger event for other modules to modify sun damage if needed.
-    local params = { reference = target, damage = damage}
+    local params = { reference = target, damage = damage }
     event.trigger(common.events.calcSunDamage, params)
     damage = params.damage
 
@@ -37,7 +43,8 @@ local function SunDamage(mobile, attributeVariant, sourceInstance, deltaTime, ma
 
     -- Handle special circumstance VFX.
     if target == tes3.player then
-        local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx1st", common.paths.sunDamage.player1st)
+        local firstNode = nodeManager.getOrAttachVfx(tes3.player1stPerson, "OJ_V_SunDamageVfx1st",
+            common.paths.sunDamage.player1st)
         local node = nodeManager.getOrAttachVfx(target, "OJ_V_SunDamageVfx3rd", common.paths.sunDamage.player3rd)
 
         if damage > 0.0001 then
@@ -86,13 +93,13 @@ end
 -- Get the target of the effect.
 mwse.memory.writeBytes({ address = 0x464c09, bytes = { 0xe8, 0x42, 0x0b, 0x08, 0x00 } }) -- call game_getRefrDataActor (0x4e5750)
 -- Copy the effect target to the esi register. Other code later expects it to be there.
-mwse.memory.writeBytes({ address = 0x464c0e, bytes = { 0x8b, 0xf0 } }) -- mov esi, eax
+mwse.memory.writeBytes({ address = 0x464c0e, bytes = { 0x8b, 0xf0 } })                   -- mov esi, eax
 -- Copy the current value of attributeVariant to the eax register so that we can push it onto the stack.
-mwse.memory.writeBytes({ address = 0x464c10, bytes = { 0x8b, 0x44, 0x24, 0x30 } }) -- mov eax, [esp+0x34+attributeVariant]
+mwse.memory.writeBytes({ address = 0x464c10, bytes = { 0x8b, 0x44, 0x24, 0x30 } })       -- mov eax, [esp+0x34+attributeVariant]
 -- Push attributeVariant onto the stack.
-mwse.memory.writeByte({ address = 0x464c14, byte = 0x50 }) -- push eax
+mwse.memory.writeByte({ address = 0x464c14, byte = 0x50 })                               -- push eax
 -- Push the effect target onto the stack.
-mwse.memory.writeByte({ address = 0x464c15, byte = 0x56 }) -- push esi
+mwse.memory.writeByte({ address = 0x464c15, byte = 0x56 })                               -- push esi
 -- Call our custom lua function.
 mwse.memory.writeFunctionCall({
     address = 0x464c16,
@@ -103,7 +110,7 @@ mwse.memory.writeFunctionCall({
     }
 })
 -- Clean up the stack. The custom lua function has already cleaned up its arguments; clean up the rest.
-mwse.memory.writeBytes({ address = 0x464c1b, bytes = { 0x83, 0xc4, 0x18 }}) -- add esp 0x18
+mwse.memory.writeBytes({ address = 0x464c1b, bytes = { 0x83, 0xc4, 0x18 } })       -- add esp 0x18
 -- Copy the return value of the custom lua function to attributeVariant.
 mwse.memory.writeBytes({ address = 0x464c1e, bytes = { 0x89, 0x44, 0x24, 0x08 } }) -- mov [esp+0xc+attributeVariant], eax
 -- Load the value of attributeVariant onto the fpu stack, so that the game can use it for subsequent comparisons.

@@ -36,7 +36,7 @@ function bloodSpells.isPlayerAbleToCastBloodMagic(cost)
 end
 
 function bloodSpells.isReferenceAbleToCastBloodMagic(reference, cost)
-    local cost = cost  * bloodSpells.getBloodMagicCostModifierForReference(reference)
+    local cost = cost * bloodSpells.getBloodMagicCostModifierForReference(reference)
     local referenceBlood = blood.getReferenceBloodStatistic(reference)
 
     if (referenceBlood.current < cost) then

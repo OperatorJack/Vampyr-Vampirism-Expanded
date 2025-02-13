@@ -15,10 +15,10 @@ local oldPosition = nil
 local oldHello = nil
 local function exitFeedMode(bypassFinalChecks)
     -- Kill Tick event
-    event.unregister("simulate", movementTick)
+    event.unregister(tes3.event.simulate, movementTick)
     event.unregister(common.events.secondPassed, feedModeTick)
 
-     -- Reset animations for NPC
+    -- Reset animations for NPC
     if targetRef then
         targetRef.position = oldPosition
         targetRef.mobile.hello = oldHello
@@ -26,7 +26,7 @@ local function exitFeedMode(bypassFinalChecks)
         targetRef.mobile.mobToMobCollision = true
         targetRef.mobile.movementCollision = true
 
-        tes3.loadAnimation({reference = targetRef})
+        tes3.loadAnimation({ reference = targetRef })
     end
 
     tes3.mobilePlayer.mobToMobCollision = true
@@ -70,7 +70,7 @@ end
 
 movementTick = function()
     if not targetRef then
-        event.unregister("simulate", movementTick)
+        event.unregister(tes3.event.simulate, movementTick)
         return
     end
 
@@ -132,20 +132,20 @@ local function enterFeedMode(params)
     ref.mobile.hello = 0
 
     -- Disable physics.
-    ref.mobile.velocity = {0, 0, 0}
+    ref.mobile.velocity = { 0, 0, 0 }
     ref.mobile.mobToMobCollision = false
     ref.mobile.movementCollision = false
 
-    tes3.mobilePlayer.velocity = {0, 0, 0}
+    tes3.mobilePlayer.velocity = { 0, 0, 0 }
     tes3.mobilePlayer.mobToMobCollision = false
     tes3.mobilePlayer.movementCollision = false
 
     -- Reset animations.
-    tes3.playAnimation{ reference = tes3.player, group = tes3.animationGroup.idle }
-    tes3.playAnimation{ reference = ref, group = tes3.animationGroup.idle }
+    tes3.playAnimation { reference = tes3.player, group = tes3.animationGroup.idle }
+    tes3.playAnimation { reference = ref, group = tes3.animationGroup.idle }
 
     -- Trigger animations.
-    timer.start{
+    timer.start {
         duration = 0.1,
         iterations = 1,
         callback = function()
@@ -164,15 +164,14 @@ local function enterFeedMode(params)
             -- Initiate simulate event.
             event.unregister(common.events.secondPassed, feedModeTick)
             event.register(common.events.secondPassed, feedModeTick)
-            event.unregister("simulate", movementTick)
-            event.register("simulate", movementTick)
-
+            event.unregister(tes3.event.simulate, movementTick)
+            event.register(tes3.event.simulate, movementTick)
         end
     }
 end
 
 local function feedingKey(e)
-    if common.keyDownEqual(e, common.config.feedingActionKey) == false or not tes3.player then return end
+    if tes3.isKeyEqual({ actual = e, expected = common.config.feedingActionKey }) == false or not tes3.player then return end
 
     if isFeeding == true then
         isCancelled = true
@@ -229,7 +228,7 @@ local function feedingKey(e)
         hostile = true
     })
 end
-event.register("keyDown", feedingKey)
+event.register(tes3.event.keyDown, feedingKey)
 
 local exports = {
     enterFeedMode = enterFeedMode,

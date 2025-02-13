@@ -8,7 +8,6 @@ local function onDeterminedAction(e)
 
     if (target) then
         if (common.isReferenceVampire(target.reference) == true) then
-
             -- get stake
             local stake
             for _, stack in pairs(mobile.reference.object.inventory) do
@@ -35,4 +34,4 @@ local function onDeterminedAction(e)
         end
     end
 end
-event.register("determinedAction", onDeterminedAction)
+event.register(tes3.event.determinedAction, onDeterminedAction)

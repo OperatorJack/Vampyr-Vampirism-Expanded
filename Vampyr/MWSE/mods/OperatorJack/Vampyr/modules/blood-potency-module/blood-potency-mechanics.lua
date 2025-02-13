@@ -8,14 +8,6 @@ local function onBloodChanged(e)
 end
 event.register(common.events.bloodChanged, onBloodChanged)
 
-local function addSpell(ref, spellId)
-    mwscript.addSpell{reference = ref, spell = spellId}
-end
-
-local function removeSpell(ref, spellId)
-    mwscript.removeSpell{reference = ref, spell = spellId}
-end
-
 local actions = {
     add = 1,
     remove = 2
@@ -88,17 +80,17 @@ event.register(common.events.bloodPotencyChanged, function(e)
     if increased == true then
         for spellId in pairs(ladder[e.currentPotency]) do
             if ladder[e.currentPotency][spellId] == actions.add then
-                addSpell(ref, spellId)
+                tes3.addSpell({ reference = ref, spell = spellId })
             else
-                removeSpell(ref, spellId)
+                tes3.removeSpell({ reference = ref, spell = spellId })
             end
         end
     else
         for spellId in pairs(ladder[e.previousPotency]) do
             if ladder[e.previousPotency][spellId] == actions.add then
-                removeSpell(ref, spellId)
+                tes3.removeSpell({ reference = ref, spell = spellId })
             else
-                addSpell(ref, spellId)
+                tes3.addSpell({ reference = ref, spell = spellId })
             end
         end
     end

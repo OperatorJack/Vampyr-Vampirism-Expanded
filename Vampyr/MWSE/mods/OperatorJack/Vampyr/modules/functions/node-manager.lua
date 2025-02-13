@@ -1,4 +1,3 @@
-
 local common = require("OperatorJack.Vampyr.common")
 local functions = {}
 
@@ -20,15 +19,15 @@ local vanillaStencilObjects = {
     ["Left Pauldron"] = true,
 }
 
-
+---@param e referenceSceneNodeCreatedEventData
 local function reattachStencils(e)
     -- Initialize player.
-    if  e.reference == tes3.player or
+    if e.reference == tes3.player or
         e.reference == tes3.player1stPerson then
         stenciledActors[e.reference] = nil
         functions.attachStencilProperty(e.reference)
 
-    -- Reset any stenciled actors since scene node was rebuilt.
+        -- Reset any stenciled actors since scene node was rebuilt.
     elseif stenciledActors[e.reference] then
         stenciledActors[e.reference] = nil
         functions.attachStencilProperty(e.reference)
@@ -36,32 +35,32 @@ local function reattachStencils(e)
 end
 
 -- Handle initializing and rebuilding scenegraph for stenciled actors.
-event.register("referenceSceneNodeCreated", reattachStencils)
+event.register(tes3.event.referenceSceneNodeCreated, reattachStencils)
 
 -- Handle change in equipment for stenciled actors.
-event.register("equipped", function(e)
+event.register(tes3.event.equipped, function(e)
     timer.delayOneFrame(function()
         if e.reference == tes3.player then
-            reattachStencils({reference = tes3.player1stPerson})
+            reattachStencils({ reference = tes3.player1stPerson })
         end
         reattachStencils(e)
     end)
 end)
-event.register("unequipped", function(e)
+event.register(tes3.event.unequipped, function(e)
     timer.delayOneFrame(function()
         if e.reference == tes3.player then
-            reattachStencils({reference = tes3.player1stPerson})
+            reattachStencils({ reference = tes3.player1stPerson })
         end
         reattachStencils(e)
     end)
 end)
 
 -- When invalidated, scene node will be recreated. Remove from tracking.
-event.register("objectInvalidated", function(e)
+event.register(tes3.event.objectInvalidated, function(e)
     stenciledActors[e.object] = nil
 end)
 
-event.register("initialized", function(e)
+event.register(tes3.event.initialized, function(e)
     masks = {
         player1st = tes3.loadMesh(common.paths.stencils.player1st):getProperty(0x3),
         player = tes3.loadMesh(common.paths.stencils.player):getProperty(0x3),
@@ -139,20 +138,16 @@ functions.attachStencilProperty = function(reference)
         attachStencilMirrorPropertiesToReference(reference, masks.playerMirror)
         attachWeaponStencilPropertyToReference(reference, masks.weapon)
         attachStencilPropertyToReference(reference, masks.player)
-
     elseif reference == tes3.player1stPerson then
         attachWeaponStencilPropertyToReference(reference, masks.weapon)
         attachStencilPropertyToReference(reference, masks.player1st)
-
     elseif reference.object.objectType == tes3.objectType.npc then
         attachStencilMirrorPropertiesToReference(reference, masks.npcMirror)
         attachWeaponStencilPropertyToReference(reference, masks.weapon)
         attachStencilPropertyToReference(reference, masks.npc)
-
     elseif reference.object.objectType == tes3.objectType.creature then
         attachWeaponStencilPropertyToReference(reference, masks.weapon)
         attachStencilPropertyToReference(reference, masks.creature)
-
     end
 
     common.logger.debug("Added stencil properties to %s.", reference)
@@ -171,25 +166,25 @@ functions.getOrAttachVfx = function(reference, sceneObjectName, path)
 
         if (reference.object.race) then
             if (reference.object.race.weight and reference.object.race.height) then
-            local weight = reference.object.race.weight.male
-            local height = reference.object.race.height.male
-            if (reference.object.female == true) then
-                weight = reference.object.race.weight.female
-                height = reference.object.race.height.female
-            end
+                local weight = reference.object.race.weight.male
+                local height = reference.object.race.height.male
+                if (reference.object.female == true) then
+                    weight = reference.object.race.weight.female
+                    height = reference.object.race.height.female
+                end
 
-            local weightMod = 1 / weight
-            local heightMod = 1/ height
+                local weightMod = 1 / weight
+                local heightMod = 1 / height
 
-            local r = node.rotation
-            local s = tes3vector3.new(weightMod, weightMod, heightMod)
-            node.rotation = tes3matrix33.new(r.x * s, r.y * s, r.z * s)
+                local r = node.rotation
+                local s = tes3vector3.new(weightMod, weightMod, heightMod)
+                node.rotation = tes3matrix33.new(r.x * s, r.y * s, r.z * s)
             end
         end
 
 
         sceneNode:attachChild(node, true)
-        node:update({controllers=true})
+        node:update({ controllers = true })
         node:updateNodeEffects()
 
         common.logger.debug("Added object %s to %s.", sceneObjectName, reference)

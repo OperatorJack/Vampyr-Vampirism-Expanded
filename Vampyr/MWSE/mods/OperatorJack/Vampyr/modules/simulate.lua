@@ -1,4 +1,3 @@
-local config = require("OperatorJack.Vampyr.config")
 local common = require("OperatorJack.Vampyr.common")
 
 local function checkPlayerVampireState(e)
@@ -24,4 +23,4 @@ local function onLoaded()
         end
     })
 end
-event.register("loaded", onLoaded)
+event.register(tes3.event.loaded, onLoaded)

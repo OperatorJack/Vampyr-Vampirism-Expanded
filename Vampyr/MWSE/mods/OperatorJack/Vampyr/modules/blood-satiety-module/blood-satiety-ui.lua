@@ -43,27 +43,27 @@ local function createBloodSatietyLayout(element)
     layout.childAlignY = 0.5
     layout.flowDirection = "left_to_right"
 
-         -- Add Text, spacer, fillbar.
-         local label = layout:createLabel({
-            id = ids.BloodSatietyStatLabel,
-            text = "Satiety"
-        })
-        label.color = {0.875, 0.788, 0.624}
-        label.width = 38
-        label.height = 18
-        label.borderAllSides = 0
-        label.borderRight = 5
+    -- Add Text, spacer, fillbar.
+    local label = layout:createLabel({
+        id = ids.BloodSatietyStatLabel,
+        text = "Satiety"
+    })
+    label.color = { 0.875, 0.788, 0.624 }
+    label.width = 38
+    label.height = 18
+    label.borderAllSides = 0
+    label.borderRight = 5
 
-        local spacer = layout:createBlock()
-        spacer.autoWidth = true
+    local spacer = layout:createBlock()
+    spacer.autoWidth = true
 
-        local text = layout:createLabel({
-            id = ids.BloodSatietyStatText
-        })
-        text.width = 58
-        text.height = 18
-        text.borderAllSides = 0
-        updateBloodSatietyText(text)
+    local text = layout:createLabel({
+        id = ids.BloodSatietyStatText
+    })
+    text.width = 58
+    text.height = 18
+    text.borderAllSides = 0
+    updateBloodSatietyText(text)
 
     element:updateLayout()
 
@@ -94,7 +94,7 @@ local function createMenuStatBloodSatiety(e)
     bloodSatietyStatLayout = createBloodSatietyLayout(menuStatPlayerBlock)
     updateBloodSatietyVisibility(bloodSatietyStatLayout)
 end
-event.register("uiActivated", createMenuStatBloodSatiety, { filter = "MenuStat", priority = -3 })
+event.register(tes3.event.uiActivated, createMenuStatBloodSatiety, { filter = "MenuStat", priority = -3 })
 
 local function playerVampireStateChanged()
     updateBloodSatietyVisibility(bloodSatietyStatLayout)
@@ -106,22 +106,21 @@ local function vampireBloodSatietyTooltip(e)
     if e.object.objectType ~= tes3.objectType.npc then return end
     if common.isPlayerVampire() == false then return end
     if common.isReferenceVampire(e.reference) == false then return end
-    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.auspex}) == false then return end
+    if tes3.isAffectedBy({ reference = tes3.player, effect = tes3.effect.auspex }) == false then return end
 
     common.initializeReferenceData(e.reference)
-    local honorary = bloodSatiety.getLevelNameFromLevel(bloodSatiety.getLevel(tes3.player))
+    local honorary             = bloodSatiety.getLevelNameFromLevel(bloodSatiety.getLevel(tes3.player))
 
-    local bloodBlock = e.tooltip:createBlock()
-    bloodBlock.flowDirection = "left_to_right"
-    bloodBlock.childAlignX = 0
-    bloodBlock.autoHeight = true
-    bloodBlock.autoWidth = true
-    bloodBlock.paddingAllSides  = 3
+    local bloodBlock           = e.tooltip:createBlock()
+    bloodBlock.flowDirection   = "left_to_right"
+    bloodBlock.childAlignX     = 0
+    bloodBlock.autoHeight      = true
+    bloodBlock.autoWidth       = true
+    bloodBlock.paddingAllSides = 3
 
     -- TODO: Add text to tooltip.
-    local label = bloodBlock:createLabel({
+    local label                = bloodBlock:createLabel({
         text = string.format("Satiety: %s", honorary)
     })
-
 end
-event.register("uiObjectTooltip", vampireBloodSatietyTooltip, {priority = -3})
+event.register(tes3.event.uiObjectTooltip, vampireBloodSatietyTooltip, { priority = -3 })

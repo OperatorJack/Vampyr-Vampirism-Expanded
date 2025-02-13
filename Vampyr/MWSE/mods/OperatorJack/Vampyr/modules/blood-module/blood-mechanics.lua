@@ -36,7 +36,7 @@ end
 local function initializedReference(e)
     initializeBlood(e.reference)
 end
-event.register(common.events.initializedReference, initializedReference )
+event.register(common.events.initializedReference, initializedReference)
 
 local function playerVampireStateChanged(e)
     if (e.isVampire == true) then
@@ -55,7 +55,7 @@ local function updateDaysPassedSinceLastFeed()
             blood.modPlayerCurrentBloodStatistic(modAmount)
             if (blood.getPlayerBloodStatistic().current <= 0) then
                 blood.modPlayerBaseBloodStatistic(-1)
-                tes3.mobilePlayer:applyHealthDamage(1)
+                tes3.mobilePlayer:applyDamage({ damage = 1 })
             end
         end
     end

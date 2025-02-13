@@ -1,4 +1,3 @@
-
 local config = require("OperatorJack.Vampyr.config")
 
 local logger = {}
@@ -19,9 +18,9 @@ local function doLog(logLevel)
 end
 
 local function log(level, module, info, str, ...)
-        local prepend = ("[Vampyr.%s:%s:%s]:"):format(module, info.currentline, level)
-        local aligned = ("%-36s"):format(prepend)
-        mwse.log(aligned .. str, ...)
+    local prepend = ("[Vampyr.%s:%s:%s]:"):format(module, info.currentline, level)
+    local aligned = ("%-36s"):format(prepend)
+    mwse.log(aligned .. str, ...)
 end
 
 function logger.trace(str, ...)

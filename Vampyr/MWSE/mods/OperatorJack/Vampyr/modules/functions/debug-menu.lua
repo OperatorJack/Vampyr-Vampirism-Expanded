@@ -11,24 +11,24 @@ local bloodMenuVals = {
 }
 
 local function showBloodMenu(func)
-        local message = "Vampyr Debug Menu - Blood Levels"
-        local buttons = {}
-        for _, bloodAmount in ipairs(bloodMenuVals) do
-            table.insert(buttons, {
-                text = tostring(bloodAmount),
-                callback = function()
-                    func(bloodAmount)
-                    local bloodStat = blood.getPlayerBloodStatistic()
-                    tes3.messageBox("Current: " .. bloodStat.current .. " , Max: " .. bloodStat.base)
-                end,
-            })
-        end
+    local message = "Vampyr Debug Menu - Blood Levels"
+    local buttons = {}
+    for _, bloodAmount in ipairs(bloodMenuVals) do
+        table.insert(buttons, {
+            text = tostring(bloodAmount),
+            callback = function()
+                func(bloodAmount)
+                local bloodStat = blood.getPlayerBloodStatistic()
+                tes3.messageBox("Current: " .. bloodStat.current .. " , Max: " .. bloodStat.base)
+            end,
+        })
+    end
 
-        common.messageBox{
-            message = message,
-            buttons = buttons,
-            doesCancel = true
-        }
+    common.messageBox {
+        message = message,
+        buttons = buttons,
+        doesCancel = true
+    }
 end
 
 local items = {
@@ -40,25 +40,25 @@ local items = {
     [6] = common.ids.transfuser.bloodTransfuser,
 }
 local function showItemMenu()
-        local message = "Vampyr Debug Menu - Items"
-        local buttons = {}
-        for _, itemId in ipairs(items) do
-            table.insert(buttons, {
-                text = tes3.getObject(itemId).name,
-                callback = function()
-                    mwscript.addItem({
-                        reference = tes3.player,
-                        item = itemId
-                    })
-                end,
-            })
-        end
+    local message = "Vampyr Debug Menu - Items"
+    local buttons = {}
+    for _, itemId in ipairs(items) do
+        table.insert(buttons, {
+            text = tes3.getObject(itemId).name,
+            callback = function()
+                mwscript.addItem({
+                    reference = tes3.player,
+                    item = itemId
+                })
+            end,
+        })
+    end
 
-        common.messageBox{
-            message = message,
-            buttons = buttons,
-            doesCancel = true
-        }
+    common.messageBox {
+        message = message,
+        buttons = buttons,
+        doesCancel = true
+    }
 end
 
 local actors = {
@@ -67,36 +67,36 @@ local actors = {
     [3] = common.ids.actors.testVampire,
 }
 local function showActorsMenu()
-        local message = "Vampyr Debug Menu - Actors"
-        local buttons = {}
-        for _ , actorId in pairs(actors) do
-            table.insert(buttons, {
-                text = tes3.getObject(actorId).name,
-                callback = function()
-                    mwscript.placeAtPC({
-                        reference = tes3.player,
-                        object = actorId
-                    })
-                end,
-            })
-        end
+    local message = "Vampyr Debug Menu - Actors"
+    local buttons = {}
+    for _, actorId in pairs(actors) do
+        table.insert(buttons, {
+            text = tes3.getObject(actorId).name,
+            callback = function()
+                mwscript.placeAtPC({
+                    reference = tes3.player,
+                    object = actorId
+                })
+            end,
+        })
+    end
 
-        common.messageBox{
-            message = message,
-            buttons = buttons,
-            doesCancel = true
-        }
+    common.messageBox {
+        message = message,
+        buttons = buttons,
+        doesCancel = true
+    }
 end
 
 local function debugMenuKey(e)
-    if common.config.enableDebugMenu == true and common.keyDownEqual(e, common.config.debugMenuKey) == true then
+    if common.config.enableDebugMenu == true and tes3.isKeyEqual({ actual = e, expected = common.config.debugMenuKey }) == true then
         local message = "Vampyr Debug Menu"
         local buttons = {
             {
                 text = "Become Vampire",
                 requirements = function() return not common.isPlayerVampire() end,
                 callback = function()
-                    mwscript.addSpell{reference = tes3.player, spell = common.spells.vampirism}
+                    mwscript.addSpell { reference = tes3.player, spell = common.spells.vampirism }
                 end,
                 tooltipDisabled = {
                     text = "You are already a vampire."
@@ -106,7 +106,7 @@ local function debugMenuKey(e)
                 text = "Cure Vampirism",
                 requirements = common.isPlayerVampire,
                 callback = function()
-                    mwscript.removeSpell{reference = tes3.player, spell = common.spells.vampirism}
+                    mwscript.removeSpell { reference = tes3.player, spell = common.spells.vampirism }
                 end,
                 tooltipDisabled = {
                     text = "You must be a vampire."
@@ -117,7 +117,6 @@ local function debugMenuKey(e)
                 requirements = common.isPlayerVampire,
                 callback = function()
                     showBloodMenu(blood.modPlayerBaseBloodStatistic)
-
                 end,
                 tooltipDisabled = {
                     text = "You must be a vampire."
@@ -146,7 +145,7 @@ local function debugMenuKey(e)
                 end,
             },
         }
-        common.messageBox{
+        common.messageBox {
             message = message,
             buttons = buttons,
             doesCancel = true

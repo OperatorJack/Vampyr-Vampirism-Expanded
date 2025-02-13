@@ -1,5 +1,5 @@
 -- Load configuration.
-return mwse.loadConfig("Vampyr", {
+local config = mwse.loadConfig("Vampyr", {
     -- Initialize Settings
     logLevel = "INFO",
     enableDebugMenu = true,
@@ -75,4 +75,6 @@ return mwse.loadConfig("Vampyr", {
         ["Clan Berne"] = true,
         ["Clan Quarra"] = true,
     }
-})
+}) ---@cast config table
+
+return config

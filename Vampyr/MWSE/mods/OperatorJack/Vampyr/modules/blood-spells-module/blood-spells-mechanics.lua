@@ -20,4 +20,4 @@ local function onSpellCast(e)
 
     e.claim = true
 end
-event.register("spellCast", onSpellCast, {priority = 1000})
+event.register(tes3.event.spellCast, onSpellCast, { priority = 1000 })

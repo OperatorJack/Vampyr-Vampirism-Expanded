@@ -3,8 +3,8 @@ local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
 local bloodSpells = require("OperatorJack.Vampyr.modules.blood-spells-module.blood-spells")
 
-local UP = tes3vector3.new(0,0,1)
-local ID33 = tes3matrix33.new(1,0,0,0,1,0,0,0,1)
+local UP = tes3vector3.new(0, 0, 1)
+local ID33 = tes3matrix33.new(1, 0, 0, 0, 1, 0, 0, 0, 1)
 
 
 local function rotation_difference(vec1, vec2)
@@ -38,7 +38,7 @@ local function removeMarker()
     if (markerReference) then
         markerReference:disable()
         timer.delayOneFrame(function()
-            mwscript.setDelete{ reference = markerReference}
+            mwscript.setDelete { reference = markerReference }
             markerReference.modified = false
             markerReference = nil
         end)
@@ -99,7 +99,6 @@ local function confirmShadowStep()
 
     if (blood.getPlayerBloodStatistic().current < cost) then
         tes3.messageBox(common.text.shadowstepFailed_TooFar)
-
     else
         bloodSpells.applyBloodMagicCostForPlayer(cost)
 
@@ -125,12 +124,11 @@ local function confirmShadowStep()
 
         timer.start({
             duration = 2,
-            callback = function ()
-
+            callback = function()
                 if (teleReference) then
                     teleReference:disable()
                     timer.delayOneFrame(function()
-                        mwscript.setDelete{ reference = teleReference}
+                        mwscript.setDelete { reference = teleReference }
                         teleReference.modified = false
                         teleReference = nil
                     end)
@@ -145,7 +143,7 @@ end
 
 local function shadowStepKey(e)
     if not tes3.player then return end
-    if common.keyDownEqual(e, common.config.shadowStepActionKey) == true then
+    if tes3.isKeyEqual({ actual = e, expected = common.config.shadowStepActionKey }) == true then
         common.logger.debug("Detected Shadowstep action key.")
 
         if common.isPlayerVampire() == false then return end
@@ -162,7 +160,7 @@ local function shadowStepKey(e)
             confirmShadowStep()
         end
     end
-    if common.keyDownEqual(e, common.config.shadowStepCancelKey) == true and isInShadowStepMode == true then
+    if tes3.isKeyEqual({ actual = e, expected = common.config.shadowStepCancelKey }) == true and isInShadowStepMode == true then
         common.logger.trace("Detected Shadowstep cancel key while in shadowstep mode. Exitting Shadowstep.")
         exitShadowStepMode()
     end

@@ -1,6 +1,6 @@
 local config = require("OperatorJack.Vampyr.config")
 local logger = require("OperatorJack.Vampyr.modules.functions.logger")
-local customMessagebox = require ("OperatorJack.Vampyr.modules.functions.custom-messagebox")
+local customMessagebox = require("OperatorJack.Vampyr.modules.functions.custom-messagebox")
 local shade = require("OperatorJack.Vampyr.modules.functions.shade")
 local skinExposure = require("OperatorJack.Vampyr.modules.functions.skin-exposure")
 
@@ -89,13 +89,13 @@ common.animations = {
 common.paths = {
     -- Generic stencil property
     stencils = {
-        player1st = "OJ\\stencils\\mask_char1st.nif",
-        player = "OJ\\stencils\\mask_char.nif",
-        playerMirror = "OJ\\stencils\\mask_char_mirror.nif",
-        npc = "OJ\\stencils\\mask_npc.nif",
-        npcMirror = "OJ\\stencils\\mask_npc_mirror.nif",
-        creature = "OJ\\stencils\\mask_creature.nif",
-        weapon = "OJ\\stencils\\mask_weapon.nif",
+        player1st = "OJ\\V\\stencils\\mask_char1st.nif",
+        player = "OJ\\V\\stencils\\mask_char.nif",
+        playerMirror = "OJ\\V\\stencils\\mask_char_mirror.nif",
+        npc = "OJ\\V\\stencils\\mask_npc.nif",
+        npcMirror = "OJ\\V\\stencils\\mask_npc_mirror.nif",
+        creature = "OJ\\V\\stencils\\mask_creature.nif",
+        weapon = "OJ\\V\\stencils\\mask_weapon.nif",
     },
 
     -- Requires special node name. Ref overrideSunDamage.lua
@@ -199,11 +199,18 @@ common.events = {
     reloadClawsAnimations = "Vampyr:ReloadClawsAnimations"
 }
 
-
+---Rolls a random number and returns true if it is below or equal to the success chance. Used for "dice rolls".
+---@param chanceSuccess number The chance success, in number format. EG., 96% = 96.0
+---@return boolean Returns true if the rolled number is less than or equal to the chance.
 function common.roll(chanceSuccess)
     return math.random(0, 100) <= chanceSuccess
 end
 
+---comment Iterates all references within `distance` distance of the target `position`.
+---@param position tes3vector3
+---@param distance number
+---@param filter integer|integer[]|nil The filter to apply to the cell iteration. Passed to `cell:iterateReferences`.
+---@return fun(): tes3reference coroutine Coroutine to yield all references within the target area.
 function common.iterReferencesNearTargetPosition(position, distance, filter)
     filter = filter or {}
     return coroutine.wrap(function()
@@ -215,6 +222,9 @@ function common.iterReferencesNearTargetPosition(position, distance, filter)
     end)
 end
 
+---comment Iterates all references in active cells, filtered by `filter`.
+---@param filter integer|integer[]|nil The filter to apply to the cell iteration. Passed to `cell:iterateReferences`.
+---@return fun(): tes3reference coroutine Coroutine to yield all references.
 function common.iterReferences(filter)
     filter = filter or {}
     return coroutine.wrap(function()
@@ -226,16 +236,10 @@ function common.iterReferences(filter)
     end)
 end
 
-function common.keyDownEqual(eventKeyDown, configKeyDown)
-    if eventKeyDown.keyCode == configKeyDown.keyCode and
-        eventKeyDown.isAltDown == configKeyDown.isAltDown and
-        eventKeyDown.isShiftDown == configKeyDown.isShiftDown and
-        eventKeyDown.isControlDown == configKeyDown.isControlDown then
-           return true
-    end
-    return false
-end
-
+---Gets the key of a table from a custom search function, func.
+---@param tbl table The table to search.
+---@param func function The function to check with. The function should accept one paramter, `value`.
+---@return string|nil key The key, if any.
 function common.getKeyFromValueFunc(tbl, func)
     for key, value in pairs(tbl) do
         if (func(value) == true) then return key end
@@ -243,18 +247,29 @@ function common.getKeyFromValueFunc(tbl, func)
     return nil
 end
 
+---Calculates hit chance for a mobile with a specific weapon skill using the vanilla hit formula.
+---@param mobile tes3mobileActor The mobile to calculate hit chance for.
+---@param currentWeaponSkill number The skill level of the mobile's current weapon.
+---@return number chance The hit chance.
 function common.calcHitChance(mobile, currentWeaponSkill)
-     -- From UESP: (Weapon Skill + (Agility / 5) + (Luck / 10)) * (0.75 + 0.5 * Current Fatigue / Maximum Fatigue) + Fortify Attack Magnitude + Blind Magnitude
+    -- From UESP: (Weapon Skill + (Agility / 5) + (Luck / 10)) * (0.75 + 0.5 * Current Fatigue / Maximum Fatigue) + Fortify Attack Magnitude + Blind Magnitude
 
-    return (currentWeaponSkill + (mobile.agility.current / 5) + (mobile.luck.current / 10)) * (0.75 + 0.5 * mobile.fatigue.current / mobile.fatigue.base) + mobile.attackBonus + mobile.blind
+    return (currentWeaponSkill + (mobile.agility.current / 5) + (mobile.luck.current / 10)) *
+        (0.75 + 0.5 * mobile.fatigue.current / mobile.fatigue.base) + mobile.attackBonus + mobile.blind
 end
 
+---Calculates evasion chance for a mobile using the vanilla evasian formula.
+---@param mobile tes3mobileActor The mobile to calculate evasion chance for.
+---@return number chance The evasian chance.
 function common.calcEvasionChance(mobile)
     -- From UESP: ((Agility / 5) + (Luck / 10)) * (0.75 + 0.5 * Current Fatigue / Maximum Fatigue) + Sanctuary Magnitude
 
-    return (mobile.agility.current / 5) + (mobile.luck.current / 10) + (0.75 + 0.5 * mobile.fatigue.current / mobile.fatigue.base) + mobile.sanctuary
+    return (mobile.agility.current / 5) + (mobile.luck.current / 10) +
+        (0.75 + 0.5 * mobile.fatigue.current / mobile.fatigue.base) + mobile.sanctuary
 end
 
+--- Determines if the reference is a vampire. Returns true if so.
+---@param reference tes3reference The reference to check vampirism for.
 function common.isReferenceVampire(reference)
     return tes3.isAffectedBy({
         reference = reference,
@@ -262,10 +277,13 @@ function common.isReferenceVampire(reference)
     })
 end
 
+--- Determines if the player is a vampire. Returns true if so.
 function common.isPlayerVampire()
     return common.isReferenceVampire(tes3.player)
 end
 
+--- Determines if an object ID belongs to a serum. Returns true if so.
+---@param id string The object ID to check for.
 function common.isSerum(id)
     for _, serumId in pairs(common.ids.serums) do
         if id == serumId then
@@ -275,6 +293,8 @@ function common.isSerum(id)
     return false
 end
 
+--- Determines if a faction ID belongs to a vampire faction. Returns true if so.
+---@param id string The faction ID to check for.
 function common.isVampireFaction(id)
     for factionId in pairs(config.vampireFactions) do
         if id == factionId then
@@ -284,6 +304,9 @@ function common.isVampireFaction(id)
     return false
 end
 
+--- Determines if the reference is a vampire merchant and sells the provided object types. Returns true if both criteria are met.
+---@param ref tes3reference The reference to check if is a vampire merchant.
+---@param objectTypes tes3.objectType[] Filter of the object types to determine if they're a merchant for. Eg., if weapons is provided, true is only returned if the merchant is a vampire and sells weapons.
 function common.isVampireMerchant(ref, objectTypes)
     if not common.isReferenceVampire(ref) == true then return false end
 
@@ -294,15 +317,18 @@ function common.isVampireMerchant(ref, objectTypes)
     return true
 end
 
---TODO: Null needs to fix collision crashes on Disable/Delete
+--- Appropriately deletes (yeets) the reference without breaking things.
+---@param ref tes3reference
+---@param no any
 function common.yeet(ref, no)
     if no then
         mwse.error("You called yeet() with a colon, didn't you?")
     end
-    ref:disable()
-    mwscript.setDelete{ reference = ref}
+    ref:delete()
 end
 
+--- Safely initializes Vampyr reference data on the reference, so that it can be accessed elsewhere.
+---@param reference tes3reference
 function common.initializeReferenceData(reference)
     if (reference.data.OJ_VAMPYR == nil) then
         reference.data.OJ_VAMPYR = {
@@ -320,25 +346,28 @@ function common.initializeReferenceData(reference)
     end
 end
 
-
 -- Adapted from Merlord's Brutal Backstabbing. Thanks mate!
 local degrees = 80
 local angle = (2 * math.pi) * (degrees / 360)
 
+--- Checks if the attacker is behind the target and the target is facing away (eg., for backstabbing)
+---@param targetRef tes3reference The target reference which may be facing away.
+---@param attackerRef tes3reference The attacker reference which may be facing the target's back.
+---@return boolean _ If the target is facing away.
 function common.isReferenceFacingAway(targetRef, attackerRef)
-	-- Check that target is facing away from attacker orientation is between -Pi and Pi.
-	-- We get the difference between attacker and target angles, and if it's greater than pie,
-	-- we've got the obtuse angle, so subtract 2*pi to get the acute angle.
-	local attackerAngle = attackerRef.orientation.z
-	local targetAngle = targetRef.orientation.z
-	local diff = math.abs (attackerAngle - targetAngle )
-	if diff > math.pi then
-		diff = math.abs ( diff - ( 2 * math.pi ) )
-	end
-	-- If the player and attacker have the same orientation, then the attacker must be behind the target
-	if ( diff < angle) then
+    -- Check that target is facing away from attacker orientation is between -Pi and Pi.
+    -- We get the difference between attacker and target angles, and if it's greater than pie,
+    -- we've got the obtuse angle, so subtract 2*pi to get the acute angle.
+    local attackerAngle = attackerRef.orientation.z
+    local targetAngle = targetRef.orientation.z
+    local diff = math.abs(attackerAngle - targetAngle)
+    if diff > math.pi then
+        diff = math.abs(diff - (2 * math.pi))
+    end
+    -- If the player and attacker have the same orientation, then the attacker must be behind the target
+    if (diff < angle) then
         return true
-	end
+    end
     return false
 end
 

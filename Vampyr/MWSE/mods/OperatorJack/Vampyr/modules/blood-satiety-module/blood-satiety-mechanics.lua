@@ -6,14 +6,6 @@ local function onBloodChanged(e)
 end
 event.register(common.events.bloodChanged, onBloodChanged)
 
-local function addSpell(ref, spellId)
-    mwscript.addSpell{reference = ref, spell = spellId}
-end
-
-local function removeSpell(ref, spellId)
-    mwscript.removeSpell{reference = ref, spell = spellId}
-end
-
 local actions = {
     add = 1,
     remove = 2
@@ -57,20 +49,20 @@ event.register(common.events.bloodSatietyChanged, function(e)
         for spellId in pairs(ladder[e.currentSatiety]) do
             if ladder[e.currentSatiety][spellId] == actions.add then
                 common.logger.trace("Adding spell %s to reference %s", spellId, ref)
-                addSpell(ref, spellId)
+                tes3.addSpell({ reference = ref, spell = spellId })
             else
                 common.logger.trace("Removing spell %s from reference %s", spellId, ref)
-                removeSpell(ref, spellId)
+                tes3.removeSpell({ reference = ref, spell = spellId })
             end
         end
     else
         for spellId in pairs(ladder[e.previousSatiety]) do
             if ladder[e.previousSatiety][spellId] == actions.add then
                 common.logger.trace("Removing spell %s from reference %s", spellId, ref)
-                removeSpell(ref, spellId)
+                tes3.removeSpell({ reference = ref, spell = spellId })
             else
                 common.logger.trace("Adding spell %s to reference %s", spellId, ref)
-                addSpell(ref, spellId)
+                tes3.addSpell({ reference = ref, spell = spellId })
             end
         end
     end

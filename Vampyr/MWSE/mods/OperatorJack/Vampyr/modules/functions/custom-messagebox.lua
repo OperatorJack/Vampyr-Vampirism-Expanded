@@ -54,7 +54,7 @@ local function populateButtons(e)
             --If last button is a Cancel (no callback), register it for Right Click Menu Exit
             local buttonId = tes3ui.registerID("CustomMessageBox_Button")
 
-            local button = buttonsBlock:createButton{ id = buttonId, text = data.text}
+            local button = buttonsBlock:createButton { id = buttonId, text = data.text }
 
             local disabled = false
             if data.requirements then
@@ -66,7 +66,7 @@ local function populateButtons(e)
             if disabled then
                 button.widget.state = 2
             else
-                button:register( "mouseClick", function()
+                button:register("mouseClick", function()
                     if data.callback then
                         data.callback()
                     end
@@ -76,16 +76,15 @@ local function populateButtons(e)
             end
 
             if not disabled and data.tooltip then
-                button:register( "help", function()
+                button:register("help", function()
                     this.createTooltip(data.tooltip)
                 end)
             elseif disabled and data.tooltipDisabled then
-                button:register( "help", function()
+                button:register("help", function()
                     this.createTooltip(data.tooltipDisabled)
                 end)
             end
         end
-
     end
     menu:updateLayout()
 end
@@ -106,11 +105,11 @@ function this.messageBox(params)
     local message = params.message
     local buttons = params.buttons
     --create menu
-    local menu = tes3ui.createMenu{ id = messageBoxId, fixedFrame = true }
+    local menu = tes3ui.createMenu { id = messageBoxId, fixedFrame = true }
     do
         menu:getContentElement().childAlignX = 0.5
         tes3ui.enterMenuMode(messageBoxId)
-        menu:createLabel{id = tes3ui.registerID("Vampyr:MessageBox_Title"), text = message}
+        menu:createLabel { id = tes3ui.registerID("Vampyr:MessageBox_Title"), text = message }
     end
 
     --create button block
@@ -124,7 +123,7 @@ function this.messageBox(params)
 
     --populate initial buttons
     local startIndex, endIndex = 1, maxButtonsPerColumn
-    populateButtons{ buttons= buttons, menu = menu, buttonsBlock = buttonsBlock, startIndex = startIndex, endIndex = endIndex}
+    populateButtons { buttons = buttons, menu = menu, buttonsBlock = buttonsBlock, startIndex = startIndex, endIndex = endIndex }
 
     --add next/previous buttons
     if #buttons > maxButtonsPerColumn then
@@ -134,9 +133,9 @@ function this.messageBox(params)
         arrowButtonsBlock.autoHeight = true
         arrowButtonsBlock.autoWidth = true
 
-        local prevButton = arrowButtonsBlock:createButton{ text = "<-Prev" }
+        local prevButton = arrowButtonsBlock:createButton { text = "<-Prev" }
         disable(prevButton)
-        local nextButton = arrowButtonsBlock:createButton{ text = "Next->" }
+        local nextButton = arrowButtonsBlock:createButton { text = "Next->" }
 
         prevButton:register("mouseClick", function()
             --move start index back, check if disable prev button
@@ -151,7 +150,7 @@ function this.messageBox(params)
                 enable(nextButton)
             end
 
-            populateButtons{ buttons= buttons, menu = menu, buttonsBlock = buttonsBlock, startIndex = startIndex, endIndex = endIndex}
+            populateButtons { buttons = buttons, menu = menu, buttonsBlock = buttonsBlock, startIndex = startIndex, endIndex = endIndex }
         end)
 
         nextButton:register("mouseClick", function()
@@ -167,15 +166,15 @@ function this.messageBox(params)
                 disable(nextButton)
             end
 
-            populateButtons{ buttons= buttons, menu = menu, buttonsBlock = buttonsBlock, startIndex = startIndex, endIndex = endIndex}
+            populateButtons { buttons = buttons, menu = menu, buttonsBlock = buttonsBlock, startIndex = startIndex, endIndex = endIndex }
         end)
     end
 
     -- add cancel button
     if params.doesCancel then
         local buttonId = tes3ui.registerID("CustomMessageBox_CancelButton")
-        local cancelButton = menu:createButton{ id = buttonId, text = tes3.findGMST(tes3.gmst.sCancel).value }
-        cancelButton:register( "mouseClick", function()
+        local cancelButton = menu:createButton { id = buttonId, text = tes3.findGMST(tes3.gmst.sCancel).value }
+        cancelButton:register("mouseClick", function()
             if params.cancelCallback then
                 params.cancelCallback()
             end
@@ -203,7 +202,8 @@ function this.createTooltip(e)
 
     if thisHeader then
         local headerText = thisHeader
-        local headerLabel = outerBlock:createLabel({ id = tes3ui.registerID("Ashfall:temperatureIndicator_header"), text = headerText })
+        local headerLabel = outerBlock:createLabel({ id = tes3ui.registerID("Ashfall:temperatureIndicator_header"), text =
+        headerText })
         headerLabel.autoHeight = true
         headerLabel.width = 285
         headerLabel.color = tes3ui.getPalette("header_color")
@@ -212,7 +212,8 @@ function this.createTooltip(e)
     end
     if thisLabel then
         local descriptionText = thisLabel
-        local descriptionLabel = outerBlock:createLabel({ id = tes3ui.registerID("Ashfall:temperatureIndicator_description"), text = descriptionText })
+        local descriptionLabel = outerBlock:createLabel({ id = tes3ui.registerID(
+        "Ashfall:temperatureIndicator_description"), text = descriptionText })
         descriptionLabel.autoHeight = true
         descriptionLabel.width = 285
         descriptionLabel.wrapText = true

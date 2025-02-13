@@ -1,4 +1,3 @@
-
 local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local common = require("OperatorJack.Vampyr.common")
 
@@ -10,12 +9,12 @@ local function initialized()
             duration = 2,
             callback = function()
                 tes3.messageBox("Making Player a vampire..")
-                mwscript.addSpell{reference = tes3.player, spell = common.spells.vampirism}
-                mwscript.addSpell{reference = tes3.player, spell = common.spells.restoreBlood}
-                mwscript.addSpell{reference = tes3.player, spell = common.spells.drainBlood}
-                mwscript.addSpell{reference = tes3.player, spell = common.bloodSpells.bloodstorm.id}
+                tes3.addSpell({ reference = tes3.player, spell = common.spells.vampirism })
+                tes3.addSpell({ reference = tes3.player, spell = common.spells.restoreBlood })
+                tes3.addSpell({ reference = tes3.player, spell = common.spells.drainBlood })
+                tes3.addSpell({ reference = tes3.player, spell = common.bloodSpells.bloodstorm.id })
 
-            timer.start({
+                timer.start({
                     duration = 10,
                     iterations = 10,
                     callback = function()
@@ -29,10 +28,10 @@ local function initialized()
         })
 
         common.logger.debug("Executed Lua Script Override OJ_VAMPYR_TestBecomeVampire")
-        mwscript.stopScript{script="OJ_VAMPYR_TestBecomeVampire"}
+        tes3.stopLegacyScript({ script = "OJ_VAMPYR_TestBecomeVampire" })
     end)
 
     common.logger.info("Registered Script Overrides")
 end
 
-event.register("initialized", initialized)
+event.register(tes3.event.initialized, initialized)

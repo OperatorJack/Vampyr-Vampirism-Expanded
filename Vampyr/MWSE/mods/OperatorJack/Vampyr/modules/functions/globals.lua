@@ -37,17 +37,19 @@ local function updateTargetVampireGlobals(ref)
     end
 end
 
+---@param e activationTargetChangedEventData
 local function targetIsVampire(e)
     if not e.current then return end
     updateTargetVampireGlobals(e.current)
 end
-event.register("activationTargetChanged", targetIsVampire)
+event.register(tes3.event.activationTargetChanged, targetIsVampire)
 
+---@param e activateEventData
 local function activateTargetIsVampire(e)
     if e.activator ~= tes3.player then return end
     updateTargetVampireGlobals(e.target)
 end
-event.register("activate", activateTargetIsVampire)
+event.register(tes3.event.activate, activateTargetIsVampire)
 
 
 
@@ -68,7 +70,7 @@ local function playerVampireStateChanged(e)
 end
 event.register(common.events.playerVampireStateChanged, playerVampireStateChanged)
 
-local function loaded(e)
+local function loaded()
     updatePlayerIsVampireGlobal(common.isPlayerVampire())
 end
-event.register("loaded", loaded)
+event.register(tes3.event.loaded, loaded)

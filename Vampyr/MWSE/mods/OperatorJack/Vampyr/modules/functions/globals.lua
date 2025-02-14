@@ -8,6 +8,7 @@ local function updateTargetVampireGlobals(ref)
             tes3.setGlobal(common.ids.globals.targetIsVampire, 1)
             common.logger.trace("Target Is Vampire Global Changed. Ref: %s, Value: True", ref)
 
+            -- @TODO: Missing functions!
             local daysSinceLastFeedOn = common.getReferenceDaysSinceLastFeedOn(ref)
             tes3.setGlobal(common.ids.globals.targetDaysSinceLastFeed, daysSinceLastFeedOn)
             common.logger.trace("Target Days Sinces Last Feed On. Ref: %s, Value: %s", ref, daysSinceLastFeedOn)

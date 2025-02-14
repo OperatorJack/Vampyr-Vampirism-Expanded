@@ -10,7 +10,7 @@ event.register(common.events.dialogueFilterPcVampire, function(e)
     local isVampire = tes3.isAffectedBy({
         reference = tes3.player,
         effect = tes3.effect.glamour
-      }) == false
+    }) == false
 
     e.isVampire = isVampire
 end)
@@ -38,31 +38,31 @@ local function onGlamourTick(e)
 end
 
 local function addGlamour()
-	framework.effects.illusion.createBasicEffect({
-		-- Base information.
-		id = tes3.effect.glamour,
-		name = "Glamour",
-		description = "When active, the caster will not be recognized as a vampire.",
-		icon = "OJ\\V\\e\\Tx_S_Glamour.dds",
+    framework.effects.illusion.createBasicEffect({
+        -- Base information.
+        id = tes3.effect.glamour,
+        name = "Glamour",
+        description = "When active, the caster will not be recognized as a vampire.",
+        icon = "OJ\\V\\e\\Tx_S_Glamour.dds",
 
-		-- Basic dials.
-		baseCost = 0,
+        -- Basic dials.
+        baseCost = 0,
 
-		-- Various flags.
-		canCastSelf = true,
-		casterLinked = true,
-		hasNoMagnitude = true,
-		nonRecastable = true,
+        -- Various flags.
+        canCastSelf = true,
+        casterLinked = true,
+        hasNoMagnitude = true,
+        nonRecastable = true,
 
-		-- Graphics/sounds.
-		particleTexture = "vampyr\\kurp\\blank.dds",
-		lighting = { 0.99, 0.95, 0.67 },
+        -- Graphics/sounds.
+        particleTexture = "OJ\\V\\kurp\\blank.dds",
+        lighting = { 0.99, 0.95, 0.67 },
         castVFX = common.ids.glamour.cast,
         hitVFX = common.ids.glamour.hit,
 
-		-- Required callbacks.
-		onTick = onGlamourTick,
-	})
+        -- Required callbacks.
+        onTick = onGlamourTick,
+    })
 end
 
 return addGlamour

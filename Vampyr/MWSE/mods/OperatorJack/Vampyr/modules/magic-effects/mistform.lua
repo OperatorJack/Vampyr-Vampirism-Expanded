@@ -214,7 +214,7 @@ local function addMistform()
         hasContinuousVFX = true,
 
         -- Graphics/sounds.
-        particleTexture = "vampyr\\kurp\\blank.dds",
+        particleTexture = "OJ\\V\\kurp\\blank.dds",
         lighting = { 0.99, 0.95, 0.67 },
         castVFX = common.ids.mistform.cast,
         hitVFX = common.ids.mistform.hit,

@@ -202,8 +202,11 @@ function this.createTooltip(e)
 
     if thisHeader then
         local headerText = thisHeader
-        local headerLabel = outerBlock:createLabel({ id = tes3ui.registerID("Ashfall:temperatureIndicator_header"), text =
-        headerText })
+        local headerLabel = outerBlock:createLabel({
+            id = tes3ui.registerID("Ashfall:temperatureIndicator_header"),
+            text =
+                headerText
+        })
         headerLabel.autoHeight = true
         headerLabel.width = 285
         headerLabel.color = tes3ui.getPalette("header_color")
@@ -212,8 +215,11 @@ function this.createTooltip(e)
     end
     if thisLabel then
         local descriptionText = thisLabel
-        local descriptionLabel = outerBlock:createLabel({ id = tes3ui.registerID(
-        "Ashfall:temperatureIndicator_description"), text = descriptionText })
+        local descriptionLabel = outerBlock:createLabel({
+            id = tes3ui.registerID(
+                "Ashfall:temperatureIndicator_description"),
+            text = descriptionText
+        })
         descriptionLabel.autoHeight = true
         descriptionLabel.width = 285
         descriptionLabel.wrapText = true

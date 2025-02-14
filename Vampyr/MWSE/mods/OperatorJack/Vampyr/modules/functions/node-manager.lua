@@ -1,6 +1,8 @@
 local common = require("OperatorJack.Vampyr.common")
 local functions = {}
 
+
+---@type { [string]: niObject} Key-value table of loaded VFX meshes
 local vfx = {}
 
 local stenciledActors = {}
@@ -19,39 +21,45 @@ local vanillaStencilObjects = {
     ["Left Pauldron"] = true,
 }
 
----@param e referenceSceneNodeCreatedEventData
-local function reattachStencils(e)
+
+---@param reference tes3reference
+local function reattachStencils(reference)
     -- Initialize player.
-    if e.reference == tes3.player or
-        e.reference == tes3.player1stPerson then
-        stenciledActors[e.reference] = nil
-        functions.attachStencilProperty(e.reference)
+    if reference == tes3.player or
+        reference == tes3.player1stPerson then
+        stenciledActors[reference] = nil
+        functions.attachStencilProperty(reference)
 
         -- Reset any stenciled actors since scene node was rebuilt.
-    elseif stenciledActors[e.reference] then
-        stenciledActors[e.reference] = nil
-        functions.attachStencilProperty(e.reference)
+    elseif stenciledActors[reference] then
+        stenciledActors[reference] = nil
+        functions.attachStencilProperty(reference)
     end
 end
 
 -- Handle initializing and rebuilding scenegraph for stenciled actors.
-event.register(tes3.event.referenceSceneNodeCreated, reattachStencils)
+event.register(tes3.event.referenceSceneNodeCreated, function(e)
+    if e.reference == tes3.player then
+        reattachStencils(tes3.player1stPerson)
+    end
+    reattachStencils(e.reference)
+end)
 
 -- Handle change in equipment for stenciled actors.
 event.register(tes3.event.equipped, function(e)
     timer.delayOneFrame(function()
         if e.reference == tes3.player then
-            reattachStencils({ reference = tes3.player1stPerson })
+            reattachStencils(tes3.player1stPerson)
         end
-        reattachStencils(e)
+        reattachStencils(e.reference)
     end)
 end)
 event.register(tes3.event.unequipped, function(e)
     timer.delayOneFrame(function()
         if e.reference == tes3.player then
-            reattachStencils({ reference = tes3.player1stPerson })
+            reattachStencils(tes3.player1stPerson)
         end
-        reattachStencils(e)
+        reattachStencils(e.reference)
     end)
 end)
 
@@ -62,52 +70,67 @@ end)
 
 event.register(tes3.event.initialized, function(e)
     masks = {
-        player1st = tes3.loadMesh(common.paths.stencils.player1st):getProperty(0x3),
-        player = tes3.loadMesh(common.paths.stencils.player):getProperty(0x3),
-        playerMirror = tes3.loadMesh(common.paths.stencils.playerMirror):getProperty(0x3),
-        npc = tes3.loadMesh(common.paths.stencils.npc):getProperty(0x3),
-        npcMirror = tes3.loadMesh(common.paths.stencils.npcMirror):getProperty(0x3),
-        creature = tes3.loadMesh(common.paths.stencils.creature):getProperty(0x3),
-        weapon = tes3.loadMesh(common.paths.stencils.weapon):getProperty(0x3)
+        player1st = tes3.loadMesh(common.paths.stencils.player1st):getProperty(ni.propertyType.stencil),
+        player = tes3.loadMesh(common.paths.stencils.player):getProperty(ni.propertyType.stencil),
+        playerMirror = tes3.loadMesh(common.paths.stencils.playerMirror):getProperty(ni.propertyType.stencil),
+        npc = tes3.loadMesh(common.paths.stencils.npc):getProperty(ni.propertyType.stencil),
+        npcMirror = tes3.loadMesh(common.paths.stencils.npcMirror):getProperty(ni.propertyType.stencil),
+        creature = tes3.loadMesh(common.paths.stencils.creature):getProperty(ni.propertyType.stencil),
+        weapon = tes3.loadMesh(common.paths.stencils.weapon):getProperty(ni.propertyType.stencil)
     }
 end)
 
+---Attaches stencil property to a given reference.
+---@param reference tes3reference
+---@param mask niStencilProperty
 local function attachStencilPropertyToReference(reference, mask)
-    reference.sceneNode:detachProperty(0x3)
+    reference.sceneNode:detachProperty(ni.propertyType.stencil)
     reference.sceneNode:attachProperty(mask)
     reference.sceneNode:update()
-    reference.sceneNode:updateNodeEffects()
+    reference.sceneNode:updateEffects()
     reference.sceneNode:updateProperties()
     stenciledActors[reference] = true
 end
 
+---Attaches stencil mirror properties to a given reference.
+---@param reference tes3reference
+---@param mask niStencilProperty
 local function attachStencilMirrorPropertiesToReference(reference, mask)
     -- Replace vanilla arm and leg stencil property. Cache to reset later.
     for name in pairs(vanillaStencilObjects) do
         local node = reference.sceneNode:getObjectByName(name)
         if node then
-            vanillaStencilProperties[name] = node:getProperty(0x3)
-            node:detachProperty(0x3)
+            vanillaStencilProperties[name] = node:getProperty(ni.propertyType.stencil)
+            node:detachProperty(ni.propertyType.stencil)
             node:attachProperty(mask)
         end
     end
 end
 
+---Attaches weapon stencil property to a given reference.
+---@param reference tes3reference
+---@param mask niStencilProperty
 local function attachWeaponStencilPropertyToReference(reference, mask)
     local node = reference.sceneNode:getObjectByName("Weapon Bone")
 
     if node then
-        node:detachProperty(0x3)
+        node:detachProperty(ni.propertyType.stencil)
         node:attachProperty(mask)
     end
 end
 
+---Dettaches stencil properties from a given reference.
+---@param reference tes3reference
 functions.detachStencilProperty = function(reference)
     if not stenciledActors[reference] then return end
 
     -- Dettach character stencil.
     local sceneNode = reference.sceneNode
-    sceneNode:detachProperty(0x3)
+    if (not sceneNode) then
+        return
+    end
+
+    sceneNode:detachProperty(ni.propertyType.stencil)
 
     -- Reset vanilla stencils.
     for name in pairs(vanillaStencilObjects) do
@@ -116,20 +139,22 @@ functions.detachStencilProperty = function(reference)
         else
             local node = sceneNode:getObjectByName(name)
             if node then
-                node:detachProperty(0x3)
+                node:detachProperty(ni.propertyType.stencil)
                 node:attachProperty(vanillaStencilProperties[name])
             end
         end
     end
 
     sceneNode:update()
-    sceneNode:updateNodeEffects()
+    sceneNode:updateEffects()
     sceneNode:updateProperties()
     stenciledActors[reference] = nil
 
     common.logger.debug("Removed stencil properties from %s.", reference)
 end
 
+---Attaches stencil properties to a given reference.
+---@param reference tes3reference
 functions.attachStencilProperty = function(reference)
     if stenciledActors[reference] then return end
 
@@ -153,10 +178,15 @@ functions.attachStencilProperty = function(reference)
     common.logger.debug("Added stencil properties to %s.", reference)
 end
 
+---Gets or attaches VFX to a given reference by the sceneObjectName.
+---@param reference tes3reference The reference to attach the VFX to.
+---@param sceneObjectName string The name of the VFX object's root node.
+---@param path string Path to the VFX
 functions.getOrAttachVfx = function(reference, sceneObjectName, path)
-    local node, sceneNode
-    sceneNode = reference.sceneNode
-    node = sceneNode:getObjectByName(sceneObjectName)
+    local sceneNode = reference.sceneNode
+    if (not sceneNode) then return end
+
+    local node = sceneNode:getObjectByName(sceneObjectName)
 
     if (not node) then
         if not vfx[sceneObjectName] then
@@ -185,7 +215,7 @@ functions.getOrAttachVfx = function(reference, sceneObjectName, path)
 
         sceneNode:attachChild(node, true)
         node:update({ controllers = true })
-        node:updateNodeEffects()
+        node:updateEffects()
 
         common.logger.debug("Added object %s to %s.", sceneObjectName, reference)
     end

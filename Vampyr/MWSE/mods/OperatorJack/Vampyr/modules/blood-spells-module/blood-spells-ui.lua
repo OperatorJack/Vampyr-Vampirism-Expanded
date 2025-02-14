@@ -33,7 +33,7 @@ local function onUiSpellTooltip(e)
     local referenceBlood = blood.getPlayerBloodStatistic()
     local color = tes3ui.getPalette("normal_color")
     if (cost > referenceBlood.current) then
-        tierColor = tes3ui.getPalette("negative_color")
+        color = tes3ui.getPalette("negative_color")
     end
 
     local label = innerBlock:createLabel({ text = text })

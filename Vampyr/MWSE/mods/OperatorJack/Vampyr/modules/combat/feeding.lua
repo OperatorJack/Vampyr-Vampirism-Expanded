@@ -4,8 +4,12 @@ local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
 local targetRef = nil
 
-local movementTick = nil
-local feedModeTick = nil
+local movementTick = function()
+    common.logger:error("Unexpected call to uninitialized movementTick function.")
+end
+local feedModeTick = function()
+    common.logger:error("Unexpected call to uninitialized feedModeTick function.")
+end
 
 local isFeeding = false
 local isHostile = true
@@ -136,7 +140,7 @@ local function enterFeedMode(params)
     ref.mobile.mobToMobCollision = false
     ref.mobile.movementCollision = false
 
-    tes3.mobilePlayer.velocity = { 0, 0, 0 }
+    tes3.mobilePlayer.velocity = tes3vector3.new(0, 0, 0)
     tes3.mobilePlayer.mobToMobCollision = false
     tes3.mobilePlayer.movementCollision = false
 

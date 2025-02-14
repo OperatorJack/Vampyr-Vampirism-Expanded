@@ -31,7 +31,7 @@ local textures = {
 local initialized = false
 
 local function switchRainTexture(current, new)
-    for node in traverse{tes3.worldController.weatherController.sceneRainRoot} do
+    for node in traverse { tes3.worldController.weatherController.sceneRainRoot } do
         local success, texture = pcall(function() return node:getProperty(0x4).maps[1].texture end)
         if (success and texture) then
             if (texture.fileName == current.name) then
@@ -43,7 +43,7 @@ local function switchRainTexture(current, new)
 end
 
 event.register(common.events.calcSunDamage, function(e)
-    if tes3.isAffectedBy({reference = e.reference, effect = tes3.effect.bloodstorm}) == true then
+    if tes3.isAffectedBy({ reference = e.reference, effect = tes3.effect.bloodstorm }) == true then
         e.damage = 0
     end
 end)
@@ -55,7 +55,7 @@ event.register("objectInvalidated", function(e)
 end)
 
 local function onTick(e)
-    for ref in common.iterReferencesNearTargetPosition(tes3.player.position, 512, {tes3.objectType.npc, tes3.objectType.creature}) do
+    for ref in common.iterReferencesNearTargetPosition(tes3.player.position, 512, { tes3.objectType.npc, tes3.objectType.creature }) do
         common.logger.trace("Iterating Reference: %s", ref)
 
         if not actors[ref] then
@@ -65,12 +65,12 @@ local function onTick(e)
                     tes3.applyMagicSource({
                         reference = ref,
                         name = "Bloodstorm Amplification",
-                        effects={{
+                        effects = { {
                             id = tes3.effect.restoreBlood,
                             min = 1,
                             max = 10,
                             duration = 15,
-                        }}
+                        } }
                     })
                     actors[ref] = true
                 else
@@ -78,16 +78,16 @@ local function onTick(e)
                     tes3.applyMagicSource({
                         reference = ref,
                         name = "Bloodstorm Paranoia",
-                        effects={{
+                        effects = { {
                             id = tes3.effect.demoralizeHumanoid,
                             min = math.max(25 - ref.object.level, 0),
                             max = math.max(50 - ref.object.level, 0),
                             duration = 15,
-                        }}
+                        } }
                     })
-                    ref.mobile:startCombat(tes3.player)
+                    ref.mobile:startCombat(tes3.mobilePlayer)
                     timer.delayOneFrame(function()
-                        ref.mobile:stopCombat(tes3.player)
+                        ref.mobile:stopCombat(true)
                     end)
                     actors[ref] = true
                 end
@@ -96,16 +96,16 @@ local function onTick(e)
                 tes3.applyMagicSource({
                     reference = ref,
                     name = "Bloodstorm Paranoia",
-                    effects={{
+                    effects = { {
                         id = tes3.effect.demoralizeCreature,
                         min = math.max(20 - ref.object.level, 0),
                         max = math.max(40 - ref.object.level, 0),
                         duration = 15,
-                    }}
+                    } }
                 })
-                ref.mobile:startCombat(tes3.player)
+                ref.mobile:startCombat(tes3.mobilePlayer)
                 timer.delayOneFrame(function()
-                    ref.mobile:stopCombat(tes3.player)
+                    ref.mobile:stopCombat(true)
                 end)
                 actors[ref] = true
             end
@@ -141,13 +141,13 @@ local function startBloodstorm()
     if localTimer then
         localTimer:cancel()
     end
-    localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
+    localTimer = timer.start({ duration = .1, iterations = -1, callback = onTick })
 end
 
 event.register("loaded", function(e)
     switchRainTexture(textures.bloodrain, textures.raindrop)
 
-    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.bloodstorm}) == true then
+    if tes3.isAffectedBy({ reference = tes3.player, effect = tes3.effect.bloodstorm }) == true then
         startBloodstorm()
 
         -- Add logic to handle beginning state, for when effect loads before game is ready.
@@ -169,7 +169,6 @@ local function bloodstormTick(e)
         startBloodstorm()
         initialized = true
         common.logger.trace("Initializing effect.")
-
     end
     if (e.effectInstance.state == tes3.spellState.working) then
         if (tes3.player.cell.isInterior == true) then
@@ -202,28 +201,29 @@ local function bloodstormTick(e)
 end
 
 local function addBloodstorm()
-	framework.effects.alteration.createBasicEffect({
-		-- Base information.
-		id = tes3.effect.bloodstorm,
-		name = "Bloodstorm",
-		description = "Creates a bloodstorm for the duration of the spell, which rains blood and boosts the abilities of vampires within it.",
-		icon = "OJ\\V\\e\\Tx_S_BldStrm.dds",
+    framework.effects.alteration.createBasicEffect({
+        -- Base information.
+        id = tes3.effect.bloodstorm,
+        name = "Bloodstorm",
+        description =
+        "Creates a bloodstorm for the duration of the spell, which rains blood and boosts the abilities of vampires within it.",
+        icon = "OJ\\V\\e\\Tx_S_BldStrm.dds",
 
-		-- Basic dials.
-		baseCost = 0,
+        -- Basic dials.
+        baseCost = 0,
 
-		-- Various flags.
-		canCastSelf = true,
-		casterLinked = true,
-		hasNoMagnitude = true,
-		nonRecastable = true,
+        -- Various flags.
+        canCastSelf = true,
+        casterLinked = true,
+        hasNoMagnitude = true,
+        nonRecastable = true,
 
-		-- Graphics/sounds.
-		lighting = { 0.99, 0.95, 0.67 },
+        -- Graphics/sounds.
+        lighting = { 0.99, 0.95, 0.67 },
 
-		-- Required callbacks.
-		onTick = bloodstormTick,
-	})
+        -- Required callbacks.
+        onTick = bloodstormTick,
+    })
 end
 
 return addBloodstorm

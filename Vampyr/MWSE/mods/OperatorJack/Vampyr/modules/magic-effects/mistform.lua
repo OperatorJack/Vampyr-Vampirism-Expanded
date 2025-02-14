@@ -35,7 +35,7 @@ end
 local function onTick(e)
     resetDoors()
 
-    for door in common.iterReferencesNearTargetPosition(tes3.player.position, 128, {tes3.objectType.door}) do
+    for door in common.iterReferencesNearTargetPosition(tes3.player.position, 128, { tes3.objectType.door }) do
         if not door.destination and not doors[door] then
             doors[door] = true
             door.hasNoCollision = true
@@ -93,11 +93,12 @@ local function start()
     local node = nodeManager.getOrAttachVfx(tes3.player, "OJ_V_MistformStartVfx", common.paths.mistform.startVfx)
     nodeManager.showNode(node)
 
-    localTimer = timer.start({duration = .1, iterations = -1, callback = onTick})
+    localTimer = timer.start({ duration = .1, iterations = -1, callback = onTick })
 
     light = tes3.createReference({
         object = common.ids.mistform.light,
         position = tes3.player.position,
+        orientation = tes3.player.orientation,
         cell = tes3.player.cell
     })
     light.modified = false
@@ -107,14 +108,14 @@ local function start()
 end
 
 event.register(common.events.calcSunDamage, function(e)
-    if tes3.isAffectedBy({reference = e.reference, effect = tes3.effect.mistform}) == true then
+    if tes3.isAffectedBy({ reference = e.reference, effect = tes3.effect.mistform }) == true then
         e.damage = 0
     end
 end)
 
 
 event.register("loaded", function(e)
-    if tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.mistform}) == true then
+    if tes3.isAffectedBy({ reference = tes3.player, effect = tes3.effect.mistform }) == true then
         start()
 
         -- Add logic to handle beginning state, for when effect loads before game is ready.
@@ -122,22 +123,22 @@ event.register("loaded", function(e)
 end)
 
 event.register("calcHitChance", function(e)
-    if tes3.isAffectedBy({reference = e.target, effect = tes3.effect.mistform}) == true then
+    if tes3.isAffectedBy({ reference = e.target, effect = tes3.effect.mistform }) == true then
         e.hitChance = 0
     end
 end)
 
 event.register("spellCast", function(e)
-    if tes3.isAffectedBy({reference = e.caster, effect = tes3.effect.mistform}) == true then
+    if tes3.isAffectedBy({ reference = e.caster, effect = tes3.effect.mistform }) == true then
         e.castChance = 0
     end
 end)
 
 event.register("activate", function(e)
-    if e.activator == tes3.player and tes3.isAffectedBy({reference = tes3.player, effect = tes3.effect.mistform}) == true then
+    if e.activator == tes3.player and tes3.isAffectedBy({ reference = tes3.player, effect = tes3.effect.mistform }) == true then
         return false
     end
-end, {priority = 1000})
+end, { priority = 1000 })
 
 local initialized = false
 local function mistformTick(e)
@@ -145,11 +146,9 @@ local function mistformTick(e)
         start()
         initialized = true
         common.logger.trace("Initilizing effect.")
-
     elseif e.effectInstance.state == tes3.spellState.working and tes3.mobilePlayer.mobToMobCollision == true then
         tes3.mobilePlayer.mobToMobCollision = false
         common.logger.trace("Lost mob to mob collision. Resetting to false.")
-
     elseif e.effectInstance.state == tes3.spellState.ending then
         -- Disable combat controls
         tes3.mobilePlayer.attackDisabled = false
@@ -164,16 +163,24 @@ local function mistformTick(e)
         appCullNodes(tes3.player.sceneNode.children, false)
         appCullNodes(tes3.player1stPerson.sceneNode.children, false)
 
-        local startVfxNode = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformStartVfx", common.paths.mistform.startVfx)
+        local startVfxNode = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformStartVfx",
+            common.paths.mistform.startVfx)
         nodeManager.hideNode(startVfxNode)
 
         -- Place fade-out VFX
-        local endVfxNode = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformEndVfx", common.paths.mistform.endVfx)
+        local endVfxNode = nodeManager.getOrAttachVfx(e.sourceInstance.caster, "OJ_V_MistformEndVfx",
+            common.paths.mistform.endVfx)
         local fadeoutLight = light
+
+        if (not fadeoutLight) then
+            common.logger:error("Unexpected nil fadeoutLight in mistform tick, so exitting effect handler early.")
+            return
+        end
+
         lights[fadeoutLight] = true
         timer.start({
             duration = 4,
-            callback = function ()
+            callback = function()
                 removeLight(fadeoutLight)
                 nodeManager.hideNode(endVfxNode)
             end
@@ -189,32 +196,32 @@ local function mistformTick(e)
 end
 
 local function addMistform()
-	framework.effects.alteration.createBasicEffect({
-		-- Base information.
-		id = tes3.effect.mistform,
-		name = "Mistform",
-		description = "When active, the caster will turn to mist and be able to move through nearby doors and actors.",
-		icon = "OJ\\V\\e\\Tx_S_Mstfrm.dds",
+    framework.effects.alteration.createBasicEffect({
+        -- Base information.
+        id = tes3.effect.mistform,
+        name = "Mistform",
+        description = "When active, the caster will turn to mist and be able to move through nearby doors and actors.",
+        icon = "OJ\\V\\e\\Tx_S_Mstfrm.dds",
 
-		-- Basic dials.
-		baseCost = 0,
+        -- Basic dials.
+        baseCost = 0,
 
-		-- Various flags.
-		canCastSelf = true,
-		casterLinked = true,
-		hasNoMagnitude = true,
-		nonRecastable = true,
+        -- Various flags.
+        canCastSelf = true,
+        casterLinked = true,
+        hasNoMagnitude = true,
+        nonRecastable = true,
         hasContinuousVFX = true,
 
-		-- Graphics/sounds.
-		particleTexture = "vampyr\\kurp\\blank.dds",
-		lighting = { 0.99, 0.95, 0.67 },
+        -- Graphics/sounds.
+        particleTexture = "vampyr\\kurp\\blank.dds",
+        lighting = { 0.99, 0.95, 0.67 },
         castVFX = common.ids.mistform.cast,
         hitVFX = common.ids.mistform.hit,
 
-		-- Required callbacks.
-		onTick = mistformTick,
-	})
+        -- Required callbacks.
+        onTick = mistformTick,
+    })
 end
 
 return addMistform

@@ -31,17 +31,15 @@ end
 
 
 local isInShadowStepMode = false
+
+---@type tes3reference|nil
 local markerReference
 local markerLastPositionCheck
 
 local function removeMarker()
     if (markerReference) then
-        markerReference:disable()
-        timer.delayOneFrame(function()
-            mwscript.setDelete { reference = markerReference }
-            markerReference.modified = false
-            markerReference = nil
-        end)
+        markerReference:delete()
+        markerReference = nil
     end
 end
 
@@ -52,6 +50,7 @@ local function markerSimulate(e)
         markerReference = tes3.createReference({
             object = markerObject,
             position = tes3.player.position,
+            orientation = tes3.player.orientation,
             cell = tes3.player.cell
         })
         markerReference.modified = false
@@ -94,6 +93,11 @@ local function confirmShadowStep()
     event.unregister("simulate", markerSimulate)
     isInShadowStepMode = false
 
+    if (not markerReference) then
+        common.logger:error("Unexpected nil markerReference so existing confirmShadowStep")
+        return;
+    end
+
     local modifier = bloodSpells.getBloodMagicCostModifierForPlayer()
     local cost = (markerReference.position:distance(tes3.player.position) / 50 + 5) * modifier
 
@@ -112,6 +116,7 @@ local function confirmShadowStep()
         local teleReference = tes3.createReference({
             object = teleObject,
             position = markerReference.position,
+            orientation = markerReference.orientation,
             cell = markerReference.cell
         })
         teleReference.modified = false
@@ -126,12 +131,7 @@ local function confirmShadowStep()
             duration = 2,
             callback = function()
                 if (teleReference) then
-                    teleReference:disable()
-                    timer.delayOneFrame(function()
-                        mwscript.setDelete { reference = teleReference }
-                        teleReference.modified = false
-                        teleReference = nil
-                    end)
+                    teleReference:delete()
                 end
             end
         })

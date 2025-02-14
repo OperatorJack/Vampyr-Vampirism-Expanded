@@ -46,7 +46,7 @@ local function showItemMenu()
         table.insert(buttons, {
             text = tes3.getObject(itemId).name,
             callback = function()
-                mwscript.addItem({
+                tes3.addItem({
                     reference = tes3.player,
                     item = itemId
                 })
@@ -73,8 +73,10 @@ local function showActorsMenu()
         table.insert(buttons, {
             text = tes3.getObject(actorId).name,
             callback = function()
-                mwscript.placeAtPC({
-                    reference = tes3.player,
+                tes3.createReference({
+                    cell = tes3.player.cell,
+                    position = tes3.player.position,
+                    orientation = tes3.player.orientation,
                     object = actorId
                 })
             end,
@@ -96,7 +98,7 @@ local function debugMenuKey(e)
                 text = "Become Vampire",
                 requirements = function() return not common.isPlayerVampire() end,
                 callback = function()
-                    mwscript.addSpell { reference = tes3.player, spell = common.spells.vampirism }
+                    tes3.addSpell({ reference = tes3.player, spell = common.spells.vampirism })
                 end,
                 tooltipDisabled = {
                     text = "You are already a vampire."
@@ -106,7 +108,7 @@ local function debugMenuKey(e)
                 text = "Cure Vampirism",
                 requirements = common.isPlayerVampire,
                 callback = function()
-                    mwscript.removeSpell { reference = tes3.player, spell = common.spells.vampirism }
+                    tes3.removeSpell({ reference = tes3.player, spell = common.spells.vampirism })
                 end,
                 tooltipDisabled = {
                     text = "You must be a vampire."

@@ -1,5 +1,7 @@
 local common = require("OperatorJack.Vampyr.common")
-local functions = {}
+
+---@class Vampyr.NodeManager
+local this = {}
 
 
 ---@type { [string]: niObject} Key-value table of loaded VFX meshes
@@ -28,12 +30,12 @@ local function reattachStencils(reference)
     if reference == tes3.player or
         reference == tes3.player1stPerson then
         stenciledActors[reference] = nil
-        functions.attachStencilProperty(reference)
+        this.attachStencilProperty(reference)
 
         -- Reset any stenciled actors since scene node was rebuilt.
     elseif stenciledActors[reference] then
         stenciledActors[reference] = nil
-        functions.attachStencilProperty(reference)
+        this.attachStencilProperty(reference)
     end
 end
 
@@ -121,7 +123,7 @@ end
 
 ---Dettaches stencil properties from a given reference.
 ---@param reference tes3reference
-functions.detachStencilProperty = function(reference)
+this.detachStencilProperty = function(reference)
     if not stenciledActors[reference] then return end
 
     -- Dettach character stencil.
@@ -155,7 +157,7 @@ end
 
 ---Attaches stencil properties to a given reference.
 ---@param reference tes3reference
-functions.attachStencilProperty = function(reference)
+this.attachStencilProperty = function(reference)
     if stenciledActors[reference] then return end
 
     -- Set mask paths & process
@@ -182,7 +184,7 @@ end
 ---@param reference tes3reference The reference to attach the VFX to.
 ---@param sceneObjectName string The name of the VFX object's root node.
 ---@param path string Path to the VFX
-functions.getOrAttachVfx = function(reference, sceneObjectName, path)
+this.getOrAttachVfx = function(reference, sceneObjectName, path)
     local sceneNode = reference.sceneNode
     if (not sceneNode) then return end
 
@@ -223,16 +225,16 @@ functions.getOrAttachVfx = function(reference, sceneObjectName, path)
     return node
 end
 
-functions.showNode = function(node)
+this.showNode = function(node)
     if (node.appCulled == true) then
         node.appCulled = false
     end
 end
 
-functions.hideNode = function(node)
+this.hideNode = function(node)
     if (node.appCulled == false) then
         node.appCulled = true
     end
 end
 
-return functions
+return this

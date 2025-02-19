@@ -1,11 +1,12 @@
 local common = require("OperatorJack.Vampyr.common")
 
-local exports = {}
+---@class Vampyr.Enthrall
+local this = {}
 
-exports.enthrall = function(reference)
-    -- Enthrall reference and turn them into a thrall.
-
+---Enthrall reference and turn them into a thrall.
+---@param reference tes3reference
+this.enthrall = function(reference)
     -- @TODO: Implement
 end
 
-return exports
+return this

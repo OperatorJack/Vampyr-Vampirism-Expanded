@@ -2,6 +2,7 @@ local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 local bloodPotency = require("OperatorJack.Vampyr.modules.blood-potency-module.blood-potency")
 
+---@class Vampyr.BloodSpells
 local bloodSpells = {}
 
 function bloodSpells.getBloodSpellConfigurationBySpellId(id)

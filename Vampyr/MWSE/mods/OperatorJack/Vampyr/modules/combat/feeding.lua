@@ -234,6 +234,7 @@ local function feedingKey(e)
 end
 event.register(tes3.event.keyDown, feedingKey)
 
+---@class Vampyr.Feeding
 local exports = {
     enterFeedMode = enterFeedMode,
     exitFeedMode = exitFeedMode

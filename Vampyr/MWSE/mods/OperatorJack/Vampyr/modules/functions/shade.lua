@@ -1,6 +1,7 @@
-local class = {}
+---@class Vampyr.Shade
+local this = {}
 
-function class.isPositionInShadow(position)
+function this.isPositionInShadow(position)
     if (tes3.player.cell.isInterior and not tes3.player.cell.behavesAsExterior) then
         return true
     end
@@ -24,7 +25,7 @@ function class.isPositionInShadow(position)
     return false
 end
 
-function class.getNormalizedShadeModifier(reference)
+function this.getNormalizedShadeModifier(reference)
     -- Detect interior cell.
     if reference.cell.isInterior == true and reference.cell.behaveAsExterior ~= true then
         return 0
@@ -78,4 +79,4 @@ function class.getNormalizedShadeModifier(reference)
     return math.clamp(sunVisibility * sunRisen, 0, 1)
 end
 
-return class
+return this

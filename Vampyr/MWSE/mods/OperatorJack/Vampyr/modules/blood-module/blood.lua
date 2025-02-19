@@ -7,7 +7,9 @@
 local config = require("OperatorJack.Vampyr.config")
 local common = require("OperatorJack.Vampyr.common")
 
+---@class Vampyr.Blood
 local blood = {}
+
 -- [[ Blood - Common Functions ]] --
 function blood.calculateFeedBlood(mobile)
     local current = mobile.health.current - (mobile.endurance.current / 10) - (mobile.willpower.current / 10)
@@ -61,7 +63,7 @@ function blood.applyFeedingAction(reference, amount)
     return amount
 end
 
---[[ MOD Blood ]]  --
+--[[ MOD Blood ]] --
 function blood.modReferenceBaseBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
     local oldBlood = reference.data.OJ_VAMPYR.blood.base
@@ -138,7 +140,7 @@ function blood.modPlayerCurrentBloodStatistic(amount, isCapped)
     blood.modReferenceCurrentBloodStatistic(tes3.player, amount, isCapped)
 end
 
---[[ SET Blood ]]  --
+--[[ SET Blood ]] --
 function blood.setReferenceBaseBloodStatistic(reference, amount)
     common.initializeReferenceData(reference)
     local oldBlood = reference.data.OJ_VAMPYR.blood.base
@@ -177,7 +179,7 @@ function blood.setPlayerCurrentBloodStatistic(amount)
     blood.setReferenceCurrentBloodStatistic(tes3.player, amount)
 end
 
---[[ GET Blood ]]  --
+--[[ GET Blood ]] --
 function blood.getReferenceBloodStatistic(reference)
     common.initializeReferenceData(reference)
     return reference.data.OJ_VAMPYR.blood

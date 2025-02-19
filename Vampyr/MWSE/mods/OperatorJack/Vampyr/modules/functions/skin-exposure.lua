@@ -9,7 +9,8 @@ local bodyPartBlacklist = {
     [tes3.activeBodyPart.weapon] = true,
 }
 
-local class = {}
+---@class Vampyr.SkinExposure
+local this = {}
 
 local activeBodyPartCount
 local function getCountActiveBodyParts()
@@ -52,7 +53,7 @@ local function getExposedBodyParts(ref)
     end)
 end
 
-function class.getNormalizedSkinExposureModifier(reference)
+function this.getNormalizedSkinExposureModifier(reference)
     local exposed = 0
     for _, name in getExposedBodyParts(reference) do
         exposed = exposed + 1
@@ -63,4 +64,4 @@ function class.getNormalizedSkinExposureModifier(reference)
     return modifier
 end
 
-return class
+return this

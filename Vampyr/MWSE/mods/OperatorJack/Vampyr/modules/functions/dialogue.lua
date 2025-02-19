@@ -20,7 +20,7 @@ local function onDialogueEnvironmentCreated(e)
         common.logger.debug("Triggering blood extraction for reference: %s; Dialogue/INFO: %s/%s; Into Empty Vial %s",
             reference, dialogue, info.id, serumId)
 
-        bloodExtraction.bloodExtractionTarget(reference, serumId)
+        bloodExtraction.applyBloodExtractionToReference({ source = tes3.player, target = reference, serumId = serumId })
     end
 
     ---@diagnostic disable-next-line: inject-field
@@ -28,7 +28,7 @@ local function onDialogueEnvironmentCreated(e)
         common.logger.debug("Triggering blood extraction for reference: %s; Dialogue/INFO: %s/%s; Into Empty Vial %s",
             reference, dialogue, info.id, serumId)
 
-        bloodExtraction.bloodExtractionByTarget(reference, serumId)
+        bloodExtraction.applyBloodExtractionToReference({ source = reference, target = tes3.player, serumId = serumId })
     end
 
     ---@diagnostic disable-next-line: inject-field

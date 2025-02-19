@@ -1,6 +1,7 @@
 local common = require("OperatorJack.Vampyr.common")
 local blood = require("OperatorJack.Vampyr.modules.blood-module.blood")
 
+---@class Vampyr.BloodSatiety
 local bloodSatiety = {}
 
 local levels = {
